@@ -11,7 +11,7 @@ const OPEN_ROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
 // IMPORTANT: Replace 'YOUR_OPEN_ROUTER_API_KEY' with your actual key.
 // For production, consider using environment variables (e.g., import.meta.env.VITE_OPEN_ROUTER_API_KEY)
 // and setting them up in your Vite configuration.
-const OPEN_ROUTER_API_KEY = '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'; 
+const OPEN_ROUTER_API_KEY = 'your key'; 
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
