@@ -117,13 +117,13 @@ const Navbar = () => {
               item.dropdown ? (
                 <div key={item.name} className="relative group">
                   <button 
-                    className={`px-3 py-2 text-sm font-medium transition-colors cursor-pointer ${
+                    className={`px-3 py-2 text-sm transition-colors cursor-pointer ${
                       location.pathname.startsWith(item.path) || 
                       location.pathname === '/contact' || 
                       location.pathname === '/about' ||
                       location.pathname === '/careers'
                         ? 'text-vd-orange font-semibold' 
-                        : 'text-white hover:text-vd-orange'
+                        : 'text-white hover:text-vd-orange font-medium'
                     }`}
                   >
                     {item.name}
