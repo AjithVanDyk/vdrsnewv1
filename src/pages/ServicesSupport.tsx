@@ -57,7 +57,7 @@ const ServicesSupport = () => {
       secondaryNote: 'Upcoming sessions available; seats limited.',
       cta: 'View Training Schedule',
       ctaAction: () => setActiveModal('training'),
-      image: '/Images/vyndyn-university.jpg',
+      image: '/Images/Van%20Dyk%20University.jpg',
       imageAlt: 'Van Dyk University training facility',
       icon: GraduationCap
     },
@@ -158,7 +158,7 @@ const ServicesSupport = () => {
       ],
       cta: 'View Courses',
       ctaAction: () => setActiveModal('training'),
-      image: '/Images/vyndyn-university.jpg',
+      image: '/Images/Van%20Dyk%20University.jpg',
       imageAlt: 'Van Dyk University training facility',
       icon: GraduationCap
     },

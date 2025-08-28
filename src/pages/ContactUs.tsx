@@ -422,10 +422,9 @@ const AboutCareersContact = () => {
             />
           ))}
         </div>
-
         {/* Page Title Overlay */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center text-white bg-vd-blue-dark/80 px-8 py-6 rounded-2xl backdrop-blur-sm">
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="text-center text-white bg-vd-blue-dark/80 px-8 py-6 rounded-2xl backdrop-blur-sm pointer-events-auto">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               {activeTab === 'about' && 'Van Dyk Recycling Solutions'}
               {activeTab === 'careers' && 'Join Our Team'}
@@ -437,7 +436,7 @@ const AboutCareersContact = () => {
               {activeTab === 'contact' && 'Have questions? Our team is here to help'}
             </p>
           </div>
-        </div>
+        </div>  
       </div>
 
       {/* Van Dyk Recycling Solutions Section */}

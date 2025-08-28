@@ -182,7 +182,7 @@ const Home = () => {
               className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 p-8 text-center"
             >
               <img
-                src="/Images/vyndyn-university.jpg"
+                src="/Images/Van%20Dyk%20University.jpg"
                 alt="Van Dyk University"
                 className="w-48 h-auto mx-auto mb-6"
               />
