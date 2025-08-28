@@ -51,6 +51,8 @@ function App() {
                 <Route path="/solutions" element={<Solutions />} />
                 <Route path="/news-media" element={<NewsMedia />} />
                 <Route path="/contact" element={<ContactUs />} />
+                <Route path="/about" element={<ContactUs />} />
+                <Route path="/careers" element={<ContactUs />} />
                 <Route path="/quote" element={<QuoteForm />} />
                 <Route path="/test-center" element={<TestCenter />} /> {/* 👈 added */}
                 <Route path="*" element={<NotFound />} />
