@@ -952,8 +952,8 @@ const Equipment: React.FC = () => {
 		});
 	};
 
-	return (
-		<div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white smooth-scroll">
 			{/* Hero Section */}
 			<div className="relative bg-gradient-to-r from-vd-blue-dark to-vd-blue text-white py-20">
 				<div className="absolute inset-0 bg-[url('/Images/image-1749759459073.png')] bg-cover bg-center opacity-20" />

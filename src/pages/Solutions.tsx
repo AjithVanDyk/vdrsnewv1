@@ -240,7 +240,7 @@ const Solutions = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white smooth-scroll">
       <div className="container mx-auto py-12 px-4 pt-24">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

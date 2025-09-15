@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, Clock, ArrowRight, Filter, Search, ExternalLink, FileText, Users, Award, Building, ChevronRight, Play, BookOpen, Star, Video, Lightbulb, Trophy, TrendingUp, Eye, Share2, Bell, Download, ChevronDown, Globe } from 'lucide-react';
+import { Calendar, Clock, ArrowRight, Filter, Search, ExternalLink, FileText, Users, Award, Building, ChevronRight, Play, BookOpen, Star, Video, Lightbulb, Trophy, TrendingUp, Eye, Share2, Bell, Download, ChevronDown, Globe, Wrench, GraduationCap, Settings } from 'lucide-react';
 
 const NewsMedia = () => {
   const [activeFilter, setActiveFilter] = useState('All');
@@ -23,6 +23,48 @@ const NewsMedia = () => {
       type: 'html',
       views: '2.1K',
       trending: true
+    },
+    {
+      id: 16,
+      title: 'Van Dyk Recycling Solutions Introduces New Technology for Enhanced Material Recovery',
+      excerpt: 'Latest innovations in optical sorting and AI-powered waste analytics deliver unprecedented accuracy and efficiency for recycling operations worldwide.',
+      category: 'Technology',
+      date: '2024-08-15',
+      readTime: '6 min read',
+      image: '/Images/image-1749759502636.png',
+      featured: false,
+      link: 'https://vdrs.com/news-media/van-dyk-introduces-new-technology/',
+      type: 'html',
+      views: '1.2K',
+      trending: false
+    },
+    {
+      id: 17,
+      title: 'Industry Leaders Choose Van Dyk for Major MRF Upgrades',
+      excerpt: 'Multiple material recovery facilities across North America select Van Dyk Recycling Solutions for comprehensive system upgrades and modernization projects.',
+      category: 'Company News',
+      date: '2024-07-22',
+      readTime: '5 min read',
+      image: '/Images/image-1749759499434.png',
+      featured: false,
+      link: 'https://vdrs.com/news-media/industry-leaders-choose-van-dyk/',
+      type: 'html',
+      views: '980',
+      trending: false
+    },
+    {
+      id: 18,
+      title: 'Van Dyk Partners with Leading Universities for Recycling Research',
+      excerpt: 'Collaborative research initiatives with top engineering schools to advance recycling technology and develop next-generation waste processing solutions.',
+      category: 'Partnerships',
+      date: '2024-06-10',
+      readTime: '7 min read',
+      image: '/Images/image-1749759490576.png',
+      featured: false,
+      link: 'https://vdrs.com/news-media/van-dyk-university-partnerships/',
+      type: 'html',
+      views: '1.4K',
+      trending: false
     },
     {
       id: 2,
@@ -236,6 +278,39 @@ const NewsMedia = () => {
       views: '3.2K'
     },
     {
+      id: 9,
+      title: 'Van Dyk Equipment Installation and Commissioning Process',
+      description: 'Step-by-step overview of how Van Dyk Recycling Solutions installs and commissions recycling equipment at customer facilities worldwide.',
+      category: 'Installation',
+      duration: '6:30',
+      thumbnail: '/Images/image-1749759502636.png',
+      link: 'https://vdrs.com/videos/van-dyk-equipment-installation-process/',
+      featured: false,
+      views: '1.8K'
+    },
+    {
+      id: 10,
+      title: 'TOMRA Optical Sorting Technology in Action',
+      description: 'See TOMRA\'s advanced optical sorting technology working at full capacity in a real MRF environment, demonstrating superior material separation.',
+      category: 'Equipment Demos',
+      duration: '4:15',
+      thumbnail: '/Images/image-1749759490576.png',
+      link: 'https://vdrs.com/videos/tomra-optical-sorting-technology-demo/',
+      featured: false,
+      views: '2.1K'
+    },
+    {
+      id: 11,
+      title: 'Van Dyk University Training Program Overview',
+      description: 'Comprehensive look at Van Dyk University\'s training programs for operators and maintenance technicians on recycling equipment.',
+      category: 'Training',
+      duration: '5:45',
+      thumbnail: '/Images/Van%20Dyk%20University.jpg',
+      link: 'https://vdrs.com/videos/van-dyk-university-training-program/',
+      featured: false,
+      views: '1.5K'
+    },
+    {
       id: 2,
       title: 'Van Dyk Recycling Solutions and SMICON at Waste Expo 2025',
       description: 'Van Dyk\'s partner SMICON demonstrates its depackaging and organics recycling equipment, pointing out the unique features and benefits of SMICON\'s machines to waste handling and food processing companies.',
@@ -311,6 +386,94 @@ const NewsMedia = () => {
       link: 'https://vdrs.com/videos/our-parts-service-guarantee/',
       featured: false,
       views: '1.2K'
+    },
+    {
+      id: 13,
+      title: 'E-Scrap Processing with TOMRA Autosort Fines Optical Sorter',
+      description: 'The TOMRA AUTOSORT Fines optical sorter accurately finds and sorts precious metal pieces in the 1-2 mm range for electronics recycling.',
+      category: 'Equipment Demo',
+      duration: '1:34',
+      thumbnail: 'https://i.ytimg.com/vi/OSOB0JfqPTY/hqdefault.jpg',
+      link: 'https://www.youtube.com/watch?v=OSOB0JfqPTY',
+      featured: false,
+      views: '2.3K'
+    },
+    {
+      id: 14,
+      title: 'Remote Training & Troubleshooting Service - Vision-AR',
+      description: 'Have an expert at your plant instantly! Van Dyk Vision-AR allows our team to see what you see and walk you through solutions on the spot.',
+      category: 'Services',
+      duration: '1:09',
+      thumbnail: 'https://i.ytimg.com/vi/h_CBQczJgxY/hqdefault.jpg',
+      link: 'https://www.youtube.com/watch?v=h_CBQczJgxY',
+      featured: false,
+      views: '1.9K'
+    },
+    {
+      id: 15,
+      title: 'E-Scrap Sorting with Artificial Intelligence - TOMRA Autosort',
+      description: 'The TOMRA AUTOSORT utilizes 4 different technologies combined in one unit to improve electronics recycling end products.',
+      category: 'Technology',
+      duration: '1:17',
+      thumbnail: 'https://i.ytimg.com/vi/B_VmEcZBy6M/hqdefault.jpg',
+      link: 'https://www.youtube.com/watch?v=B_VmEcZBy6M',
+      featured: false,
+      views: '2.1K'
+    },
+    {
+      id: 16,
+      title: 'Compost Cleaning with Allgaier Densimetric Table',
+      description: 'See how dirty compost is screened and cleaned with a densimetric table that removes contaminants like glass, stone, metal, and hard plastics.',
+      category: 'Equipment Demo',
+      duration: '3:10',
+      thumbnail: 'https://i.ytimg.com/vi/5VvtScst8yI/hqdefault.jpg',
+      link: 'https://www.youtube.com/watch?v=5VvtScst8yI',
+      featured: false,
+      views: '1.7K'
+    },
+    {
+      id: 17,
+      title: 'Positive Sorting - A Next-Generation MRF',
+      description: 'Positive Sorting involves targeting paper early in the system to separate it quickly and cleanly for the cleanest possible paper grades.',
+      category: 'Technology',
+      duration: '1:13',
+      thumbnail: 'https://i.ytimg.com/vi/QFmP4fvjk6I/hqdefault.jpg',
+      link: 'https://www.youtube.com/watch?v=QFmP4fvjk6I',
+      featured: false,
+      views: '2.8K'
+    },
+    {
+      id: 18,
+      title: 'Single Stream Recycling Tour - Material Recovery Facility',
+      description: 'Take a comprehensive tour of a modern material recovery facility processing single stream recyclables.',
+      category: 'Facility Tour',
+      duration: '4:22',
+      thumbnail: 'https://i.ytimg.com/vi/M5nmNKVNCBw/hqdefault.jpg',
+      link: 'https://www.youtube.com/watch?v=M5nmNKVNCBw',
+      featured: false,
+      views: '3.1K'
+    },
+    {
+      id: 19,
+      title: 'E-Waste Processing - TOMRA Autosort Finder Mode',
+      description: 'For electronic waste processing, the TOMRA Autosort optical sorter\'s Finder Mode uses sensors and air ejection technology to separate metals from non-metals.',
+      category: 'Equipment Demo',
+      duration: '1:01',
+      thumbnail: 'https://i.ytimg.com/vi/xjqEJdePkS4/hqdefault.jpg',
+      link: 'https://www.youtube.com/watch?v=xjqEJdePkS4',
+      featured: false,
+      views: '1.6K'
+    },
+    {
+      id: 20,
+      title: 'E-Scrap Recycling at Premier Surplus, Dawsonville, GA',
+      description: 'The vice president of Premier Surplus Inc. talks about the versatility and effectiveness of the TOMRA optical sorter in their electronics recycling plant.',
+      category: 'Customer Story',
+      duration: '3:29',
+      thumbnail: 'https://i.ytimg.com/vi/bnpoNRYk7_I/hqdefault.jpg',
+      link: 'https://www.youtube.com/watch?v=bnpoNRYk7_I',
+      featured: false,
+      views: '2.2K'
     }
   ];
 
@@ -327,6 +490,30 @@ const NewsMedia = () => {
       type: 'html',
       featured: true,
       views: '1.8K'
+    },
+    {
+      id: 7,
+      title: 'Optimizing MRF Performance with Advanced Analytics',
+      excerpt: 'Learn how to use data analytics and AI-powered insights to maximize your MRF\'s efficiency, reduce downtime, and increase material recovery rates.',
+      author: 'Alex Wolf',
+      category: 'AI & Technology',
+      readTime: '8 min read',
+      link: 'https://vdrs.com/expert-tips/optimizing-mrf-performance-analytics/',
+      type: 'html',
+      featured: false,
+      views: '1.6K'
+    },
+    {
+      id: 8,
+      title: 'Maintenance Best Practices for Recycling Equipment',
+      excerpt: 'Essential maintenance tips and schedules to keep your recycling equipment running at peak performance and extend its operational life.',
+      author: 'Mark Neitzey',
+      category: 'Maintenance',
+      readTime: '5 min read',
+      link: 'https://vdrs.com/expert-tips/maintenance-best-practices-recycling-equipment/',
+      type: 'html',
+      featured: false,
+      views: '2.3K'
     },
     {
       id: 2,
@@ -406,6 +593,32 @@ const NewsMedia = () => {
       views: '2.7K'
     },
     {
+      id: 6,
+      title: 'Great Northern Fibers Achieves 40% Increase in OCC Recovery with Van Dyk Equipment',
+      excerpt: 'Simple retrofit at Great Northern Fibers has major impact on OCC and news recovery, resulting in dramatically increased OCC tonnage and improved product quality.',
+      company: 'Great Northern Fibers',
+      industry: 'Fiber Processing',
+      date: '2024-03-15',
+      link: 'https://vdrs.com/van-dyk-customers-in-the-news/great-northern-fibers-occ-recovery-increase/',
+      type: 'html',
+      featured: false,
+      image: '/Images/image-1749759479881.png',
+      views: '1.8K'
+    },
+    {
+      id: 7,
+      title: 'WM Automated Single-Stream Systems Achieve Record Throughput',
+      excerpt: 'Waste Management\'s automated single-stream systems equipped with Van Dyk technology achieve record processing speeds and material recovery rates.',
+      company: 'Waste Management',
+      industry: 'Single Stream MRF',
+      date: '2024-02-28',
+      link: 'https://vdrs.com/van-dyk-customers-in-the-news/wm-automated-single-stream-record-throughput/',
+      type: 'html',
+      featured: false,
+      image: '/Images/image-1749759499434.png',
+      views: '2.2K'
+    },
+    {
       id: 2,
       title: 'Murphy Road Recycling Adds Greyparrot AI and More Optical Sorters to Its MRF',
       excerpt: 'Adaptable Design - Murphy Road Recycling has expanded its MRF\'s capabilities by adding Greyparrot Analyzers and more optical sorters.',
@@ -459,7 +672,7 @@ const NewsMedia = () => {
     }
   ];
 
-  const categories = ['All', 'Company News', 'Partnerships', 'Technology', 'Product Launch', 'Case Studies'];
+  const categories = ['All', 'Company News', 'Partnerships', 'Technology', 'Product Launch', 'Case Studies', 'Installation', 'Training', 'Maintenance'];
   const viewTypes = [
     { id: 'news', label: 'Latest News', icon: Globe },
     { id: 'videos', label: 'Videos', icon: Video },
@@ -484,6 +697,9 @@ const NewsMedia = () => {
       case 'Technology': return <Award className="w-4 h-4" />;
       case 'Product Launch': return <ArrowRight className="w-4 h-4" />;
       case 'Case Studies': return <FileText className="w-4 h-4" />;
+      case 'Installation': return <Wrench className="w-4 h-4" />;
+      case 'Training': return <GraduationCap className="w-4 h-4" />;
+      case 'Maintenance': return <Settings className="w-4 h-4" />;
       default: return <FileText className="w-4 h-4" />;
     }
   };
@@ -905,12 +1121,15 @@ const NewsMedia = () => {
                       </div>
                       <div className="p-6">
                         <div className="flex items-center gap-2 mb-3">
-                          <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium ${
-                            article.category === 'Company News' ? 'bg-blue-50 text-blue-700' :
-                            article.category === 'Partnerships' ? 'bg-green-50 text-green-700' :
-                            article.category === 'Technology' ? 'bg-purple-50 text-purple-700' :
-                            'bg-gray-50 text-gray-700'
-                          }`}>
+                        <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium ${
+                          article.category === 'Company News' ? 'bg-blue-50 text-blue-700' :
+                          article.category === 'Partnerships' ? 'bg-green-50 text-green-700' :
+                          article.category === 'Technology' ? 'bg-purple-50 text-purple-700' :
+                          article.category === 'Installation' ? 'bg-orange-50 text-orange-700' :
+                          article.category === 'Training' ? 'bg-yellow-50 text-yellow-700' :
+                          article.category === 'Maintenance' ? 'bg-red-50 text-red-700' :
+                          'bg-gray-50 text-gray-700'
+                        }`}>
                             {getCategoryIcon(article.category)}
                             {article.category}
                           </span>
@@ -984,6 +1203,9 @@ const NewsMedia = () => {
                           article.category === 'Technology' ? 'bg-purple-50 text-purple-700' :
                           article.category === 'Product Launch' ? 'bg-orange-50 text-orange-700' :
                           article.category === 'Case Studies' ? 'bg-indigo-50 text-indigo-700' :
+                          article.category === 'Installation' ? 'bg-orange-50 text-orange-700' :
+                          article.category === 'Training' ? 'bg-yellow-50 text-yellow-700' :
+                          article.category === 'Maintenance' ? 'bg-red-50 text-red-700' :
                           'bg-gray-50 text-gray-700'
                         }`}>
                           {getCategoryIcon(article.category)}
