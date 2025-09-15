@@ -12,8 +12,10 @@ const Solutions = React.lazy(() => import('./pages/Solutions'));
 const ServicesSupport = React.lazy(() => import('./pages/ServicesSupport'));
 const NewsMedia = React.lazy(() => import('./pages/NewsMedia'));
 const ContactUs = React.lazy(() => import('./pages/ContactUs'));
+const About = React.lazy(() => import('./pages/About'));
+const Careers = React.lazy(() => import('./pages/Careers'));
 const QuoteForm = React.lazy(() => import('./components/QuoteForm'));
-const TestCenter = React.lazy(() => import('./pages/TestCenter')); // 👈 added
+const TestCenter = React.lazy(() => import('./pages/TestCenter'));
 
 const LoadingFallback = () => (
   <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -51,10 +53,10 @@ function App() {
                 <Route path="/solutions" element={<Solutions />} />
                 <Route path="/news-media" element={<NewsMedia />} />
                 <Route path="/contact" element={<ContactUs />} />
-                <Route path="/about" element={<ContactUs />} />
-                <Route path="/careers" element={<ContactUs />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/careers" element={<Careers />} />
                 <Route path="/quote" element={<QuoteForm />} />
-                <Route path="/test-center" element={<TestCenter />} /> {/* 👈 added */}
+                <Route path="/test-center" element={<TestCenter />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </AnimatePresence>

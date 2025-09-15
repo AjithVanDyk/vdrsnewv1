@@ -1,121 +1,173 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Send, Bot } from 'lucide-react';
+import { MessageCircle, X, Send, Bot, ChevronRight, ArrowRight, ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-interface ChatMessage {
-  type: 'user' | 'bot';
-  text: string;
+interface QuickQuestion {
+  id: string;
+  question: string;
+  path: string;
+  description: string;
+  icon: React.ComponentType<{ className?: string }>;
 }
-
-const OPEN_ROUTER_API_URL = 'https://openrouter.ai/api/v1/chat/completions';
-// IMPORTANT: Replace 'YOUR_OPEN_ROUTER_API_KEY' with your actual key.
-// For production, consider using environment variables (e.g., import.meta.env.VITE_OPEN_ROUTER_API_KEY)
-// and setting them up in your Vite configuration.
-const OPEN_ROUTER_API_KEY = 'your key'; 
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    { type: 'bot', text: 'Hello! I\'m your Van Dyk Recycling Solutions assistant. How can I assist you today?' }
-  ]);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [inputText, setInputText] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [filteredSuggestions, setFilteredSuggestions] = useState<QuickQuestion[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Scroll to bottom of messages whenever messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [selectedCategory]);
 
-  // Define website links and their keywords for intelligent routing
-  const websiteRoutes = [
-    { keywords: ['equipment', 'bollegraaf', 'lubo', 'tomra', 'pellenc', 'walair', 'smicon', 'günther', 'centriair', 'greyparrot', 'densimetric', 'beefoam', 'reckelberg', 'pre-owned', 'machines'], path: '/equipment', response: 'We offer a full range of recycling equipment. You can explore them on our <a href="/equipment" class="text-vd-orange hover:underline">Equipment page</a>.' },
-    { keywords: ['solution', 'single stream', 'plastics', 'organics', 'food waste', 'msw', 'commercial waste', 'c&d', 'multi-mrf', 'waste to energy', 'e-scrap', 'glass cleanup', 'composting', 'balers', 'ai-based analytics', 'odor control', 'ev battery'], path: '/solutions', response: 'We provide innovative recycling solutions for various waste streams. Find out more on our <a href="/solutions" class="text-vd-orange hover:underline">Solutions page</a>.' },
-    { keywords: ['service', 'turnkey', 'retrofit', 'installation', 'setup'], path: '/services', response: 'Our services include turnkey design, retrofits, installation, and more. Visit our <a href="/services" class="text-vd-orange hover:underline">Services page</a> for details.' },
-    { keywords: ['support', 'parts', 'maintenance', 'remote', 'training', 'test center', 'warranty'], path: '/support', response: 'For support, parts, preventive maintenance, training, or information about our test center, please check our <a href="/support" class="text-vd-orange hover:underline">Support page</a>.' },
-    { keywords: ['news', 'media', 'videos', 'expert tips', 'customers in the news'], path: '/news-media', response: 'Stay up-to-date with our latest news, videos, expert tips, and customer stories on our <a href="/news-media" class="text-vd-orange hover:underline">News & Media page</a>.' },
-    { keywords: ['contact', 'main office', 'address', 'email', 'phone', 'call', 'fax', 'quote'], path: '/contact', response: 'You can find all our contact details and a quote request form on our <a href="/contact" class="text-vd-orange hover:underline">Contact Us page</a>.' },
-    { keywords: ['about', 'company', 'beginnings', 'history', 'work for us', 'careers', 'job'], path: '/about', response: 'Learn more about Van Dyk Recycling Solutions, our history, and career opportunities on our <a href="/about" class="text-vd-orange hover:underline">About Us page</a>.' },
-    { keywords: ['privacy', 'policy', 'privacy policy'], path: '/privacy-policy', response: 'Our Privacy Policy is available on our <a href="/privacy-policy" class="text-vd-orange hover:underline">Privacy Policy page</a>.' },
-    { keywords: ['site map', 'sitemap'], path: '/site-map', response: 'You can view the full structure of our website on the <a href="/site-map" class="text-vd-orange hover:underline">Site Map page</a>.' },
-  ];
-
-  // Function to call the Open Router API for troubleshooting
-  const fetchTroubleshootingAnswer = async (question: string): Promise<string> => {
-    try {
-      const response = await fetch(OPEN_ROUTER_API_URL, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${OPEN_ROUTER_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'deepseek/deepseek-coder-6.7b-instruct', // Using deepseek model as per user request
-          messages: [
-            { role: 'system', content: 'You are a helpful assistant for Van Dyk Recycling Solutions. Provide concise and direct answers for troubleshooting, or suggest contacting technical support if unable to answer.' },
-            { role: 'user', content: `Troubleshooting question: ${question}. Provide a basic, direct answer. If unable to answer, suggest contacting technical support or service@vdrs.com.` },
-          ],
-        }),
-      });
-
-      if (!response.ok) {
-         console.error("API error (status):", response.status, response.statusText);
-         throw new Error(`API error: ${response.statusText}`);
+  // Close suggestions when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!target.closest('.suggestions-container')) {
+        setShowSuggestions(false);
       }
+    };
 
-      const data = await response.json();
-      console.log("API response (data):", data);
-      const aiAnswer = data.choices?.[0]?.message?.content;
-      if (aiAnswer) {
-         return aiAnswer;
+    if (showSuggestions) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [showSuggestions]);
+
+  // Tree of questions organized by category
+  const questionTree = {
+    equipment: {
+      title: 'Equipment & Technology',
+      icon: '🔧',
+      questions: [
+        { id: 'bollegraaf', question: 'Tell me about Bollegraaf balers', path: '/equipment#bollegraaf', description: 'High-performance horizontal balers' },
+        { id: 'tomra', question: 'What is TOMRA optical sorting?', path: '/equipment#tomra-optical-sorting', description: 'Advanced optical sorting technology' },
+        { id: 'pellenc', question: 'How does Pellenc ST work?', path: '/equipment#pellenc-st-optical-sorting', description: 'AI-powered intelligent sorting' },
+        { id: 'lubo', question: 'What are Lubo screens?', path: '/equipment#lubo-screening', description: 'Elliptical screening technology' },
+        { id: 'greyparrot', question: 'Tell me about Greyparrot AI', path: '/equipment#greyparrot-ai', description: 'AI-based waste analytics' },
+        { id: 'all-equipment', question: 'View all equipment', path: '/equipment', description: 'Complete equipment catalog' }
+      ]
+    },
+    solutions: {
+      title: 'Recycling Solutions',
+      icon: '♻️',
+      questions: [
+        { id: 'single-stream', question: 'Single stream recycling solutions', path: '/solutions#single-stream-recycling', description: 'Complete single stream processing' },
+        { id: 'plastics', question: 'Plastics recycling systems', path: '/solutions#plastics-recycling', description: 'Advanced plastics processing' },
+        { id: 'organics', question: 'Organics processing solutions', path: '/solutions#organics-processing', description: 'Food waste and organics handling' },
+        { id: 'e-scrap', question: 'E-scrap recycling technology', path: '/solutions#e-scrap-recycling', description: 'Electronics waste processing' },
+        { id: 'all-solutions', question: 'View all solutions', path: '/solutions', description: 'Complete solutions overview' }
+      ]
+    },
+    services: {
+      title: 'Services & Support',
+      icon: '🛠️',
+      questions: [
+        { id: 'turnkey', question: 'Turnkey design services', path: '/services', description: 'Complete facility design' },
+        { id: 'installation', question: 'Installation services', path: '/services', description: 'Professional equipment installation' },
+        { id: 'training', question: 'Training programs', path: '/services', description: 'Operator and maintenance training' },
+        { id: 'maintenance', question: 'Preventive maintenance', path: '/services', description: 'Ongoing equipment maintenance' },
+        { id: 'test-center', question: 'Test center services', path: '/test-center', description: 'Material testing facility' }
+      ]
+    },
+    company: {
+      title: 'Company Information',
+      icon: '🏢',
+      questions: [
+        { id: 'about', question: 'About Van Dyk', path: '/about', description: 'Company history and mission' },
+        { id: 'careers', question: 'Career opportunities', path: '/careers', description: 'Join our team' },
+        { id: 'news', question: 'Latest news & media', path: '/news-media', description: 'Company updates and videos' },
+        { id: 'contact', question: 'Contact information', path: '/contact', description: 'Get in touch with us' }
+      ]
+    },
+    support: {
+      title: 'Technical Support',
+      icon: '📞',
+      questions: [
+        { id: 'parts', question: 'Order parts', path: '/contact', description: 'Equipment parts and components' },
+        { id: 'troubleshooting', question: 'Troubleshooting help', path: '/contact', description: 'Technical assistance' },
+        { id: 'warranty', question: 'Warranty information', path: '/contact', description: 'Equipment warranty details' },
+        { id: 'emergency', question: 'Emergency support', path: '/contact', description: '24/7 emergency assistance' }
+      ]
+    }
+  };
+
+  // Get all questions for autocomplete
+  const allQuestions: QuickQuestion[] = Object.values(questionTree).flatMap(category => 
+    category.questions.map(q => ({
+      id: q.id,
+      question: q.question,
+      path: q.path,
+      description: q.description,
+      icon: () => null
+    }))
+  );
+
+  // Handle input change with autocomplete
+  const handleInputChange = (value: string) => {
+    setInputText(value);
+    
+    if (value.length > 0) {
+      const filtered = allQuestions.filter(q => 
+        q.question.toLowerCase().includes(value.toLowerCase()) ||
+        q.description.toLowerCase().includes(value.toLowerCase())
+      );
+      setFilteredSuggestions(filtered.slice(0, 5)); // Show top 5 suggestions
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+      setFilteredSuggestions([]);
+    }
+  };
+
+  // Handle suggestion click
+  const handleSuggestionClick = (suggestion: QuickQuestion) => {
+    setInputText(suggestion.question);
+    setShowSuggestions(false);
+    handleQuestionClick(suggestion.path);
+  };
+
+  // Handle form submit
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (inputText.trim()) {
+      // Try to find exact match first
+      const exactMatch = allQuestions.find(q => 
+        q.question.toLowerCase() === inputText.toLowerCase()
+      );
+      
+      if (exactMatch) {
+        handleQuestionClick(exactMatch.path);
       } else {
-         console.warn("API response did not contain an answer (choices[0]?.message?.content is missing).");
-         return "I apologize, but I couldn't retrieve a troubleshooting answer from our AI. Please contact our technical support (service@vdrs.com or 203-967-1100) for further assistance.";
+        // If no exact match, try to find best match
+        const bestMatch = allQuestions.find(q => 
+          q.question.toLowerCase().includes(inputText.toLowerCase())
+        );
+        
+        if (bestMatch) {
+          handleQuestionClick(bestMatch.path);
+        } else {
+          // Fallback to contact page
+          handleQuestionClick('/contact');
+        }
       }
-    } catch (error) {
-      console.error("Error fetching troubleshooting answer (catch):", error);
-      // Fallback (dummy) answer if the API call fails.
-      return "I am currently unable to fetch troubleshooting information. Please contact our technical support at service@vdrs.com or call 203-967-1100.";
+      setInputText('');
+      setShowSuggestions(false);
     }
   };
 
-  const handleSend = async () => {
-    if (!inputText.trim()) return;
-
-    const userMessage: ChatMessage = { type: 'user', text: inputText };
-    setMessages(prev => [...prev, userMessage]);
-    setInputText('');
-    setIsTyping(true);
-
-    const lowerInput = inputText.toLowerCase();
-    let botResponseText = '';
-    let foundRoute = false;
-
-    // 1. Try to route to existing website pages
-    for (const route of websiteRoutes) {
-      if (route.keywords.some(keyword => lowerInput.includes(keyword))) {
-        botResponseText = route.response;
-        foundRoute = true;
-        break;
-      }
-    }
-
-    // 2. If not routed, check for troubleshooting questions and call API
-    if (!foundRoute && (lowerInput.includes('troubleshoot') || lowerInput.includes('error') || lowerInput.includes('fix') || lowerInput.includes('issue') || lowerInput.includes('breakdown') || lowerInput.includes('malfunction'))) {
-      botResponseText = await fetchTroubleshootingAnswer(inputText);
-    } else if (!foundRoute) {
-      // 3. Fallback if no specific route or troubleshooting match
-      botResponseText = 'I can help by guiding you to relevant sections of our website or answering basic questions. For more detailed assistance, please visit our <a href="/contact" class="text-vd-orange hover:underline">Contact Us page</a> or call 203-967-1100.';
-    }
-
-    setIsTyping(false);
-    setMessages(prev => [...prev, { type: 'bot', text: botResponseText } as ChatMessage]);
+  const handleQuestionClick = (path: string) => {
+    // Navigate to the page
+    window.location.href = path;
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSend();
-    }
+  const resetToMainMenu = () => {
+    setSelectedCategory(null);
   };
 
   return (
@@ -137,75 +189,137 @@ const Chatbot = () => {
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.9 }}
-            // Adjusted size for "medium"
-            className="fixed bottom-24 right-6 w-96 h-[500px] bg-white rounded-lg shadow-xl border z-50 flex flex-col" 
+            className="fixed bottom-24 right-6 w-96 h-[600px] dropdown-glass rounded-lg z-50 flex flex-col smooth-scroll" 
           >
             {/* Header */}
             <div className="bg-vd-blue text-white p-4 rounded-t-lg flex justify-between items-center">
               <div className="flex items-center space-x-2">
                 <Bot className="h-5 w-5 text-vd-orange" />
-                <span className="font-semibold">Van Dyk Assistant</span>
+                <span className="font-semibold">Quick Navigation</span>
               </div>
               <button onClick={() => setIsOpen(false)} className="text-white hover:text-gray-300">
                 <X className="h-5 w-5" />
               </button>
             </div>
 
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-3" style={{ scrollBehavior: 'smooth' }}>
-              {messages.map((message, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
-                  <div
-                    className={`max-w-[75%] px-3 py-2 rounded-lg text-sm ${
-                      message.type === 'user'
-                        ? 'bg-vd-orange text-white'
-                        : 'bg-gray-100 text-vd-blue'
-                    }`}
-                    dangerouslySetInnerHTML={{ __html: message.text }} // Use dangerouslySetInnerHTML to render HTML links
+            {/* Search Input */}
+            <div className="p-4 border-b bg-gray-50">
+              <form onSubmit={handleSubmit} className="relative suggestions-container">
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={inputText}
+                    onChange={(e) => handleInputChange(e.target.value)}
+                    placeholder="Type your question or search..."
+                    className="w-full px-4 py-3 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vd-orange text-sm"
+                    onFocus={() => setShowSuggestions(inputText.length > 0)}
+                  />
+                  <Send className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                </div>
+                
+                {/* Autocomplete Suggestions */}
+                {showSuggestions && filteredSuggestions.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10 max-h-60 overflow-y-auto"
                   >
-                  </div>
-                </motion.div>
-              ))}
-              {isTyping && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="flex justify-start"
-                >
-                  <div className="max-w-xs px-3 py-2 rounded-lg text-sm bg-gray-100 text-vd-blue">
-                    Typing...
-                  </div>
-                </motion.div>
-              )}
-              <div ref={messagesEndRef} /> {/* Scroll to this element */}
+                    {filteredSuggestions.map((suggestion) => (
+                      <button
+                        key={suggestion.id}
+                        onClick={() => handleSuggestionClick(suggestion)}
+                        className="w-full px-4 py-3 text-left hover:bg-vd-orange hover:text-white transition-colors border-b border-gray-100 last:border-b-0"
+                      >
+                        <div className="font-medium text-sm">{suggestion.question}</div>
+                        <div className="text-xs text-gray-500 mt-1">{suggestion.description}</div>
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </form>
             </div>
 
-            {/* Input */}
-            <div className="p-4 border-t">
-              <div className="flex space-x-2">
-                <input
-                  type="text"
-                  value={inputText}
-                  onChange={(e) => setInputText(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Ask about our recycling solutions..."
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vd-orange text-sm"
-                  disabled={isTyping}
-                />
-                <button
-                  onClick={handleSend}
-                  className="bg-vd-orange text-white p-2 rounded-lg hover:bg-vd-blue-dark transition-colors"
-                  disabled={isTyping}
-                >
-                  <Send className="h-4 w-4" />
-                </button>
-              </div>
+            {/* Content */}
+            <div className="flex-1 overflow-y-auto p-4 smooth-scroll scrollbar-thin scrollbar-thumb-vd-orange scrollbar-track-gray-100">
+              {!selectedCategory ? (
+                // Main menu - show categories
+                <div className="space-y-4">
+                  <div className="text-center mb-6">
+                    <h3 className="text-lg font-semibold text-vd-blue mb-2">How can we help you?</h3>
+                    <p className="text-sm text-gray-600">Choose a category or type your question above</p>
+                  </div>
+                  
+                  {Object.entries(questionTree).map(([key, category]) => (
+                    <motion.button
+                      key={key}
+                      onClick={() => setSelectedCategory(key)}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full p-4 bg-gray-50 hover:bg-vd-orange hover:text-white rounded-lg border border-gray-200 hover:border-vd-orange transition-all duration-200 text-left"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          <span className="text-2xl">{category.icon}</span>
+                          <div>
+                            <div className="font-semibold text-sm">{category.title}</div>
+                            <div className="text-xs text-gray-500">{category.questions.length} options</div>
+                          </div>
+                        </div>
+                        <ChevronRight className="h-4 w-4" />
+                      </div>
+                    </motion.button>
+                  ))}
+                  
+                  <div className="pt-4 border-t border-gray-200">
+                    <Link
+                      to="/contact"
+                      className="w-full p-3 bg-vd-orange text-white rounded-lg text-center font-semibold text-sm hover:bg-vd-orange-alt transition-colors flex items-center justify-center space-x-2"
+                    >
+                      <span>Need Direct Help?</span>
+                      <ExternalLink className="h-4 w-4" />
+                    </Link>
+                  </div>
+                </div>
+              ) : (
+                // Category view - show questions
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <button
+                      onClick={resetToMainMenu}
+                      className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                    >
+                      <ArrowRight className="h-4 w-4 rotate-180" />
+                    </button>
+                    <div>
+                      <h3 className="font-semibold text-vd-blue">
+                        {questionTree[selectedCategory as keyof typeof questionTree].title}
+                      </h3>
+                      <p className="text-xs text-gray-500">Select a question to navigate</p>
+                    </div>
+                  </div>
+                  
+                  {questionTree[selectedCategory as keyof typeof questionTree].questions.map((question) => (
+                    <motion.button
+                      key={question.id}
+                      onClick={() => handleQuestionClick(question.path)}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full p-3 bg-white hover:bg-vd-orange hover:text-white rounded-lg border border-gray-200 hover:border-vd-orange transition-all duration-200 text-left group"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex-1">
+                          <div className="font-medium text-sm group-hover:text-white">{question.question}</div>
+                          <div className="text-xs text-gray-500 group-hover:text-orange-100 mt-1">
+                            {question.description}
+                          </div>
+                        </div>
+                        <ExternalLink className="h-4 w-4 text-gray-400 group-hover:text-white" />
+                      </div>
+                    </motion.button>
+                  ))}
+                </div>
+              )}
+              <div ref={messagesEndRef} />
             </div>
           </motion.div>
         )}

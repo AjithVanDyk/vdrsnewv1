@@ -1,8 +1,28 @@
 {
-  "name": "vdrs-website",
-  "private": true,
-  "version": "0.0.0",
+  "name": "van-dyk-recycling-solutions-website",
+  "description": "Official website for Van Dyk Recycling Solutions - showcasing cutting-edge recycling equipment, innovative solutions, and comprehensive services",
+  "version": "1.0.0",
   "type": "module",
+  "private": true,
+  "author": "Van Dyk Recycling Solutions",
+  "license": "UNLICENSED",
+  "homepage": "https://github.com/AjithVanDyk/vdrsnewv1#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AjithVanDyk/vdrsnewv1.git"
+  },
+  "keywords": [
+    "recycling",
+    "waste-management",
+    "mrf",
+    "material-recovery",
+    "optical-sorting",
+    "balers",
+    "react",
+    "typescript",
+    "vite",
+    "tailwindcss"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
