@@ -217,9 +217,9 @@ const Support = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-vd-blue-dark to-vd-blue text-white py-20">
-        <div className="absolute inset-0 bg-[url('/Images/image-1749759459073.png')] bg-cover bg-center opacity-20" />
-        <div className="container mx-auto px-4 relative">
+      <div className="relative bg-gradient-to-r from-vd-blue-dark to-vd-blue text-white py-20 -mt-20 pt-20">
+        <div className="absolute inset-0 bg-[url('/Images/image-1749759459073.png')] bg-cover bg-center opacity-20 scale-110" />
+        <div className="container mx-auto px-4 relative pt-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -445,6 +445,7 @@ const Support = () => {
               <Search className="w-5 h-5 text-gray-500" />
               <input
                 type="text"
+                autoComplete="off"
                 placeholder="Search articles..."
                 className="flex-grow p-2 border border-gray-300 rounded-md focus:ring-vd-orange focus:border-vd-orange"
               />

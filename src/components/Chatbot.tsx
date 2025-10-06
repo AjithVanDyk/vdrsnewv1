@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Bot, ChevronRight, ArrowRight, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -40,16 +40,16 @@ const Chatbot = () => {
   }, [showSuggestions]);
 
   // Tree of questions organized by category
-  const questionTree = {
+  const questionTree = useMemo(() => ({
     equipment: {
       title: 'Equipment & Technology',
       icon: '🔧',
       questions: [
-        { id: 'bollegraaf', question: 'Tell me about Bollegraaf balers', path: '/equipment#bollegraaf', description: 'High-performance horizontal balers' },
-        { id: 'tomra', question: 'What is TOMRA optical sorting?', path: '/equipment#tomra-optical-sorting', description: 'Advanced optical sorting technology' },
-        { id: 'pellenc', question: 'How does Pellenc ST work?', path: '/equipment#pellenc-st-optical-sorting', description: 'AI-powered intelligent sorting' },
-        { id: 'lubo', question: 'What are Lubo screens?', path: '/equipment#lubo-screening', description: 'Elliptical screening technology' },
-        { id: 'greyparrot', question: 'Tell me about Greyparrot AI', path: '/equipment#greyparrot-ai', description: 'AI-based waste analytics' },
+        { id: 'bollegraaf', question: 'Tell me about Bollegraaf balers', path: '/equipment#bollegraaf-equipment', description: 'High-performance horizontal balers' },
+        { id: 'tomra', question: 'What is TOMRA optical sorting?', path: '/equipment#tomra-optical-sorting-equipment', description: 'Advanced optical sorting technology' },
+        { id: 'pellenc', question: 'How does Pellenc ST work?', path: '/equipment#pellenc-st-optical-sorting-equipment', description: 'AI-powered intelligent sorting' },
+        { id: 'lubo', question: 'What are Lubo screens?', path: '/equipment#lubo-screening-equipment', description: 'Elliptical screening technology' },
+        { id: 'greyparrot', question: 'Tell me about Greyparrot AI', path: '/equipment#greyparrot-ai-equipment', description: 'AI-based waste analytics' },
         { id: 'all-equipment', question: 'View all equipment', path: '/equipment', description: 'Complete equipment catalog' }
       ]
     },
@@ -68,10 +68,10 @@ const Chatbot = () => {
       title: 'Services & Support',
       icon: '🛠️',
       questions: [
-        { id: 'turnkey', question: 'Turnkey design services', path: '/services', description: 'Complete facility design' },
-        { id: 'installation', question: 'Installation services', path: '/services', description: 'Professional equipment installation' },
-        { id: 'training', question: 'Training programs', path: '/services', description: 'Operator and maintenance training' },
-        { id: 'maintenance', question: 'Preventive maintenance', path: '/services', description: 'Ongoing equipment maintenance' },
+        { id: 'turnkey', question: 'Turnkey design services', path: '/support', description: 'Complete facility design' },
+        { id: 'installation', question: 'Installation services', path: '/support', description: 'Professional equipment installation' },
+        { id: 'training', question: 'Training programs', path: '/support', description: 'Operator and maintenance training' },
+        { id: 'maintenance', question: 'Preventive maintenance', path: '/support', description: 'Ongoing equipment maintenance' },
         { id: 'test-center', question: 'Test center services', path: '/test-center', description: 'Material testing facility' }
       ]
     },
@@ -95,18 +95,19 @@ const Chatbot = () => {
         { id: 'emergency', question: 'Emergency support', path: '/contact', description: '24/7 emergency assistance' }
       ]
     }
-  };
+  }), []);
 
   // Get all questions for autocomplete
-  const allQuestions: QuickQuestion[] = Object.values(questionTree).flatMap(category => 
-    category.questions.map(q => ({
-      id: q.id,
-      question: q.question,
-      path: q.path,
-      description: q.description,
-      icon: () => null
-    }))
-  );
+  const allQuestions: QuickQuestion[] = useMemo(() => 
+    Object.values(questionTree).flatMap(category => 
+      category.questions.map(q => ({
+        id: q.id,
+        question: q.question,
+        path: q.path,
+        description: q.description,
+        icon: () => null
+      }))
+    ), [questionTree]);
 
   // Handle input change with autocomplete
   const handleInputChange = (value: string) => {
@@ -208,6 +209,7 @@ const Chatbot = () => {
                 <div className="relative">
                   <input
                     type="text"
+                    autoComplete="off"
                     value={inputText}
                     onChange={(e) => handleInputChange(e.target.value)}
                     placeholder="Type your question or search..."

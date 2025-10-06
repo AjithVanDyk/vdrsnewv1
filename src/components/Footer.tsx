@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Youtube } from 'lucide-react';
+import { Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Youtube, Instagram } from 'lucide-react';
 
 // Define types for the component
 interface FooterLink {
@@ -17,14 +17,14 @@ interface FooterSection {
 
 const Footer: React.FC = () => {
   // Define footer sections mirroring navigation structure
-  const footerSections: FooterSection[] = [
+  const footerSections: FooterSection[] = useMemo(() => [
     {
-      title: 'Services',
+      title: 'Support',
       links: [
-        { to: '/services', label: 'Design & Consultation' },
-        { to: '/services', label: 'Equipment Installation' },
-        { to: '/services', label: 'Training Programs' },
-        { to: '/services', label: 'Parts & Service' }
+        { to: '/support', label: 'Design & Consultation' },
+        { to: '/support', label: 'Equipment Installation' },
+        { to: '/support', label: 'Training Programs' },
+        { to: '/support', label: 'Parts & Service' }
       ]
     },
     {
@@ -46,22 +46,38 @@ const Footer: React.FC = () => {
       ]
     },
     {
-      title: 'Company',
+      title: 'About Us',
       links: [
-        { to: '/about', label: 'Van Dyk Recycling Solutions' },
+        { to: '/contact', label: 'Contact Us' },
+        { to: '/about', label: 'Overview' },
         { to: '/careers', label: 'Careers' },
-        { to: '/news-media', label: 'News & Media' },
-        { to: '/contact', label: 'Contact Us' }
+        { to: '/news-media', label: 'News & Media' }
+      ]
+    },
+    {
+      title: 'Services',
+      links: [
+        { to: '/support', label: 'Support & Training' },
+        { to: '/pmi', label: 'PMI Services' },
+        { to: '/quote', label: 'Get Quote' },
+        { to: '/test-center', label: 'Test Center' },
+        { to: '/installation-process', label: 'Installation Process' },
+        { to: '/training-schedule', label: 'Training Schedule' }
       ]
     }
-  ];
+  ], []);
 
   // Social media links with Facebook added
-  const socialLinks = [
+  const socialLinks = useMemo(() => [
     {
       icon: Facebook,
       href: 'https://www.facebook.com/vandykrecycling/',
       label: 'Facebook'
+    },
+    {
+      icon: Instagram,
+      href: 'https://www.instagram.com/vandykrecyclingsolutions/',
+      label: 'Instagram'
     },
     {
       icon: Linkedin,
@@ -78,12 +94,12 @@ const Footer: React.FC = () => {
       href: 'https://youtube.com/c/vandykrecycling',
       label: 'YouTube'
     }
-  ];
+  ], []);
 
   return (
     <footer className="bg-gradient-to-b from-vd-blue-dark to-vd-blue text-white" role="contentinfo">
-      <div className="container mx-auto py-12 px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
+      <div className="container mx-auto py-6 px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
           {/* Company Info */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -94,7 +110,7 @@ const Footer: React.FC = () => {
             aria-label="Company Information"
           >
             <img 
-              src="/Images/VDRS-lockup-mod-8-19-22-350.png" 
+              src="/Images/van-dyk-logo-new.jpg" 
               alt="Van Dyk Recycling Solutions Logo" 
               className="h-12 w-auto mb-4" 
               onError={(e) => {
@@ -102,12 +118,12 @@ const Footer: React.FC = () => {
                 target.style.display = 'none';
               }} 
             />
-            <p className="text-gray-200 mb-6 leading-relaxed">
+            <p className="text-gray-200 mb-3 leading-relaxed">
               Leading provider of recycling equipment and solutions since 1984. Innovative technology and expert support for sustainable operations.
             </p>
             
             {/* Contact Info */}
-            <div className="space-y-3">
+            <div className="space-y-2">
               <div className="flex items-center">
                 <Phone className="w-4 h-4 text-vd-orange mr-3" />
                 <a href="tel:+12039671100" className="text-gray-200 hover:text-vd-orange transition-colors">
@@ -130,8 +146,8 @@ const Footer: React.FC = () => {
             </div>
 
             {/* Social Links */}
-            <div className="mt-6">
-              <h4 className="text-sm font-semibold mb-3 text-vd-orange">Follow Us</h4>
+            <div className="mt-3">
+              <h4 className="text-sm font-semibold mb-2 text-vd-orange">Follow Us</h4>
               <div className="flex space-x-4">
                 {socialLinks.map(({ icon: Icon, href, label }) => (
                   <a
@@ -159,8 +175,8 @@ const Footer: React.FC = () => {
               role="region"
               aria-label={`${section.title} links`}
             >
-              <h3 className="text-lg font-semibold mb-4 text-vd-orange">{section.title}</h3>
-              <ul className="space-y-2">
+              <h3 className="text-lg font-semibold mb-3 text-vd-orange">{section.title}</h3>
+              <ul className="space-y-1">
                 {section.links.map((link) => (
                   <li key={link.label}>
                     {link.isExternal ? (
@@ -188,7 +204,7 @@ const Footer: React.FC = () => {
           ))}
         </div>
 
-        <div className="border-t border-white/10 mt-12 pt-8 text-center text-gray-300">
+        <div className="border-t border-white/10 mt-6 pt-4 text-center text-gray-300">
           <p>&copy; {new Date().getFullYear()} Van Dyk Recycling Solutions. All rights reserved.</p>
         </div>
       </div>

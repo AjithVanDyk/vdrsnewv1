@@ -14,79 +14,79 @@ const equipmentItems: Equipment[] = [
     id: 'bollegraaf',
     name: 'Bollegraaf Balers',
     description: 'High-performance balers for various materials.',
-    image: '/Images/bollegraaf.jpg'
+    image: ''
   },
   {
     id: 'lubo',
     name: 'Lubo Screens',
     description: 'Durable and efficient screening solutions.',
-    image: '/Images/lubo.jpg'
+    image: ''
   },
   {
     id: 'tomra',
     name: 'TOMRA Optical Sorters',
     description: 'Advanced optical sorting systems.',
-    image: '/Images/tomra.jpg'
+    image: ''
   },
   {
     id: 'pellenc',
     name: 'Pellenc ST Optical Sorters',
     description: 'Innovative optical sorting for various waste streams.',
-    image: '/Images/pellenc.jpg'
+    image: ''
   },
   {
     id: 'walair',
     name: 'Walair Air Separation',
     description: 'Efficient air separation technology.',
-    image: '/Images/walair.jpg'
+    image: ''
   },
   {
     id: 'smicon',
     name: 'Smicon Depackaging Equipment',
     description: 'Specialized depackaging solutions.',
-    image: '/Images/smicon.jpg'
+    image: ''
   },
   {
     id: 'gunther',
     name: 'Gunther Balers',
     description: 'Reliable and robust baling machines.',
-    image: '/Images/gunther.jpg'
+    image: ''
   },
   {
     id: 'centriair',
     name: 'Centriair Odor Control',
     description: 'Advanced odor control systems for recycling facilities.',
-    image: '/Images/centriair.jpg'
+    image: ''
   },
   {
     id: 'greyparrot',
     name: 'Greyparrot AI-Powered Robotics',
     description: 'Robotic sorting with artificial intelligence.',
-    image: '/Images/greyparrot.jpg'
+    image: ''
   },
   {
     id: 'densimetric',
     name: 'Densimetric Density Separators',
     description: 'Density-based material separation.',
-    image: '/Images/densimetric.jpg'
+    image: ''
   },
   {
     id: 'beefoam',
     name: 'Beefoam Conveyor Belts',
     description: 'Durable conveyor belts for heavy-duty applications.',
-    image: '/Images/beefoam.jpg'
+    image: ''
   },
   {
     id: 'reckelberg',
     name: 'Reckelberg Screens',
     description: 'High-capacity screening solutions.',
-    image: '/Images/reckelberg.jpg'
+    image: ''
   },
   {
     id: 'pre-owned',
     name: 'Pre-Owned Equipment',
     description: 'Quality used recycling equipment.',
-    image: '/Images/pre-owned.jpg'
+    image: ''
   }
 ];
 
@@ -159,16 +159,6 @@ const QuoteForm = () => {
                     onClick={() => handleEquipmentSelect(equipment.id)}
                   >
                     <div className="p-4">
-                      <div className="aspect-w-16 aspect-h-9 mb-4 bg-gray-100 rounded-lg overflow-hidden">
-                        <img
-                          src={equipment.image}
-                          alt={equipment.name}
-                          className="object-cover w-full h-full"
-                          onError={(e) => {
-                            e.currentTarget.src = '/Images/placeholder.jpg';
-                          }}
-                        />
-                      </div>
                       <h3 className="font-semibold text-gray-900 mb-2">{equipment.name}</h3>
                       <p className="text-sm text-gray-600">{equipment.description}</p>
                     </div>
@@ -200,6 +190,7 @@ const QuoteForm = () => {
                       type="text"
                       id="firstName"
                       name="firstName"
+                      autoComplete="given-name"
                       required
                       value={formData.firstName}
                       onChange={handleInputChange}
@@ -221,6 +212,7 @@ const QuoteForm = () => {
                       type="text"
                       id="lastName"
                       name="lastName"
+                      autoComplete="family-name"
                       required
                       value={formData.lastName}
                       onChange={handleInputChange}
@@ -242,6 +234,7 @@ const QuoteForm = () => {
                       type="email"
                       id="email"
                       name="email"
+                      autoComplete="email"
                       required
                       value={formData.email}
                       onChange={handleInputChange}
@@ -263,6 +256,7 @@ const QuoteForm = () => {
                       type="tel"
                       id="phone"
                       name="phone"
+                      autoComplete="tel"
                       value={formData.phone}
                       onChange={handleInputChange}
                       className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange"
@@ -283,6 +277,7 @@ const QuoteForm = () => {
                       type="text"
                       id="company"
                       name="company"
+                      autoComplete="organization"
                       required
                       value={formData.company}
                       onChange={handleInputChange}
@@ -304,6 +299,7 @@ const QuoteForm = () => {
                       type="text"
                       id="city"
                       name="city"
+                      autoComplete="address-level2"
                       required
                       value={formData.city}
                       onChange={handleInputChange}
@@ -325,6 +321,7 @@ const QuoteForm = () => {
                       type="text"
                       id="state"
                       name="state"
+                      autoComplete="address-level1"
                       required
                       value={formData.state}
                       onChange={handleInputChange}
@@ -346,6 +343,7 @@ const QuoteForm = () => {
                       type="text"
                       id="country"
                       name="country"
+                      autoComplete="country"
                       required
                       value={formData.country}
                       onChange={handleInputChange}
@@ -363,6 +361,7 @@ const QuoteForm = () => {
                 <textarea
                   id="additionalDetails"
                   name="additionalDetails"
+                  autoComplete="off"
                   rows={4}
                   value={formData.additionalDetails}
                   onChange={handleInputChange}
