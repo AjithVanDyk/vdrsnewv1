@@ -2,9 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Critical CSS for LCP optimization */
+html {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+}
+
 /* Smooth scrolling for all elements */
 * {
   scroll-behavior: smooth;
+}
+
+/* Performance optimizations */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Prevent layout shifts */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Prevent CLS by reserving space for images */
+img[width][height] {
+  aspect-ratio: attr(width) / attr(height);
+}
+
+/* Optimize image loading */
+img[loading="lazy"] {
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+img[loading="lazy"].loaded {
+  opacity: 1;
+}
+
+/* Ensure all images are visible */
+img {
+  opacity: 1 !important;
+}
+
+/* Critical animations - reduce motion for performance */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Custom scrollbar styles - Glass Morphism Design */

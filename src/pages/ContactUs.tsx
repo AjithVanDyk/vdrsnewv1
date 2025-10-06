@@ -24,8 +24,27 @@ const AboutCareersContact = () => {
 
   const activeTab = getActiveTab();
 
-  // Slideshow images (1.jpg to 9.jpg)
-  const slideImages = Array.from({ length: 9 }, (_, i) => `/Images/${i + 1}.jpg`);
+  // Slideshow images (all contact/about images plus existing ones)
+  const slideImages = [
+    '/Images/contact-team-photo.jpg',
+    '/Images/contact-1-01619.jpg',
+    '/Images/contact-1-01725.jpg',
+    '/Images/contact-1-01741.jpg',
+    '/Images/contact-1-01749.jpg',
+    '/Images/contact-img-6050.jpg',
+    '/Images/contact-wm-mesquite-10.jpg',
+    '/Images/contact-wm-mesquite-19.jpg',
+    '/Images/contact-wm-mesquite-5.jpg',
+    '/Images/1.jpg',
+    '/Images/2.jpg',
+    '/Images/3.jpg',
+    '/Images/4.jpg',
+    '/Images/5.jpg',
+    '/Images/6.jpeg',
+    '/Images/7.jpeg',
+    '/Images/8.jpg',
+    '/Images/9.jpg'
+  ];
 
   // Auto-advance slideshow - pause when modals are open
   useEffect(() => {
@@ -67,7 +86,6 @@ const AboutCareersContact = () => {
       title: 'How We\'re Different',
       content: 'The innovative people of Van Dyk Recycling Solutions are the lifeline of the organization, filling the hallways with contagious energy and enthusiasm. Our team has the freedom and latitude to develop their own creativity within our stable organization. Van Dyk has a true family feel.',
       image: '/Images/image-1749759495211.png',
-      features: ['Family Owned', 'Employee Freedom', 'Innovation Culture', 'Full Benefits']
     }
   ];
 
@@ -217,7 +235,7 @@ const AboutCareersContact = () => {
                 <p className="text-white/90">{job.shortDescription}</p>
               </div>
             </div>
-            <button onClick={onClose} className="text-white/80 hover:text-white">
+            <button onClick={onClose} aria-label="Close modal" className="text-white/80 hover:text-white">
               <X className="w-6 h-6" />
             </button>
           </div>
@@ -341,7 +359,7 @@ const AboutCareersContact = () => {
         <div className={`bg-gradient-to-r ${jobRole.color} text-white p-6 rounded-t-2xl`}>
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-bold">Application for {jobRole.title}</h2>
-            <button onClick={onClose} className="text-white/80 hover:text-white">
+            <button onClick={onClose} aria-label="Close modal" className="text-white/80 hover:text-white">
               <X className="w-6 h-6" />
             </button>
           </div>
@@ -375,7 +393,7 @@ const AboutCareersContact = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Image Slideshow Banner */}
-      <div className="relative h-96 overflow-hidden">
+      <div className="relative h-96 overflow-hidden -mt-20 pt-20">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlide}
@@ -388,7 +406,7 @@ const AboutCareersContact = () => {
             <img
               src={slideImages[currentSlide]}
               alt={`Van Dyk facility ${currentSlide + 1}`}
-              className="w-full h-full object-cover object-center"
+              className="w-full h-full object-cover object-center scale-110"
               onError={(e) => {
                 e.currentTarget.src = '/Images/image-1749759459073.png';
               }}
@@ -399,12 +417,14 @@ const AboutCareersContact = () => {
         {/* Slideshow Controls */}
         <button
           onClick={prevSlide}
+          aria-label="Previous image"
           className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white/90 p-3 rounded-full backdrop-blur-sm transition-colors shadow-lg"
         >
           <ChevronLeft className="w-6 h-6 text-vd-blue" />
         </button>
         <button
           onClick={nextSlide}
+          aria-label="Next image"
           className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white/90 p-3 rounded-full backdrop-blur-sm transition-colors shadow-lg"
         >
           <ChevronRight className="w-6 h-6 text-vd-blue" />
@@ -478,7 +498,7 @@ const AboutCareersContact = () => {
                           e.currentTarget.alt = 'Image not available';
                         }}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-vd-blue-dark/80 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                     </div>
                     
                     <div className="p-6 flex flex-col flex-grow">
@@ -694,6 +714,7 @@ const AboutCareersContact = () => {
                             type="text"
                             id="name"
                             name="name"
+                            autoComplete="name"
                             className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange"
                             placeholder="John Doe"
                           />
@@ -711,6 +732,7 @@ const AboutCareersContact = () => {
                             type="text"
                             id="company"
                             name="company"
+                            autoComplete="organization"
                             className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange"
                             placeholder="Your Company"
                           />
@@ -731,6 +753,7 @@ const AboutCareersContact = () => {
                             type="email"
                             id="email"
                             name="email"
+                            autoComplete="email"
                             className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange"
                             placeholder="john@company.com"
                           />
@@ -748,6 +771,7 @@ const AboutCareersContact = () => {
                             type="tel"
                             id="phone"
                             name="phone"
+                            autoComplete="tel"
                             className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange"
                             placeholder="+1 (555) 000-0000"
                           />
@@ -766,6 +790,7 @@ const AboutCareersContact = () => {
                         <textarea
                           id="message"
                           name="message"
+                          autoComplete="off"
                           rows={4}
                           className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange"
                           placeholder="How can we help you?"
