@@ -202,8 +202,9 @@ const TestCenter: React.FC = () => {
 									title="Plastic Flake Sorting – Now Testing with AUTOSORT FLAKE!"
 									frameBorder="0"
 									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-									referrerPolicy="strict-origin-when-cross-origin"
 									allowFullScreen
+									loading="lazy"
+									referrerPolicy="strict-origin-when-cross-origin"
 								></iframe>
 							</div>
 							<p className="text-gray-600 text-center mt-4">

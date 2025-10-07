@@ -133,6 +133,18 @@ function App() {
     // Initialize accessibility features
     accessibilityManager.announceToScreenReader('Van Dyk Recycling Solutions website loaded');
     
+    // Temporary: Unregister service worker to test if it's causing image issues
+    if (process.env.NODE_ENV === 'development') {
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          registrations.forEach(registration => {
+            console.log('Unregistering service worker for testing:', registration.scope);
+            registration.unregister();
+          });
+        });
+      }
+    }
+    
     return () => {
       serviceWorkerManager.unregister();
     };
