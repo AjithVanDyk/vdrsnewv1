@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, X, CheckCircle, Quote } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import QuoteForm from '../components/QuoteForm';
 
 interface Solution {
@@ -25,7 +25,349 @@ interface SolutionModalProps {
 const solutionItems = [
 	{
 		id: 1,
-		name: 'Electronics Waste Recycling',
+		name: 'Single Stream Recycling',
+		image: '/Images/single-stream-recycling.jpg',
+		description: 'Complete single stream recycling solutions for efficient processing of mixed recyclable materials. Our systems maximize recovery rates while minimizing contamination.',
+		features: [
+			'Mixed recyclable processing',
+			'High-efficiency material recovery',
+			'Automated sorting technology',
+			'Contamination reduction',
+			'Quality control systems',
+			'Flexible material handling',
+			'Modular system design',
+			'Environmental compliance'
+		],
+		specifications: {
+			'Processing Capacity': 'Up to 50 tons per hour',
+			'Material Recovery': '90%+ recovery rate',
+			'Contamination Level': '<5% contamination',
+			'Processing Efficiency': '95%+ efficiency rate',
+			'Technology': 'Advanced sorting systems',
+			'Maintenance': 'Low maintenance requirements'
+		},
+		applications: [
+			'Municipal recycling programs',
+			'Material recovery facilities',
+			'Commercial recycling centers',
+			'Residential waste management',
+			'Industrial recycling operations'
+		],
+		benefits: [
+			'Increased recovery rates',
+			'Reduced contamination',
+			'Lower processing costs',
+			'Environmental compliance',
+			'Improved material quality'
+		]
+	},
+	{
+		id: 2,
+		name: 'Plastics Recycling',
+		image: '/Images/plastics-recycling.jpg',
+		description: 'Advanced plastics recycling solutions for efficient processing and recovery of various plastic materials. Our systems maximize plastic recovery while maintaining material quality.',
+		features: [
+			'Multi-plastic processing',
+			'High-efficiency plastic recovery',
+			'Automated sorting technology',
+			'Quality control systems',
+			'Flexible plastic handling',
+			'Modular system design',
+			'Environmental compliance',
+			'Material purity optimization'
+		],
+		specifications: {
+			'Processing Capacity': 'Up to 30 tons per hour',
+			'Plastic Recovery': '85%+ recovery rate',
+			'Material Purity': '95%+ purity',
+			'Processing Efficiency': '90%+ efficiency rate',
+			'Technology': 'Advanced plastic sorting',
+			'Maintenance': 'Low maintenance requirements'
+		},
+		applications: [
+			'Plastic manufacturing facilities',
+			'Material recovery facilities',
+			'Commercial recycling centers',
+			'Industrial plastic processing',
+			'Municipal recycling programs'
+		],
+		benefits: [
+			'High plastic recovery rates',
+			'Improved material quality',
+			'Reduced environmental impact',
+			'Cost-effective processing',
+			'Regulatory compliance'
+		]
+	},
+	{
+		id: 3,
+		name: 'Organics Processing',
+		image: '/Images/organics-processing.jpg',
+		description: 'Comprehensive organics processing solutions for efficient handling of organic waste materials. Our systems maximize organic recovery and produce high-quality compost.',
+		features: [
+			'Organic waste processing',
+			'High-efficiency organic recovery',
+			'Compost production systems',
+			'Odor control integration',
+			'Quality control monitoring',
+			'Modular system design',
+			'Environmental compliance',
+			'Pathogen reduction'
+		],
+		specifications: {
+			'Processing Capacity': 'Up to 40 tons per day',
+			'Organic Recovery': '90%+ recovery rate',
+			'Compost Quality': 'High-grade output',
+			'Processing Efficiency': '85%+ efficiency rate',
+			'Technology': 'Advanced organic processing',
+			'Maintenance': 'Low maintenance requirements'
+		},
+		applications: [
+			'Composting facilities',
+			'Food waste processing',
+			'Agricultural waste management',
+			'Municipal organics programs',
+			'Commercial food waste'
+		],
+		benefits: [
+			'High organic recovery',
+			'Quality compost production',
+			'Odor control',
+			'Environmental compliance',
+			'Cost-effective processing'
+		]
+	},
+	{
+		id: 4,
+		name: 'Food Waste Depackaging',
+		image: '/Images/smicon-food-depackaging.jpg',
+		description: 'Advanced food waste depackaging solutions for efficient separation of organic materials from packaging. Our systems maximize organic recovery while minimizing contamination.',
+		features: [
+			'Advanced depackaging technology',
+			'High-efficiency organic separation',
+			'Minimal contamination output',
+			'Automated processing systems',
+			'Flexible packaging handling',
+			'Odor control integration',
+			'Quality control monitoring',
+			'Modular system design'
+		],
+		specifications: {
+			'Processing Capacity': 'Up to 20 tons per hour',
+			'Organic Recovery': '95%+ organic material recovery',
+			'Contamination Level': '<5% contamination',
+			'Packaging Types': 'Plastic, cardboard, metal containers',
+			'Processing Efficiency': '90%+ efficiency rate',
+			'Technology': 'Advanced depackaging systems'
+		},
+		applications: [
+			'Food processing facilities',
+			'Restaurant waste management',
+			'Grocery store waste processing',
+			'Commercial kitchens',
+			'Food manufacturing plants'
+		],
+		benefits: [
+			'High organic recovery',
+			'Low contamination',
+			'Flexible packaging handling',
+			'Odor control',
+			'Cost-effective processing'
+		]
+	},
+	{
+		id: 5,
+		name: 'MSW Processing',
+		image: '/Images/msw-processing.jpg',
+		description: 'Comprehensive Municipal Solid Waste (MSW) processing solutions for efficient handling of mixed waste streams. Our systems maximize material recovery and minimize environmental impact.',
+		features: [
+			'Mixed waste processing',
+			'High-efficiency material recovery',
+			'Automated sorting technology',
+			'Flexible waste handling',
+			'Quality control systems',
+			'Modular system design',
+			'Environmental compliance',
+			'Odor control integration'
+		],
+		specifications: {
+			'Processing Capacity': 'Up to 100 tons per hour',
+			'Material Recovery': '80%+ recovery rate',
+			'Waste Streams': 'Mixed municipal waste',
+			'Processing Efficiency': '85%+ efficiency rate',
+			'Technology': 'Advanced MSW processing',
+			'Maintenance': 'Low maintenance requirements'
+		},
+		applications: [
+			'Municipal waste facilities',
+			'Transfer stations',
+			'Regional processing centers',
+			'Commercial waste processing',
+			'Industrial waste management'
+		],
+		benefits: [
+			'High material recovery',
+			'Reduced landfill waste',
+			'Environmental compliance',
+			'Cost-effective processing',
+			'Flexible waste handling'
+		]
+	},
+	{
+		id: 6,
+		name: 'Commercial Waste',
+		image: '/Images/commercial-waste-processing.jpg',
+		description: 'Comprehensive commercial waste processing solutions for businesses, offices, and commercial facilities. Our systems efficiently handle mixed commercial waste streams.',
+		features: [
+			'Mixed commercial waste processing',
+			'High-efficiency material recovery',
+			'Automated sorting technology',
+			'Flexible waste stream handling',
+			'Odor control systems',
+			'Quality control monitoring',
+			'Modular processing systems',
+			'Environmental compliance'
+		],
+		specifications: {
+			'Processing Capacity': 'Up to 50 tons per hour',
+			'Material Recovery': '85%+ recovery rate',
+			'Waste Streams': 'Mixed commercial waste',
+			'Processing Efficiency': '90%+ efficiency rate',
+			'Technology': 'Advanced sorting systems',
+			'Maintenance': 'Low maintenance requirements'
+		},
+		applications: [
+			'Office buildings',
+			'Shopping centers',
+			'Restaurants and cafes',
+			'Hotels and hospitality',
+			'Retail stores'
+		],
+		benefits: [
+			'High material recovery',
+			'Flexible waste handling',
+			'Environmental compliance',
+			'Cost-effective processing',
+			'Odor control'
+		]
+	},
+	{
+		id: 7,
+		name: 'C&D Recycling',
+		image: '/Images/cd-recycling.jpg',
+		description: 'Specialized Construction and Demolition (C&D) waste recycling solutions for construction sites, demolition projects, and renovation activities.',
+		features: [
+			'C&D waste processing systems',
+			'High-efficiency material recovery',
+			'Heavy-duty processing equipment',
+			'Flexible material handling',
+			'Dust suppression systems',
+			'Quality control monitoring',
+			'Modular processing systems',
+			'Environmental compliance'
+		],
+		specifications: {
+			'Processing Capacity': 'Up to 100 tons per hour',
+			'Material Recovery': '80%+ recovery rate',
+			'Material Types': 'Concrete, wood, metal, drywall',
+			'Processing Efficiency': '85%+ efficiency rate',
+			'Technology': 'Heavy-duty processing systems',
+			'Maintenance': 'Low maintenance requirements'
+		},
+		applications: [
+			'Construction sites',
+			'Demolition projects',
+			'Renovation activities',
+			'Infrastructure projects',
+			'Commercial construction'
+		],
+		benefits: [
+			'High material recovery',
+			'Heavy-duty processing',
+			'Dust suppression',
+			'Environmental compliance',
+			'Cost-effective processing'
+		]
+	},
+	{
+		id: 8,
+		name: 'Multi-MRF™ Systems',
+		image: '/Images/mrf-systems.jpg',
+		description: 'Advanced Multi-Material Recovery Facility (MRF) systems for comprehensive waste processing and material recovery. Our Multi-MRF™ technology provides integrated solutions.',
+		features: [
+			'Multi-material processing capability',
+			'Integrated MRF technology',
+			'High-efficiency material recovery',
+			'Automated sorting systems',
+			'Flexible waste stream handling',
+			'Advanced control systems',
+			'Modular system design',
+			'Environmental compliance'
+		],
+		specifications: {
+			'Processing Capacity': 'Up to 200 tons per hour',
+			'Material Recovery': '90%+ recovery rate',
+			'Waste Streams': 'Multiple material types',
+			'Processing Efficiency': '95%+ efficiency rate',
+			'Technology': 'Advanced MRF systems',
+			'Maintenance': 'Low maintenance requirements'
+		},
+		applications: [
+			'Municipal waste processing',
+			'Regional recycling centers',
+			'Large-scale MRF facilities',
+			'Waste management companies',
+			'Government facilities'
+		],
+		benefits: [
+			'High material recovery',
+			'Multi-material processing',
+			'Advanced control systems',
+			'Environmental compliance',
+			'Cost-effective processing'
+		]
+	},
+	{
+		id: 9,
+		name: 'Waste to Energy Recycling',
+		image: '/Images/waste-to-energy.jpg',
+		description: 'Advanced waste-to-energy recycling solutions for converting waste materials into renewable energy. Our systems maximize energy recovery while minimizing environmental impact.',
+		features: [
+			'Waste-to-energy conversion',
+			'High-efficiency energy recovery',
+			'Renewable energy production',
+			'Environmental compliance',
+			'Automated processing systems',
+			'Quality control monitoring',
+			'Modular system design',
+			'Energy optimization'
+		],
+		specifications: {
+			'Processing Capacity': 'Up to 500 tons per day',
+			'Energy Recovery': '80%+ energy efficiency',
+			'Waste Types': 'Mixed waste streams',
+			'Processing Efficiency': '90%+ efficiency rate',
+			'Technology': 'Advanced WTE systems',
+			'Maintenance': 'Low maintenance requirements'
+		},
+		applications: [
+			'Waste-to-energy facilities',
+			'Municipal waste processing',
+			'Industrial waste management',
+			'Regional energy centers',
+			'Commercial waste processing'
+		],
+		benefits: [
+			'Renewable energy production',
+			'High energy efficiency',
+			'Environmental compliance',
+			'Cost-effective processing',
+			'Reduced landfill waste'
+		]
+	},
+	{
+		id: 10,
+		name: 'E-Scrap Recycling',
 		image: '/Images/electronics-recycling.jpg',
 		description: 'Complete electronics waste recycling solutions including e-waste processing, material recovery, and environmental compliance. Specialized equipment for handling computers, phones, and electronic components.',
 		features: [
@@ -62,8 +404,198 @@ const solutionItems = [
 		]
 	},
 	{
-		id: 2,
-		name: 'Battery Recycling Systems',
+		id: 11,
+		name: 'Glass Cleanup',
+		image: '/Images/glass-cleanup.jpg',
+		description: 'Specialized glass cleanup and processing systems for contaminated glass streams. Our advanced technology purifies glass materials and prepares them for market-ready applications.',
+		features: [
+			'Contaminated glass processing',
+			'Advanced cleaning technology',
+			'Market-ready glass production',
+			'Contamination removal systems',
+			'Quality control monitoring',
+			'Automated processing',
+			'Energy efficient operation',
+			'Modular system design'
+		],
+		specifications: {
+			'Processing Capacity': 'Up to 25 tons per hour',
+			'Glass Purity': '99%+ contamination removal',
+			'Processing Efficiency': '95%+ glass recovery',
+			'Contamination Removal': 'Advanced cleaning technology',
+			'Glass Types': 'Mixed glass streams',
+			'Power Consumption': 'Energy efficient design'
+		},
+		applications: [
+			'Glass recycling facilities',
+			'Material recovery facilities (MRF)',
+			'Single stream recycling',
+			'Mixed waste processing',
+			'Commercial recycling centers'
+		],
+		benefits: [
+			'High glass purity',
+			'Contamination removal',
+			'Market-ready output',
+			'Energy efficient',
+			'Cost-effective processing'
+		]
+	},
+	{
+		id: 12,
+		name: 'Composting',
+		image: '/Images/composting.jpg',
+		description: 'Advanced composting solutions using densimetric table technology for efficient organic material processing and compost production. Our systems maximize organic recovery and produce high-quality compost.',
+		features: [
+			'Densimetric table technology',
+			'Organic material processing',
+			'High-quality compost production',
+			'Automated processing systems',
+			'Odor control integration',
+			'Pathogen reduction',
+			'Nutrient optimization',
+			'Quality control monitoring'
+		],
+		specifications: {
+			'Processing Capacity': 'Up to 30 tons per day',
+			'Compost Quality': 'High-grade compost output',
+			'Pathogen Reduction': '99.9%+ elimination',
+			'Odor Control': 'Integrated odor management',
+			'Processing Time': '14-21 day cycle',
+			'Nutrient Recovery': 'Optimal nutrient retention'
+		},
+		applications: [
+			'Municipal composting facilities',
+			'Food waste processing',
+			'Yard waste management',
+			'Agricultural waste processing',
+			'Restaurant waste management'
+		],
+		benefits: [
+			'High-quality compost',
+			'Pathogen reduction',
+			'Odor control',
+			'Nutrient optimization',
+			'Environmental compliance'
+		]
+	},
+	{
+		id: 13,
+		name: 'Bollegraaf Balers',
+		image: '/Images/bollegraaf-new-1.jpg',
+		description: 'Industry-leading Bollegraaf balers with proven performance in recycling operations. Single ram design uses 1/3 power of two-ram balers and operates automatically without dedicated operator.',
+		features: [
+			'Single ram design uses 1/3 power of two-ram balers',
+			'Operates automatically without dedicated operator',
+			'Instant material switching capability',
+			'Denser, uniform bales with pre-press flap',
+			'Production speeds over 35 tph',
+			'50% reduction in electricity costs',
+			'Low maintenance robust design',
+			'No-shear compression technology'
+		],
+		specifications: {
+			'Production Speed': 'Over 35 tons per hour',
+			'Power Efficiency': '50% reduction vs two-ram balers',
+			'Bale Density': 'Superior compression with pre-press flap',
+			'Operation': 'Fully automated',
+			'Maintenance': 'Low maintenance robust design',
+			'Material Switching': 'Instant capability'
+		},
+		applications: [
+			'Material recovery facilities (MRF)',
+			'Single stream recycling',
+			'Cardboard processing',
+			'Plastic container baling',
+			'Steel container processing'
+		],
+		benefits: [
+			'High production speed',
+			'Power efficiency',
+			'Automated operation',
+			'Low maintenance',
+			'Flexible material handling'
+		]
+	},
+	{
+		id: 14,
+		name: 'AI-Based Waste Analytics',
+		image: '/Images/greyparrot-ai-new.jpg',
+		description: 'Advanced AI-powered waste analytics and material recognition technology for comprehensive waste analysis and optimization. Our AI systems provide real-time insights and data-driven decision making.',
+		features: [
+			'AI-powered material recognition',
+			'Real-time waste analytics',
+			'Advanced computer vision',
+			'Automated material identification',
+			'Performance optimization insights',
+			'Data-driven decision making',
+			'Cloud-based analytics platform',
+			'Predictive analytics capabilities'
+		],
+		specifications: {
+			'Recognition Accuracy': '99%+ material identification',
+			'Processing Speed': 'Real-time analysis',
+			'AI Technology': 'Advanced computer vision',
+			'Data Analytics': 'Cloud-based platform',
+			'Integration': 'Easy system integration',
+			'Scalability': 'Scalable AI technology'
+		},
+		applications: [
+			'Material recovery facilities (MRF)',
+			'Waste processing optimization',
+			'Quality control systems',
+			'Performance monitoring',
+			'Data analytics platforms'
+		],
+		benefits: [
+			'High accuracy recognition',
+			'Real-time analytics',
+			'Predictive insights',
+			'Data-driven decisions',
+			'Performance optimization'
+		]
+	},
+	{
+		id: 15,
+		name: 'Odor Control',
+		image: '/Images/centriair-new-1.jpg',
+		description: 'Advanced odor control solutions for waste processing facilities. Centriair technology effectively eliminates odors while maintaining operational efficiency and environmental compliance.',
+		features: [
+			'Advanced odor elimination technology',
+			'Multi-stage filtration system',
+			'High-efficiency odor removal',
+			'Automated operation',
+			'Low maintenance requirements',
+			'Energy efficient design',
+			'Modular system configuration',
+			'Environmental compliance'
+		],
+		specifications: {
+			'Air Flow Capacity': 'Up to 50,000 CFM',
+			'Odor Removal Efficiency': '99.9%+ elimination',
+			'Filtration Stages': 'Multi-stage system',
+			'Power Consumption': 'Energy efficient design',
+			'Maintenance': 'Low maintenance requirements',
+			'Construction': 'Modular design'
+		},
+		applications: [
+			'Material recovery facilities (MRF)',
+			'Composting facilities',
+			'Food waste processing',
+			'Municipal waste processing',
+			'Industrial waste management'
+		],
+		benefits: [
+			'High odor elimination',
+			'Energy efficient',
+			'Low maintenance',
+			'Environmental compliance',
+			'Modular design'
+		]
+	},
+	{
+		id: 16,
+		name: 'EV Battery Recycling',
 		image: '/Images/battery-recycling.jpg',
 		description: 'Advanced battery recycling solutions for lithium-ion, lead-acid, and other battery types. Safe handling and processing of batteries with maximum material recovery.',
 		features: [
@@ -92,732 +624,273 @@ const solutionItems = [
 			'Portable device batteries'
 		],
 		benefits: [
-			'Safe battery disposal',
-			'Maximum material recovery',
-			'Environmental protection',
-			'Regulatory compliance',
-			'Cost-effective processing'
-		]
-	},
-	{
-		id: 3,
-		name: 'Glass Cleanup Systems',
-		image: '/Images/glass-cleanup.jpg',
-		description: 'Specialized glass cleanup and processing systems for contaminated glass streams. Advanced technology for glass purification and market preparation.',
-		features: [
-			'Contaminated glass processing',
-			'Advanced cleaning technology',
-			'Market-ready glass production',
-			'Contamination removal',
-			'Quality control systems',
-			'Automated sorting',
-			'Color separation',
-			'Size classification'
-		],
-		specifications: {
-			'Processing Capacity': 'Up to 20 tons per hour',
-			'Contamination Removal': '99%+ effectiveness',
-			'Glass Quality': 'Market-ready specifications',
-			'Technology': 'Advanced cleaning systems',
-			'Sorting': 'Automated color and size separation',
-			'Quality': 'Consistent output quality'
-		},
-		applications: [
-			'Single stream MRFs',
-			'Glass recycling facilities',
-			'Municipal recycling programs',
-			'Commercial glass processing',
-			'Industrial glass recovery'
-		],
-		benefits: [
-			'High-quality glass output',
-			'Reduced contamination',
-			'Market-ready products',
-			'Increased revenue',
-			'Environmental compliance'
-		]
-	},
-	{
-		id: 4,
-		name: 'Composting Densimetric Tables',
-		image: '/Images/composting.jpg',
-		description: 'Advanced composting solutions with densimetric table technology for organic waste processing. Efficient separation and processing of organic materials.',
-		features: [
-			'Densimetric table technology',
-			'Organic waste processing',
-			'Compost quality optimization',
-			'Contamination removal',
-			'Automated sorting systems',
-			'Odor control integration',
-			'Moisture management',
-			'Temperature monitoring'
-		],
-		specifications: {
-			'Processing Capacity': 'Up to 15 tons per hour',
-			'Compost Quality': 'Grade A compost production',
-			'Contamination Removal': '95%+ effectiveness',
-			'Technology': 'Densimetric separation',
-			'Odor Control': 'Integrated systems',
-			'Certification': 'USCC certified processes'
-		},
-		applications: [
-			'Municipal composting',
-			'Food waste processing',
-			'Yard waste recycling',
-			'Agricultural waste',
-			'Commercial organics'
-		],
-		benefits: [
-			'High-quality compost',
-			'Reduced contamination',
-			'Odor control',
-			'Process optimization',
-			'Market-ready products'
-		]
-	},
-	{
-		id: 5,
-		name: 'Bollegraaf Balers',
-		image: '/Images/bollegraaf-baler.jpg',
-		description: 'Industry-leading Bollegraaf balers with single ram technology for maximum efficiency and density. No-shear design for superior bale quality.',
-		features: [
-			'Single ram technology',
-			'No-shear compression',
-			'Automatic operation',
-			'High-density bales',
-			'Energy efficient',
-			'Low maintenance',
-			'Flexible material processing',
-			'Pre-press flap technology'
-		],
-		specifications: {
-			'Production Speed': 'Over 35 tons per hour',
-			'Power Efficiency': '50% reduction vs two-ram',
-			'Bale Density': 'Superior compression',
-			'Operation': 'Fully automated',
-			'Maintenance': 'Low maintenance design',
-			'Technology': 'Single ram, no-shear'
-		},
-		applications: [
-			'Single stream MRFs',
-			'Cardboard processing',
-			'Plastic baling',
-			'Metal processing',
-			'Mixed waste baling'
-		],
-		benefits: [
-			'Energy efficiency',
-			'High production rates',
-			'Superior bale quality',
-			'Low operating costs',
-			'Automated operation'
-		]
-	},
-	{
-		id: 6,
-		name: 'AI Waste Analysis',
-		image: '/Images/greyparrot-ai-recognition.jpg',
-		description: 'Advanced AI-powered waste analysis systems for real-time material identification and quality control. Machine learning technology for optimal sorting decisions.',
-		features: [
-			'Real-time material identification',
-			'AI-powered quality control',
-			'Machine learning algorithms',
-			'Performance optimization',
-			'Data analytics',
-			'Predictive maintenance',
-			'Automated reporting',
-			'Continuous learning'
-		],
-		specifications: {
-			'Identification Accuracy': '95%+ material recognition',
-			'Processing Speed': 'Real-time analysis',
-			'Technology': 'AI and machine learning',
-			'Data Processing': 'Continuous learning',
-			'Integration': 'Seamless system integration',
-			'Reporting': 'Automated analytics'
-		},
-		applications: [
-			'Material recovery facilities',
-			'Quality control systems',
-			'Sorting optimization',
-			'Performance monitoring',
-			'Process improvement'
-		],
-		benefits: [
-			'Improved sorting accuracy',
-			'Real-time optimization',
-			'Data-driven decisions',
-			'Reduced contamination',
-			'Performance insights'
-		]
-	},
-	{
-		id: 7,
-		name: 'TOMRA Optical Sorting',
-		image: '/Images/tomra-optical-sorting.jpg',
-		description: 'Worldwide leader in optical sorting with industry-highest NIR resolution and patented FLYING BEAM® illumination technology.',
-		features: [
-			'Industry-highest NIR resolution',
-			'FLYING BEAM® illumination',
-			'SHARP EYE™ ultra-high resolution',
-			'DEEP LAISER™ laser sensor',
-			'GAINnext™ Artificial Intelligence',
-			'High-resolution metal detection',
-			'AUTOSORT FLAKE technology',
-			'Scanner placement up to 5 feet'
-		],
-		specifications: {
-			'Scanner Height': 'Up to 5 feet above conveyors',
-			'NIR Resolution': 'Highest in industry',
-			'Purity Rates': '95%+ maintained',
-			'Technology': 'FLYING BEAM® illumination',
-			'AI Integration': 'GAINnext™ technology',
-			'Performance': 'Proven 60% PET recovery increase'
-		},
-		applications: [
-			'Single stream processing',
-			'Plastics sorting',
-			'Mixed waste separation',
-			'Quality control',
-			'Material recovery'
-		],
-		benefits: [
-			'Superior sorting accuracy',
-			'High purity rates',
-			'Proven performance',
-			'Advanced technology',
-			'Industry leadership'
-		]
-	},
-	{
-		id: 8,
-		name: 'Pellenc ST Optical Sorting',
-		image: '/Images/msw-processing.jpg',
-		description: 'AI-powered optical sorting with intelligent material recognition and high-speed processing capabilities.',
-		features: [
-			'AI-powered material recognition',
-			'High-speed processing',
-			'Intelligent sorting algorithms',
-			'Superior material identification',
-			'Advanced separation technology',
-			'Real-time learning',
-			'High accuracy rates',
-			'Flexible material processing'
-		],
-		specifications: {
-			'Processing Speed': 'High-speed continuous',
-			'Accuracy': 'Superior identification',
-			'Technology': 'AI-powered optical sorting',
-			'Learning': 'Real-time adaptation',
-			'Applications': 'Mixed waste processing',
-			'Performance': 'High accuracy rates'
-		},
-		applications: [
-			'Mixed waste sorting',
-			'Plastics separation',
-			'Recyclables processing',
-			'Quality control',
-			'Material recovery'
-		],
-		benefits: [
-			'AI-powered accuracy',
-			'High-speed processing',
-			'Intelligent recognition',
-			'Real-time learning',
-			'Superior performance'
-		]
-	},
-	{
-		id: 9,
-		name: 'Walair Density Separation',
-		image: '/Images/walair-density-separation.jpg',
-		description: 'Advanced density separation technology for efficient material recovery and processing.',
-		features: [
-			'Density-based separation',
-			'High recovery rates',
-			'Efficient material processing',
-			'Low energy consumption',
-			'Robust construction',
-			'Flexible applications',
-			'Automated operation',
-			'Consistent performance'
-		],
-		specifications: {
-			'Separation': 'Density-based processing',
-			'Efficiency': 'High recovery rates',
-			'Energy': 'Low consumption',
-			'Technology': 'Advanced density separation',
-			'Operation': 'Automated systems',
-			'Applications': 'Material recovery'
-		},
-		applications: [
-			'Material recovery facilities',
-			'Waste processing plants',
-			'Recycling operations',
-			'Quality control',
-			'Process optimization'
-		],
-		benefits: [
-			'Efficient separation',
-			'High recovery rates',
-			'Low energy usage',
-			'Automated operation',
-			'Consistent results'
-		]
-	},
-	{
-		id: 10,
-		name: 'Centriair Odor Control',
-		image: '/Images/centriair-equipment.jpg',
-		description: 'Advanced odor control systems for waste processing facilities with effective air treatment solutions.',
-		features: [
-			'Effective odor control',
-			'Air quality improvement',
-			'Energy efficient operation',
-			'Low maintenance requirements',
-			'Customizable solutions',
+			'Safe battery processing',
+			'High material recovery',
 			'Environmental compliance',
-			'Automated systems',
-			'Performance monitoring'
-		],
-		specifications: {
-			'Efficiency': 'High odor removal',
-			'Technology': 'Advanced air treatment',
-			'Energy': 'Efficient operation',
-			'Maintenance': 'Low requirements',
-			'Compliance': 'Environmental standards',
-			'Applications': 'Waste processing facilities'
-		},
-		applications: [
-			'Material recovery facilities',
-			'Waste processing plants',
-			'Composting operations',
-			'Transfer stations',
-			'Processing facilities'
-		],
-		benefits: [
-			'Effective odor control',
-			'Improved air quality',
-			'Energy efficiency',
-			'Low maintenance',
-			'Environmental compliance'
+			'Automated processing',
+			'Resource optimization'
 		]
 	}
 ];
 
-// Solution Modal Component
-const SolutionModal: React.FC<SolutionModalProps> = ({ solution, isOpen, onClose }) => {
-	if (!solution) return null;
-
-	return (
-		<AnimatePresence>
-			{isOpen && (
-				<motion.div
-					initial={{ opacity: 0 }}
-					animate={{ opacity: 1 }}
-					exit={{ opacity: 0 }}
-					className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-					onClick={onClose}
-				>
-					<motion.div
-						initial={{ opacity: 0, scale: 0.9, y: 20 }}
-						animate={{ opacity: 1, scale: 1, y: 0 }}
-						exit={{ opacity: 0, scale: 0.9, y: 20 }}
-						className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
-						onClick={(e) => e.stopPropagation()}
-					>
-						{/* Header */}
-						<div className="relative h-64 bg-gradient-to-r from-vd-blue-dark to-vd-blue">
-							<img
-								src={solution.image}
-								alt={solution.name}
-								className="w-full h-full object-cover opacity-80"
-								width="800"
-								height="256"
-								loading="lazy"
-								onError={(e) => {
-									e.currentTarget.src = '/Images/image-1749759453479.png';
-								}}
-							/>
-							<div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-							<div className="absolute bottom-6 left-6 text-white">
-								<h2 className="text-4xl font-bold text-white mb-2 leading-tight">{solution.name}</h2>
-								{solution.description && (
-									<p className="text-lg opacity-90">{solution.description}</p>
-								)}
-							</div>
-							<button
-								onClick={onClose}
-								aria-label="Close modal"
-								className="absolute top-4 right-4 bg-white/20 hover:bg-white/30 text-white p-2 rounded-full transition-colors"
-							>
-								<X className="w-6 h-6" />
-							</button>
-						</div>
-
-						{/* Content */}
-						<div className="p-8 overflow-y-auto max-h-[calc(90vh-16rem)]">
-							<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-								{/* Features */}
-								{solution.features && solution.features.length > 0 && (
-									<motion.div
-										initial={{ opacity: 0, x: -20 }}
-										animate={{ opacity: 1, x: 0 }}
-										transition={{ delay: 0.2 }}
-									>
-										<h3 className="text-xl font-semibold text-vd-blue mb-4">
-											Key Features
-										</h3>
-										<ul className="space-y-3">
-											{solution.features.map((feature: string, index: number) => (
-												<motion.li
-													key={feature}
-													initial={{ opacity: 0, x: -10 }}
-													animate={{ opacity: 1, x: 0 }}
-													transition={{ delay: 0.3 + index * 0.1 }}
-													className="flex items-start gap-3"
-												>
-													<CheckCircle className="w-5 h-5 text-vd-orange mt-0.5 flex-shrink-0" />
-													<span className="text-vd-blue/80">
-														{feature}
-													</span>
-												</motion.li>
-											))}
-										</ul>
-									</motion.div>
-								)}
-
-								{/* Specifications */}
-								{solution.specifications && Object.keys(solution.specifications).length > 0 && (
-									<motion.div
-										initial={{ opacity: 0, x: 20 }}
-										animate={{ opacity: 1, x: 0 }}
-										transition={{ delay: 0.4 }}
-									>
-										<h3 className="text-xl font-semibold text-vd-blue mb-4">
-											Specifications
-										</h3>
-										<div className="space-y-3">
-											{Object.entries(solution.specifications).map(([key, value], index) => (
-												<motion.div
-													key={key}
-													initial={{ opacity: 0, x: 10 }}
-													animate={{ opacity: 1, x: 0 }}
-													transition={{ delay: 0.5 + index * 0.1 }}
-													className="flex justify-between items-center py-2 border-b border-gray-100"
-												>
-													<span className="font-medium text-gray-700">{key}:</span>
-													<span className="text-vd-blue font-semibold">{value || 'N/A'}</span>
-												</motion.div>
-											))}
-										</div>
-									</motion.div>
-								)}
-							</div>
-
-							{/* Applications */}
-							{solution.applications && solution.applications.length > 0 && (
-								<motion.div
-									initial={{ opacity: 0, y: 20 }}
-									animate={{ opacity: 1, y: 0 }}
-									transition={{ delay: 0.6 }}
-									className="mt-8"
-								>
-									<h3 className="text-xl font-semibold text-vd-blue mb-4">
-										Applications
-									</h3>
-									<div className="flex flex-wrap gap-2">
-										{solution.applications.map((application: string, index: number) => (
-											<motion.span
-												key={application}
-												initial={{ opacity: 0, scale: 0.8 }}
-												animate={{ opacity: 1, scale: 1 }}
-												transition={{ delay: 0.7 + index * 0.1 }}
-												className="bg-vd-orange/10 text-vd-orange px-3 py-1 rounded-full text-sm font-medium"
-											>
-												{application}
-											</motion.span>
-										))}
-									</div>
-								</motion.div>
-							)}
-
-							{/* Benefits */}
-							{solution.benefits && solution.benefits.length > 0 && (
-								<motion.div
-									initial={{ opacity: 0, y: 20 }}
-									animate={{ opacity: 1, y: 0 }}
-									transition={{ delay: 0.8 }}
-									className="mt-8"
-								>
-									<h3 className="text-xl font-semibold text-vd-blue mb-4">
-										Benefits
-									</h3>
-									<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-										{solution.benefits.map((benefit: string, index: number) => (
-											<motion.div
-												key={benefit}
-												initial={{ opacity: 0, x: -10 }}
-												animate={{ opacity: 1, x: 0 }}
-												transition={{ delay: 0.9 + index * 0.1 }}
-												className="flex items-center gap-3 bg-vd-blue/5 p-3 rounded-lg"
-											>
-												<CheckCircle className="w-5 h-5 text-vd-orange flex-shrink-0" />
-												<span className="text-vd-blue font-medium">{benefit}</span>
-											</motion.div>
-										))}
-									</div>
-								</motion.div>
-							)}
-
-							{/* CTA */}
-							<motion.div
-								initial={{ opacity: 0, y: 20 }}
-								animate={{ opacity: 1, y: 0 }}
-								transition={{ delay: 1.0 }}
-								className="mt-8 pt-6 border-t border-gray-200"
-							>
-								<div className="flex flex-col sm:flex-row gap-4">
-									<button
-										onClick={() => {
-											onClose();
-											// Open quote form
-											const quoteForm = document.querySelector('[data-quote-form]');
-											if (quoteForm) {
-												quoteForm.scrollIntoView({ behavior: 'smooth' });
-											}
-										}}
-										className="flex-1 bg-vd-orange hover:bg-vd-orange-alt text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center"
-									>
-										<Quote className="w-5 h-5 mr-2" />
-										Get Quote
-									</button>
-									<button
-										onClick={onClose}
-										className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center"
-									>
-										<ArrowRight className="w-5 h-5 mr-2" />
-										Close
-									</button>
-								</div>
-							</motion.div>
-						</div>
-					</motion.div>
-				</motion.div>
-			)}
-		</AnimatePresence>
-	);
-};
-
 const Solutions = () => {
+	const navigate = useNavigate();
 	const [selectedSolution, setSelectedSolution] = useState<Solution | null>(null);
 	const [showSolutionModal, setShowSolutionModal] = useState(false);
 	const [showQuoteForm, setShowQuoteForm] = useState(false);
 
 	const handleLearnMore = (solution: Solution) => {
-		setSelectedSolution(solution);
-		setShowSolutionModal(true);
+		// Map solution names to their individual page routes
+		const solutionRoutes: { [key: string]: string } = {
+			'Single Stream Recycling': '/solutions/single-stream-recycling',
+			'Plastics Recycling': '/solutions/plastics-recycling',
+			'Organics Processing': '/solutions/organics-processing',
+			'Food Waste Depackaging': '/solutions/food-waste-depackaging',
+			'MSW Processing': '/solutions/msw-processing',
+			'Commercial Waste': '/solutions/commercial-waste',
+			'C&D Recycling': '/solutions/cd-recycling',
+			'Multi-MRF™ Systems': '/solutions/multi-mrf-systems',
+			'Waste to Energy Recycling': '/solutions/waste-to-energy',
+			'E-Scrap Recycling': '/solutions/electronics-waste-recycling',
+			'Glass Cleanup': '/solutions/glass-cleanup',
+			'Composting': '/solutions/composting-densimetric-tables',
+			'Bollegraaf Balers': '/solutions/bollegraaf-balers',
+			'AI-Based Waste Analytics': '/solutions/ai-waste-analysis',
+			'Odor Control': '/solutions/centriair-odor-control',
+			'EV Battery Recycling': '/solutions/battery-recycling-systems'
+		};
+
+		const route = solutionRoutes[solution.name];
+		if (route) {
+			navigate(route);
+		} else {
+			setSelectedSolution(solution);
+			setShowSolutionModal(true);
+		}
 	};
 
-	const handleGetQuoteFromCard = (solution: Solution) => {
-		setSelectedSolution(solution);
-		setShowQuoteForm(true);
+	const fadeInUp = {
+		initial: { opacity: 0, y: 60 },
+		animate: { opacity: 1, y: 0 },
+		transition: { duration: 0.6 }
 	};
 
-	const closeSolutionModal = () => {
-		setShowSolutionModal(false);
-		setSelectedSolution(null);
+	const staggerChildren = {
+		animate: {
+			transition: {
+				staggerChildren: 0.1
+			}
+		}
 	};
 
 	return (
 		<div className="min-h-screen bg-gray-50">
 			{/* Hero Section */}
-			<div className="relative bg-gradient-to-r from-vd-blue-dark to-vd-blue text-white py-20 -mt-20 pt-20">
-				<div className="absolute inset-0 bg-[url('/Images/image-1749759459073.png')] bg-cover bg-center opacity-20 scale-110" />
-				<div className="container mx-auto px-4 relative pt-20">
-					<div className="flex flex-col md:flex-row justify-between items-center">
-						<motion.div
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.8 }}
-							className="max-w-3xl"
-						>
-							<h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-								Comprehensive Recycling Solutions
-							</h1>
-							<p className="text-xl text-blue-100 mb-8 leading-relaxed">
-								From electronics waste to battery recycling, our comprehensive solutions cover every aspect of modern recycling operations. Advanced technology meets environmental responsibility.
-							</p>
-							<div className="flex flex-col sm:flex-row gap-4">
-								<Link
-									to="/equipment"
-									className="bg-vd-orange hover:bg-vd-orange-alt text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5 hover:scale-105 flex items-center justify-center"
-								>
-									View Equipment
-									<ArrowRight className="w-5 h-5 ml-2" />
-								</Link>
-								<button
-									onClick={() => setShowQuoteForm(true)}
-									className="bg-white/20 hover:bg-white/30 text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 backdrop-blur-md border border-white/30 hover:border-white/50 flex items-center justify-center"
-								>
-									<Quote className="w-5 h-5 mr-2" />
-									Get Quote
-								</button>
-							</div>
-						</motion.div>
-						
-						<motion.div
-							initial={{ opacity: 0, x: 20 }}
-							animate={{ opacity: 1, x: 0 }}
-							transition={{ duration: 0.8, delay: 0.2 }}
-							className="mt-8 md:mt-0"
-						>
-							<div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
-								<h3 className="text-xl font-semibold mb-4">Why Choose Our Solutions?</h3>
-								<ul className="space-y-3 text-blue-100">
-									<li className="flex items-center">
-										<div className="w-2 h-2 bg-vd-orange rounded-full mr-3"></div>
-										Comprehensive technology integration
-									</li>
-									<li className="flex items-center">
-										<div className="w-2 h-2 bg-vd-orange rounded-full mr-3"></div>
-										Environmental compliance assurance
-									</li>
-									<li className="flex items-center">
-										<div className="w-2 h-2 bg-vd-orange rounded-full mr-3"></div>
-										Maximum material recovery rates
-									</li>
-									<li className="flex items-center">
-										<div className="w-2 h-2 bg-vd-orange rounded-full mr-3"></div>
-										Proven performance results
-									</li>
-								</ul>
-							</div>
-						</motion.div>
-					</div>
+			<section className="relative text-white py-20 -mt-20 pt-20 overflow-hidden">
+				{/* HD Background Image */}
+				<img 
+					src="/Images/mrf-systems.jpg"
+					alt="Recycling Solutions"
+					className="absolute inset-0 w-full h-full object-cover object-center scale-105"
+					width="1920"
+					height="1080"
+					loading="eager"
+					decoding="sync"
+					onError={(e) => {
+						console.log('Hero image failed to load, using fallback');
+						e.currentTarget.src = '/Images/single-stream-recycling.jpg';
+					}}
+				/>
+				<div className="absolute inset-0 bg-gradient-to-br from-black/20 to-black/40"></div>
+				<div className="container mx-auto px-4 relative z-10">
+					<motion.div
+						initial={{ opacity: 0, y: 30 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.8 }}
+						className="text-center"
+					>
+						<h1 className="text-4xl md:text-6xl font-bold mb-6">Recycling Solutions</h1>
+						<p className="text-xl md:text-2xl text-blue-100 max-w-4xl mx-auto leading-relaxed">
+							Comprehensive recycling solutions for every waste stream. From single stream recycling to waste-to-energy, 
+							we provide complete solutions for efficient material recovery and environmental compliance.
+						</p>
+					</motion.div>
 				</div>
-			</div>
+			</section>
 
 			{/* Solutions Grid */}
-			<div className="container mx-auto px-4 py-16">
-				<div className="text-center mb-12">
-					<h2 className="text-3xl font-bold text-vd-blue mb-6">Our Solution Portfolio</h2>
-					<p className="text-gray-600 max-w-3xl mx-auto leading-relaxed">
-						Comprehensive recycling solutions designed to maximize efficiency, ensure compliance, and deliver superior results across all waste streams.
-					</p>
-				</div>
-
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-					{solutionItems.map((solution) => (
-						<motion.div
-							key={solution.id}
-							id={solution.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.5 }}
-							className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group"
-						>
-							<div className="relative h-48 overflow-hidden">
-								<img
-									src={solution.image}
-									alt={solution.name}
-									className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-									width="400"
-									height="192"
-									loading="lazy"
-									onError={(e) => {
-										e.currentTarget.src = '/Images/image-1749759453479.png';
-									}}
-								/>
-							</div>
-							
-							<div className="p-6">
-								<h3 className="text-xl font-bold text-vd-blue mb-3 leading-tight group-hover:text-vd-orange transition-colors">
-									{solution.name}
-								</h3>
+			<section className="py-20">
+				<div className="container mx-auto px-4">
+					<motion.div
+						variants={staggerChildren}
+						initial="initial"
+						animate="animate"
+						className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+					>
+						{solutionItems.map((solution, index) => (
+							<motion.div
+								key={solution.id}
+								variants={fadeInUp}
+								whileHover={{ y: -5 }}
+								className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300"
+							>
+								<div className="relative h-48 overflow-hidden">
+									<img
+										src={solution.image}
+										alt={solution.name}
+										className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+									/>
+									<div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+								</div>
 								
-								{solution.description && (
-									<p className="text-gray-600 text-sm mb-4 line-clamp-3 leading-relaxed">
-										{solution.description}
-									</p>
-								)}
-								
-								{solution.features && solution.features.length > 0 && (
-									<div className="mb-4">
-										<h4 className="text-sm font-semibold text-gray-900 mb-2">Key Features:</h4>
-										<ul className="text-xs text-gray-600 space-y-1">
-											{solution.features.slice(0, 3).map((feature, index) => (
-												<li key={index} className="flex items-start">
-													<span className="text-vd-orange mr-2">•</span>
-													<span>{feature}</span>
-												</li>
-											))}
-											{solution.features.length > 3 && (
-												<li className="text-vd-orange font-medium">
-													+{solution.features.length - 3} more features
-												</li>
-											)}
-										</ul>
+								<div className="p-6">
+									<h3 className="text-xl font-bold text-vd-blue-dark mb-3">{solution.name}</h3>
+									<p className="text-gray-600 mb-4 line-clamp-3">{solution.description}</p>
+									
+									<div className="flex flex-wrap gap-2 mb-4">
+										{solution.features?.slice(0, 3).map((feature, idx) => (
+											<span
+												key={idx}
+												className="px-2 py-1 bg-vd-blue/10 text-vd-blue text-xs rounded-full"
+											>
+												{feature}
+											</span>
+										))}
 									</div>
-								)}
-								
-								<div className="flex space-x-3">
+									
 									<button
 										onClick={() => handleLearnMore(solution)}
-										className="flex-1 bg-vd-blue hover:bg-vd-blue-dark text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
+										className="w-full bg-vd-blue text-white py-3 px-4 rounded-lg font-semibold hover:bg-vd-blue-dark transition-colors duration-300 flex items-center justify-center gap-2"
 									>
 										Learn More
-										<ArrowRight className="w-4 h-4 ml-2" />
+										<ArrowRight className="w-4 h-4" />
 									</button>
+								</div>
+							</motion.div>
+						))}
+					</motion.div>
+				</div>
+			</section>
+
+			{/* Quote Form Modal */}
+			<AnimatePresence>
+				{showQuoteForm && (
+					<motion.div
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+						className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+					>
+						<motion.div
+							initial={{ scale: 0.9, opacity: 0 }}
+							animate={{ scale: 1, opacity: 1 }}
+							exit={{ scale: 0.9, opacity: 0 }}
+							className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+						>
+							<div className="p-6">
+								<div className="flex justify-between items-center mb-6">
+									<h2 className="text-2xl font-bold text-vd-blue-dark">Get a Quote</h2>
 									<button
-										onClick={() => handleGetQuoteFromCard(solution)}
-										className="bg-vd-orange hover:bg-vd-orange-alt text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
+										onClick={() => setShowQuoteForm(false)}
+										className="p-2 hover:bg-gray-100 rounded-full transition-colors"
 									>
-										<Quote className="w-4 h-4" />
+										<X className="w-6 h-6" />
 									</button>
+								</div>
+								<QuoteForm />
+							</div>
+						</motion.div>
+					</motion.div>
+				)}
+			</AnimatePresence>
+
+			{/* Solution Modal */}
+			<AnimatePresence>
+				{showSolutionModal && selectedSolution && (
+					<motion.div
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+						className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+					>
+						<motion.div
+							initial={{ scale: 0.9, opacity: 0 }}
+							animate={{ scale: 1, opacity: 1 }}
+							exit={{ scale: 0.9, opacity: 0 }}
+							className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+						>
+							<div className="p-6">
+								<div className="flex justify-between items-center mb-6">
+									<h2 className="text-2xl font-bold text-vd-blue-dark">{selectedSolution.name}</h2>
+									<button
+										onClick={() => setShowSolutionModal(false)}
+										className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+									>
+										<X className="w-6 h-6" />
+									</button>
+								</div>
+								
+								<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+									<div>
+										<img
+											src={selectedSolution.image}
+											alt={selectedSolution.name}
+											className="w-full h-64 object-cover rounded-lg mb-6"
+										/>
+										<p className="text-gray-700 mb-6">{selectedSolution.description}</p>
+									</div>
+									
+									<div className="space-y-6">
+										{selectedSolution.features && (
+											<div>
+												<h3 className="text-lg font-semibold text-vd-blue-dark mb-3">Key Features</h3>
+												<ul className="space-y-2">
+													{selectedSolution.features.map((feature, index) => (
+														<li key={index} className="flex items-start gap-2">
+															<CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+															<span className="text-gray-700">{feature}</span>
+														</li>
+													))}
+												</ul>
+											</div>
+										)}
+										
+										{selectedSolution.specifications && (
+											<div>
+												<h3 className="text-lg font-semibold text-vd-blue-dark mb-3">Specifications</h3>
+												<div className="space-y-2">
+													{Object.entries(selectedSolution.specifications).map(([key, value]) => (
+														<div key={key} className="flex justify-between">
+															<span className="font-medium text-gray-700">{key}:</span>
+															<span className="text-gray-600">{value}</span>
+														</div>
+													))}
+												</div>
+											</div>
+										)}
+									</div>
+								</div>
+								
+								<div className="mt-8 flex gap-4">
+									<button
+										onClick={() => setShowQuoteForm(true)}
+										className="bg-vd-blue text-white px-6 py-3 rounded-lg font-semibold hover:bg-vd-blue-dark transition-colors duration-300 flex items-center gap-2"
+									>
+										<Quote className="w-5 h-5" />
+										Get a Quote
+									</button>
+									<Link
+										to="/contact"
+										className="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors duration-300"
+									>
+										Contact Us
+									</Link>
 								</div>
 							</div>
 						</motion.div>
-					))}
-				</div>
-			</div>
-
-			{/* CTA Section */}
-			<div className="bg-gradient-to-r from-vd-blue-dark to-vd-blue text-white py-16">
-				<div className="container mx-auto px-4 text-center">
-					<h2 className="text-3xl font-bold text-vd-blue mb-6">Ready to Implement Our Solutions?</h2>
-					<p className="text-blue-100 mb-8 max-w-2xl mx-auto leading-relaxed">
-						Contact our experts to discuss your specific needs and discover how our solutions can optimize your recycling operations.
-					</p>
-					<div className="flex flex-col sm:flex-row gap-4 justify-center">
-						<button
-							onClick={() => setShowQuoteForm(true)}
-							className="bg-vd-orange hover:bg-vd-orange-alt text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5 hover:scale-105 flex items-center justify-center"
-						>
-							<Quote className="w-5 h-5 mr-2" />
-							Request Quote
-						</button>
-						<Link
-							to="/contact"
-							className="bg-white/20 hover:bg-white/30 text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 backdrop-blur-md border border-white/30 hover:border-white/50 flex items-center justify-center"
-						>
-							Contact Us
-						</Link>
-					</div>
-				</div>
-			</div>
-
-			{/* Solution Modal */}
-			<SolutionModal
-				solution={selectedSolution}
-				isOpen={showSolutionModal}
-				onClose={closeSolutionModal}
-			/>
-
-			{/* Quote Form Modal */}
-			{showQuoteForm && (
-				<QuoteForm />
-			)}
+					</motion.div>
+				)}
+			</AnimatePresence>
 		</div>
 	);
 };

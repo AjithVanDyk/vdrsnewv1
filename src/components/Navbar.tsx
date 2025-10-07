@@ -9,6 +9,12 @@ interface NavItem {
   dropdown?: { name: string; path: string; }[];
 }
 
+// Pages that have hero images/backgrounds (should have transparent navbar)
+const heroPages = ['/', '/equipment', '/solutions', '/about', '/news-media', '/contact', '/careers', '/pmi', '/test-center', '/installation-process', '/training-schedule'];
+
+// Pages with dark hero backgrounds (should have opaque navbar with dark text)
+const darkHeroPages = ['/support'];
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -16,8 +22,36 @@ const Navbar = () => {
   const [searchResults, setSearchResults] = useState<{ title: string; keywords: string[]; path: string; description: string }[]>([]);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [hasHeroImage, setHasHeroImage] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  
+  useEffect(() => {
+    // Check if current page has hero image - more comprehensive detection
+    const currentPath = location.pathname;
+    const isHeroPage = heroPages.includes(currentPath) || 
+                      currentPath.startsWith('/equipment/') || 
+                      currentPath.startsWith('/solutions/');
+    const isDarkHeroPage = darkHeroPages.includes(currentPath);
+    
+    // For dark hero pages, always show opaque navbar
+    if (isDarkHeroPage) {
+      setHasHeroImage(false);
+    } else {
+      setHasHeroImage(isHeroPage);
+    }
+    
+    // Debug logging (development only)
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Navbar Debug:', { 
+        currentPath, 
+        isHeroPage, 
+        isDarkHeroPage,
+        isScrolled, 
+        hasHeroImage: isDarkHeroPage ? false : isHeroPage 
+      });
+    }
+  }, [location.pathname, isScrolled]);
 
   useEffect(() => {
     let ticking = false;
@@ -29,9 +63,9 @@ const Navbar = () => {
           setActiveDropdown(null);
           setSearchOpen(false);
           
-          // Check if scrolled past hero section (approximately 100vh)
+          // Check if scrolled past hero section (more sensitive detection)
           const scrollPosition = window.scrollY;
-          setIsScrolled(scrollPosition > window.innerHeight * 0.8);
+          setIsScrolled(scrollPosition > 50); // Much more sensitive - triggers after 50px scroll
           
           ticking = false;
         });
@@ -109,19 +143,19 @@ const Navbar = () => {
       path: '/equipment',
       dropdown: [
         { name: 'View All Equipment', path: '/equipment' },
-        { name: 'Bollegraaf', path: '/equipment#bollegraaf-equipment' },
-        { name: 'Lubo Screening', path: '/equipment#lubo-screening-equipment' },
-        { name: 'TOMRA Optical Sorting', path: '/equipment#tomra-optical-sorting-equipment' },
-        { name: 'Pellenc ST Optical Sorting', path: '/equipment#pellenc-st-optical-sorting-equipment' },
-        { name: 'Walair Density Separation', path: '/equipment#walair-density-separation-equipment' },
-        { name: 'Smicon Food Waste Depackagers', path: '/equipment#smicon-food-waste-depackagers' },
-        { name: 'GÜNTHER Screens', path: '/equipment#gunther-screens' },
-        { name: 'Centriair', path: '/equipment#centriair-equipment' },
-        { name: 'Greyparrot AI', path: '/equipment#greyparrot-ai-equipment' },
-        { name: 'Densimetric Table', path: '/equipment#densimetric-table-equipment' },
-        { name: 'BeeFoam Dust Suppression System', path: '/equipment#beefoam-dust-suppression-system' },
-        { name: 'Reckelberg Environmental Technologies', path: '/equipment#reckelberg-environmental-technologies' },
-        { name: 'Certified Pre-Owned Equipment', path: '/equipment#certified-pre-owned-equipment' }
+        { name: 'Bollegraaf', path: '/equipment/bollegraaf' },
+        { name: 'Lubo Screening', path: '/equipment/lubo-screening' },
+        { name: 'TOMRA Optical Sorting', path: '/equipment/tomra' },
+        { name: 'Pellenc ST Optical Sorting', path: '/equipment/pellenc-st' },
+        { name: 'Walair Density Separation', path: '/equipment/walair-density-separation' },
+        { name: 'Smicon Food Waste Depackagers', path: '/equipment/smicon-depackager' },
+        { name: 'GÜNTHER Screens', path: '/equipment/gunther-screens' },
+        { name: 'Centriair', path: '/equipment/centriair-odor-control' },
+        { name: 'Greyparrot AI', path: '/equipment/greyparrot-ai' },
+        { name: 'Densimetric Table', path: '/equipment/densimetric-table' },
+        { name: 'BeeFoam Dust Suppression System', path: '/equipment/beefoam-dust-suppression' },
+        { name: 'Reckelberg Environmental Technologies', path: '/equipment/reckelberg-environmental' },
+        { name: 'Certified Pre-Owned Equipment', path: '/equipment/certified-pre-owned' }
       ]
     },
     { 
@@ -129,21 +163,21 @@ const Navbar = () => {
       path: '/solutions',
       dropdown: [
         { name: 'View All Solutions', path: '/solutions' },
-        { name: 'Single Stream Recycling', path: '/solutions#single-stream-recycling' },
-        { name: 'E-Scrap Recycling', path: '/solutions#e-scrap-recycling' },
-        { name: 'Battery Recycling Systems', path: '/solutions#battery-recycling-systems' },
-        { name: 'Glass Cleanup Systems', path: '/solutions#glass-cleanup-systems' },
-        { name: 'Composting & Densimetric Tables', path: '/solutions#composting-densimetric-tables' },
-        { name: 'Bollegraaf Balers', path: '/solutions#bollegraaf-balers' },
-        { name: 'AI-Based Waste Analytics', path: '/solutions#ai-based-waste-analytics' },
-        { name: 'Multi-MRF™ Systems', path: '/solutions#multi-mrf-systems' },
-        { name: 'MSW Processing', path: '/solutions#msw-processing' },
-        { name: 'Commercial Waste Processing', path: '/solutions#commercial-waste-processing' },
-        { name: 'C&D Recycling', path: '/solutions#cd-recycling' },
-        { name: 'Organics Processing', path: '/solutions#organics-processing' },
-        { name: 'Food Waste Depackaging', path: '/solutions#food-waste-depackaging' },
-        { name: 'Plastics Recycling', path: '/solutions#plastics-recycling' },
-        { name: 'Waste to Energy Recycling', path: '/solutions#waste-to-energy-recycling' }
+        { name: 'Single Stream Recycling', path: '/solutions/single-stream-recycling' },
+        { name: 'E-Scrap Recycling', path: '/solutions/electronics-waste-recycling' },
+        { name: 'Battery Recycling Systems', path: '/solutions/battery-recycling-systems' },
+        { name: 'Glass Cleanup Systems', path: '/solutions/glass-cleanup' },
+        { name: 'Composting & Densimetric Tables', path: '/solutions/composting-densimetric-tables' },
+        { name: 'Bollegraaf Balers', path: '/solutions/bollegraaf-balers' },
+        { name: 'AI-Based Waste Analytics', path: '/solutions/ai-waste-analysis' },
+        { name: 'Multi-MRF™ Systems', path: '/solutions/multi-mrf-systems' },
+        { name: 'MSW Processing', path: '/solutions/msw-processing' },
+        { name: 'Commercial Waste Processing', path: '/solutions/commercial-waste' },
+        { name: 'C&D Recycling', path: '/solutions/cd-recycling' },
+        { name: 'Organics Processing', path: '/solutions/organics-processing' },
+        { name: 'Food Waste Depackaging', path: '/solutions/food-waste-depackaging' },
+        { name: 'Plastics Recycling', path: '/solutions/plastics-recycling' },
+        { name: 'Waste to Energy Recycling', path: '/solutions/waste-to-energy' }
       ]
     },
     { 
@@ -175,22 +209,60 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={`w-full z-50 backdrop-blur-md shadow-lg sticky top-0 border-b border-white/5 smooth-scroll transition-all duration-500 ${
-      isScrolled ? 'bg-white/80 backdrop-blur-lg' : 'bg-black/10 backdrop-blur-md'
+    <nav className={`w-full z-50 sticky top-0 smooth-scroll-enhanced transition-all duration-500 ${
+      hasHeroImage 
+        ? isScrolled 
+          ? 'bg-white/95 backdrop-blur-xl shadow-xl border-b border-gray-200/50' 
+          : 'bg-transparent backdrop-blur-sm border-b border-white/10'
+        : 'bg-white/98 backdrop-blur-xl shadow-xl border-b border-gray-200/50'
     }`}>
-      <div className="container mx-auto px-6">
-        <div className="flex justify-between items-center h-24">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="flex justify-between items-center h-16 sm:h-20 lg:h-24">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 z-10 group">
-            <img
-              src="/Images/van-dyk-logo-new.jpg"
-              alt="Van Dyk Recycling Solutions Logo"
-              className="h-14 transition-all duration-300 group-hover:scale-105"
-            />
+            <div className="relative">
+              {/* Logo with elegant background blending */}
+              <div className="relative overflow-hidden rounded-lg bg-gradient-to-br from-white/90 to-gray-50/90 backdrop-blur-sm border border-white/20 shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                <img
+                  src="/Images/van-dyk-logo-new.jpg"
+                  alt="Van Dyk Recycling Solutions Logo"
+                  className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain p-1 sm:p-2 transition-all duration-300"
+                />
+                {/* Subtle overlay for depth */}
+                <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/5 pointer-events-none" />
+              </div>
+              {/* Floating accent dot */}
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-vd-orange rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 animate-pulse" />
+            </div>
           </Link>
 
+          {/* Tablet Navigation - Simplified */}
+          <div className="hidden lg:flex xl:hidden items-center space-x-1">
+            {navItems.slice(0, 4).map((item) => (
+              <Link
+                key={item.name}
+                to={item.path}
+                className={`px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 hover:scale-105 backdrop-blur-md border ${
+                  location.pathname.startsWith(item.path)
+                    ? isScrolled 
+                      ? 'text-vd-blue bg-white/70 shadow-lg border-white/50 backdrop-blur-lg' 
+                      : hasHeroImage
+                        ? 'text-white bg-white/25 shadow-lg border-white/40 backdrop-blur-lg'
+                        : 'text-vd-blue bg-white/25 shadow-lg border-white/40 backdrop-blur-lg'
+                    : isScrolled
+                      ? 'text-vd-blue hover:text-vd-orange hover:bg-white/50 hover:shadow-md border-white/30 backdrop-blur-md'
+                      : hasHeroImage
+                        ? 'text-white hover:text-vd-orange hover:bg-white/20 hover:shadow-md border-white/25 backdrop-blur-md'
+                        : 'text-vd-blue hover:text-vd-orange hover:bg-white/20 hover:shadow-md border-white/25 backdrop-blur-md'
+                }`}
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
+
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-2">
+          <div className="hidden xl:flex items-center space-x-1 2xl:space-x-2">
             {navItems.map((item) => (
               item.dropdown ? (
                 <div key={item.name} className="relative dropdown-container">
@@ -200,14 +272,18 @@ const Navbar = () => {
                     aria-expanded={activeDropdown === item.name}
                     aria-haspopup="true"
                     aria-label={`${item.name} menu`}
-                    className={`flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 hover:scale-105 backdrop-blur-sm border ${
+                    className={`flex items-center px-3 xl:px-4 2xl:px-5 py-2 xl:py-2.5 2xl:py-3 text-xs xl:text-sm font-semibold rounded-xl transition-all duration-300 hover:scale-105 backdrop-blur-md border-2 ${
                       location.pathname.startsWith(item.path) || activeDropdown === item.name
                         ? isScrolled 
-                          ? 'text-vd-blue bg-white/60 shadow-md border-white/40 backdrop-blur-md' 
-                          : 'text-white bg-white/20 shadow-md border-white/30 backdrop-blur-md'
+                          ? 'text-vd-blue bg-gradient-to-r from-white/80 to-gray-50/80 shadow-xl border-vd-orange/30 backdrop-blur-lg' 
+                          : hasHeroImage
+                            ? 'text-white bg-gradient-to-r from-white/30 to-white/20 shadow-xl border-white/50 backdrop-blur-lg'
+                            : 'text-vd-blue bg-gradient-to-r from-white/30 to-white/20 shadow-xl border-white/50 backdrop-blur-lg'
                         : isScrolled
-                          ? 'text-vd-blue hover:text-vd-orange hover:bg-white/40 hover:shadow-sm border-white/20 backdrop-blur-sm'
-                          : 'text-white hover:text-vd-orange hover:bg-white/15 hover:shadow-sm border-white/15 backdrop-blur-sm'
+                          ? 'text-vd-blue hover:text-vd-orange hover:bg-gradient-to-r hover:from-white/60 hover:to-gray-50/60 hover:shadow-lg border-white/40 backdrop-blur-md hover:border-vd-orange/20'
+                          : hasHeroImage
+                            ? 'text-white hover:text-vd-orange hover:bg-gradient-to-r hover:from-white/25 hover:to-white/15 hover:shadow-lg border-white/30 backdrop-blur-md hover:border-vd-orange/30'
+                            : 'text-vd-blue hover:text-vd-orange hover:bg-gradient-to-r hover:from-white/25 hover:to-white/15 hover:shadow-lg border-white/30 backdrop-blur-md hover:border-vd-orange/30'
                     }`}
                   >
                     {item.name}
@@ -250,14 +326,18 @@ const Navbar = () => {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-300 hover:scale-105 backdrop-blur-sm border ${
+                  className={`px-4 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-105 backdrop-blur-md border ${
                     location.pathname === item.path
                       ? isScrolled
-                        ? 'text-vd-blue bg-white/60 shadow-md border-white/40 backdrop-blur-md'
-                        : 'text-white bg-white/20 shadow-md border-white/30 backdrop-blur-md'
+                        ? 'text-vd-blue bg-white/70 shadow-lg border-white/50 backdrop-blur-lg'
+                        : hasHeroImage
+                          ? 'text-white bg-white/25 shadow-lg border-white/40 backdrop-blur-lg'
+                          : 'text-vd-blue bg-white/25 shadow-lg border-white/40 backdrop-blur-lg'
                       : isScrolled
-                        ? 'text-vd-blue hover:text-vd-orange hover:bg-white/40 hover:shadow-sm border-white/20 backdrop-blur-sm'
-                        : 'text-white hover:text-vd-orange hover:bg-white/15 hover:shadow-sm border-white/15 backdrop-blur-sm'
+                        ? 'text-vd-blue hover:text-vd-orange hover:bg-white/50 hover:shadow-md border-white/30 backdrop-blur-md'
+                        : hasHeroImage
+                          ? 'text-white hover:text-vd-orange hover:bg-white/20 hover:shadow-md border-white/25 backdrop-blur-md'
+                          : 'text-vd-blue hover:text-vd-orange hover:bg-white/20 hover:shadow-md border-white/25 backdrop-blur-md'
                   }`}
                 >
                   {item.name}
@@ -271,10 +351,12 @@ const Navbar = () => {
                 onClick={() => setSearchOpen(!searchOpen)}
                 aria-expanded={searchOpen}
                 aria-label="Open search"
-                className={`transition-all duration-300 p-2.5 rounded-lg hover:scale-105 hover:shadow-sm backdrop-blur-sm border border-white/15 hover:border-white/25 ${
+                className={`transition-all duration-300 p-2.5 rounded-lg hover:scale-105 hover:shadow-md backdrop-blur-md border ${
                   isScrolled 
-                    ? 'text-vd-blue hover:text-vd-orange hover:bg-white/40'
-                    : 'text-white hover:text-vd-orange hover:bg-white/15'
+                    ? 'text-vd-blue hover:text-vd-orange hover:bg-white/50 border-white/30'
+                    : hasHeroImage
+                      ? 'text-white hover:text-vd-orange hover:bg-white/20 border-white/25'
+                      : 'text-vd-blue hover:text-vd-orange hover:bg-white/20 border-white/25'
                 }`}
               >
                 <Search className="w-5 h-5" />
@@ -344,10 +426,15 @@ const Navbar = () => {
             {/* Call Button */}
             <a
               href="tel:+12039671100"
-              className="ml-6 bg-vd-orange/90 hover:bg-vd-orange-alt text-white font-semibold px-6 py-2.5 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 flex items-center space-x-2 backdrop-blur-sm border border-white/20 hover:border-white/30"
+              className="ml-2 sm:ml-4 lg:ml-6 bg-gradient-to-r from-vd-orange to-orange-600 hover:from-orange-600 hover:to-vd-orange-alt text-white font-bold px-3 sm:px-4 lg:px-6 xl:px-8 py-2 sm:py-2.5 lg:py-3 rounded-lg sm:rounded-xl transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 flex items-center space-x-1 sm:space-x-2 lg:space-x-3 backdrop-blur-md border-2 border-white/40 hover:border-white/60 relative overflow-hidden group"
             >
-              <Phone className="w-5 h-5" />
-              <span className="text-base">CALL NOW: (203) 967-1100</span>
+              {/* Animated background effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <Phone className="w-4 h-4 sm:w-5 sm:h-5 relative z-10" />
+              <span className="text-xs sm:text-sm lg:text-base relative z-10 hidden sm:inline">CALL NOW:</span>
+              <span className="text-xs sm:text-sm lg:text-base relative z-10">(203) 967-1100</span>
+              {/* Pulse effect */}
+              <div className="absolute inset-0 bg-vd-orange rounded-lg sm:rounded-xl opacity-0 group-hover:opacity-20 animate-ping" />
             </a>
           </div>
 
@@ -356,7 +443,11 @@ const Navbar = () => {
             onClick={() => setIsOpen(!isOpen)}
             aria-expanded={isOpen}
             aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-            className="lg:hidden p-2.5 rounded-lg text-white hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-sm z-10 backdrop-blur-sm border border-white/15 hover:border-white/25"
+            className={`lg:hidden p-2.5 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-md z-10 backdrop-blur-md border hover:border-white/35 ${
+              hasHeroImage && !isScrolled
+                ? 'text-white hover:bg-white/20 border-white/25'
+                : 'text-vd-blue hover:bg-white/20 border-white/25'
+            }`}
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -371,7 +462,7 @@ const Navbar = () => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden overflow-hidden glass-morphism-dark border-t border-white/30 backdrop-blur-2xl bg-vd-blue/85"
+            className="lg:hidden overflow-hidden backdrop-blur-2xl bg-white/95 border-t border-white/30"
           >
             <div className="container mx-auto px-6 py-8 space-y-3">
               {/* Mobile Search */}
@@ -403,8 +494,8 @@ const Navbar = () => {
                       onClick={() => setIsOpen(false)}
                       className={`block w-full text-left px-5 py-4 rounded-xl font-semibold text-base transition-all duration-300 hover:scale-105 backdrop-blur-md ${
                         location.pathname.startsWith(item.path)
-                          ? 'text-vd-orange bg-white/25 shadow-xl border border-white/30 backdrop-blur-md' 
-                          : 'text-white hover:text-vd-orange hover:bg-white/20 hover:shadow-lg hover:border hover:border-white/25 backdrop-blur-sm'
+                          ? 'text-vd-blue bg-white/30 shadow-xl border border-white/40 backdrop-blur-lg' 
+                          : 'text-gray-800 hover:text-vd-orange hover:bg-white/40 hover:shadow-lg hover:border hover:border-white/50 backdrop-blur-md'
                       }`}
                     >
                       {item.name}
@@ -415,7 +506,7 @@ const Navbar = () => {
                           key={dropdownItem.path}
                           to={dropdownItem.path}
                           onClick={() => setIsOpen(false)}
-                          className="block px-5 py-3 text-sm text-gray-200 hover:text-vd-orange hover:bg-white/10 rounded-lg transition-all duration-200 font-medium hover:translate-x-2"
+                          className="block px-5 py-3 text-sm text-gray-700 hover:text-vd-orange hover:bg-white/30 rounded-lg transition-all duration-200 font-medium hover:translate-x-2 backdrop-blur-sm"
                         >
                           {dropdownItem.name}
                         </Link>
@@ -429,8 +520,8 @@ const Navbar = () => {
                     onClick={() => setIsOpen(false)}
                     className={`block px-5 py-4 rounded-xl font-semibold text-base transition-all duration-300 hover:scale-105 backdrop-blur-md ${
                       location.pathname === item.path
-                        ? 'text-vd-orange bg-white/25 shadow-xl border border-white/30'
-                        : 'text-white hover:text-vd-orange hover:bg-white/20 hover:shadow-lg hover:border hover:border-white/25'
+                        ? 'text-vd-blue bg-white/30 shadow-xl border border-white/40 backdrop-blur-lg'
+                        : 'text-gray-800 hover:text-vd-orange hover:bg-white/40 hover:shadow-lg hover:border hover:border-white/50 backdrop-blur-md'
                     }`}
                   >
                     {item.name}
@@ -442,10 +533,14 @@ const Navbar = () => {
               <div className="pt-6 border-t border-white/20">
                 <a
                   href="tel:+12039671100"
-                  className="w-full bg-vd-orange/95 hover:bg-vd-orange-alt text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-xl flex items-center justify-center space-x-3 backdrop-blur-sm border border-white/20 hover:border-white/30"
+                  className="w-full bg-gradient-to-r from-vd-orange to-orange-600 hover:from-orange-600 hover:to-vd-orange-alt text-white font-bold px-8 py-4 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-xl flex items-center justify-center space-x-3 backdrop-blur-md border-2 border-white/40 hover:border-white/60 relative overflow-hidden group"
                 >
-                  <Phone className="w-5 h-5" />
-                  <span className="text-base">CALL NOW: (203) 967-1100</span>
+                  {/* Animated background effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <Phone className="w-5 h-5 relative z-10" />
+                  <span className="text-base relative z-10">CALL NOW: (203) 967-1100</span>
+                  {/* Pulse effect */}
+                  <div className="absolute inset-0 bg-vd-orange rounded-xl opacity-0 group-hover:opacity-20 animate-ping" />
                 </a>
               </div>
             </div>

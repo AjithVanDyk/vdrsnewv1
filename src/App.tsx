@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect } from 'react';
-import { HashRouter as Router, Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import ErrorBoundary from './components/ErrorBoundary';
 import NavigationErrorBoundary from './components/NavigationErrorBoundary';
@@ -9,6 +9,8 @@ import Footer from './components/Footer';
 import Chatbot from './components/Chatbot';
 import { initializeImageLoading } from './utils/imageLoader';
 import serviceWorkerManager from './utils/serviceWorker';
+import { initializePerformanceMonitoring } from './utils/performanceMonitor';
+import { accessibilityManager } from './utils/accessibility';
 
 const Home = React.lazy(() => import('./pages/Home'));
 const Equipment = React.lazy(() => import('./pages/Equipment'));
@@ -24,6 +26,40 @@ const QuoteForm = React.lazy(() => import('./components/QuoteForm'));
 const TestCenter = React.lazy(() => import('./pages/TestCenter'));
 const InstallationProcess = React.lazy(() => import('./pages/InstallationProcess'));
 const TrainingSchedule = React.lazy(() => import('./pages/TrainingSchedule'));
+
+// Individual Equipment Pages
+const BollegraafPage = React.lazy(() => import('./pages/BollegraafPage'));
+const TOMRAPage = React.lazy(() => import('./pages/TOMRAPage'));
+const PellencSTPage = React.lazy(() => import('./pages/PellencSTPage'));
+const SmiconDepackagerPage = React.lazy(() => import('./pages/SmiconDepackagerPage'));
+const LuboScreeningPage = React.lazy(() => import('./pages/LuboScreeningPage'));
+const WalairDensitySeparationPage = React.lazy(() => import('./pages/WalairDensitySeparationPage'));
+const GuntherScreensPage = React.lazy(() => import('./pages/GuntherScreensPage'));
+const CentriairOdorControlPage = React.lazy(() => import('./pages/CentriairOdorControlPage'));
+const GreyparrotAIPage = React.lazy(() => import('./pages/GreyparrotAIPage'));
+const DensimetricTablePage = React.lazy(() => import('./pages/DensimetricTablePage'));
+const BeeFoamDustSuppressionPage = React.lazy(() => import('./pages/BeeFoamDustSuppressionPage'));
+const ReckelbergEnvironmentalPage = React.lazy(() => import('./pages/ReckelbergEnvironmentalPage'));
+const CertifiedPreOwnedPage = React.lazy(() => import('./pages/CertifiedPreOwnedPage'));
+const GlassCleanupSystemsPage = React.lazy(() => import('./pages/GlassCleanupSystemsPage'));
+
+// Individual Solution Pages
+const SingleStreamRecyclingPage = React.lazy(() => import('./pages/SingleStreamRecyclingPage'));
+const PlasticsRecyclingPage = React.lazy(() => import('./pages/PlasticsRecyclingPage'));
+const OrganicsProcessingPage = React.lazy(() => import('./pages/OrganicsProcessingPage'));
+const MSWProcessingPage = React.lazy(() => import('./pages/MSWProcessingPage'));
+const WasteToEnergyPage = React.lazy(() => import('./pages/WasteToEnergyPage'));
+const GlassCleanupPage = React.lazy(() => import('./pages/GlassCleanupPage'));
+const ElectronicsWasteRecyclingPage = React.lazy(() => import('./pages/ElectronicsWasteRecyclingPage'));
+const BatteryRecyclingSystemsPage = React.lazy(() => import('./pages/BatteryRecyclingSystemsPage'));
+const CompostingDensimetricTablesPage = React.lazy(() => import('./pages/CompostingDensimetricTablesPage'));
+const AIWasteAnalysisPage = React.lazy(() => import('./pages/AIWasteAnalysisPage'));
+const CentriairOdorControlSolutionPage = React.lazy(() => import('./pages/CentriairOdorControlSolutionPage'));
+const FoodWasteDepackagingPage = React.lazy(() => import('./pages/FoodWasteDepackagingPage'));
+const CommercialWastePage = React.lazy(() => import('./pages/CommercialWastePage'));
+const CDRecyclingPage = React.lazy(() => import('./pages/CDRecyclingPage'));
+const MultiMRFSystemsPage = React.lazy(() => import('./pages/MultiMRFSystemsPage'));
+const BollegraafBalersSolutionPage = React.lazy(() => import('./pages/BollegraafBalersSolutionPage'));
 
 // Enhanced lazy loading with better error handling
 const createLazyComponent = (importFunc: () => Promise<any>) => {
@@ -92,6 +128,10 @@ function App() {
   useEffect(() => {
     serviceWorkerManager.register();
     initializeImageLoading();
+    initializePerformanceMonitoring();
+    
+    // Initialize accessibility features
+    accessibilityManager.announceToScreenReader('Van Dyk Recycling Solutions website loaded');
     
     return () => {
       serviceWorkerManager.unregister();
@@ -121,6 +161,40 @@ function App() {
                   <Route path="/test-center" element={<TestCenter />} />
                   <Route path="/installation-process" element={<InstallationProcess />} />
                   <Route path="/training-schedule" element={<TrainingSchedule />} />
+                  
+                  {/* Individual Equipment Pages */}
+                  <Route path="/equipment/bollegraaf" element={<BollegraafPage />} />
+                  <Route path="/equipment/tomra" element={<TOMRAPage />} />
+                  <Route path="/equipment/pellenc-st" element={<PellencSTPage />} />
+                  <Route path="/equipment/smicon-depackager" element={<SmiconDepackagerPage />} />
+                  <Route path="/equipment/lubo-screening" element={<LuboScreeningPage />} />
+                  <Route path="/equipment/walair-density-separation" element={<WalairDensitySeparationPage />} />
+                  <Route path="/equipment/gunther-screens" element={<GuntherScreensPage />} />
+                  <Route path="/equipment/centriair-odor-control" element={<CentriairOdorControlPage />} />
+                  <Route path="/equipment/greyparrot-ai" element={<GreyparrotAIPage />} />
+                  <Route path="/equipment/densimetric-table" element={<DensimetricTablePage />} />
+                  <Route path="/equipment/beefoam-dust-suppression" element={<BeeFoamDustSuppressionPage />} />
+                  <Route path="/equipment/reckelberg-environmental" element={<ReckelbergEnvironmentalPage />} />
+                  <Route path="/equipment/certified-pre-owned" element={<CertifiedPreOwnedPage />} />
+                  <Route path="/equipment/glass-cleanup-systems" element={<GlassCleanupSystemsPage />} />
+                  
+                  {/* Individual Solution Pages */}
+                  <Route path="/solutions/single-stream-recycling" element={<SingleStreamRecyclingPage />} />
+                  <Route path="/solutions/plastics-recycling" element={<PlasticsRecyclingPage />} />
+                  <Route path="/solutions/organics-processing" element={<OrganicsProcessingPage />} />
+                  <Route path="/solutions/msw-processing" element={<MSWProcessingPage />} />
+                  <Route path="/solutions/waste-to-energy" element={<WasteToEnergyPage />} />
+                  <Route path="/solutions/glass-cleanup" element={<GlassCleanupPage />} />
+                  <Route path="/solutions/electronics-waste-recycling" element={<ElectronicsWasteRecyclingPage />} />
+                  <Route path="/solutions/battery-recycling-systems" element={<BatteryRecyclingSystemsPage />} />
+                  <Route path="/solutions/composting-densimetric-tables" element={<CompostingDensimetricTablesPage />} />
+                  <Route path="/solutions/ai-waste-analysis" element={<AIWasteAnalysisPage />} />
+                  <Route path="/solutions/centriair-odor-control" element={<CentriairOdorControlSolutionPage />} />
+                  <Route path="/solutions/food-waste-depackaging" element={<FoodWasteDepackagingPage />} />
+                  <Route path="/solutions/commercial-waste" element={<CommercialWastePage />} />
+                  <Route path="/solutions/cd-recycling" element={<CDRecyclingPage />} />
+                  <Route path="/solutions/multi-mrf-systems" element={<MultiMRFSystemsPage />} />
+                  <Route path="/solutions/bollegraaf-balers" element={<BollegraafBalersSolutionPage />} />
                   {/* Legacy route redirects */}
                   <Route path="/services" element={<Navigate to="/support" replace />} />
                   <Route path="*" element={<NotFound />} />

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, X, CheckCircle, Quote } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import QuoteForm from '../components/QuoteForm';
-import VideoLoadingSpinner from '../components/VideoLoadingSpinner';
 
 interface Equipment {
 	id?: number;
@@ -19,6 +18,7 @@ interface EquipmentModalProps {
 	equipment: Equipment | null;
 	isOpen: boolean;
 	onClose: () => void;
+	navigate: (path: string) => void;
 }
 
 // Comprehensive equipment items from original website
@@ -332,7 +332,7 @@ const equipmentItems = [
 		}
 	}
 ];
-const EquipmentModal: React.FC<EquipmentModalProps> = ({ equipment, isOpen, onClose }) => {
+const EquipmentModal: React.FC<EquipmentModalProps> = ({ equipment, isOpen, onClose, navigate }) => {
 	if (!equipment) return null;
 
 	return (
@@ -361,10 +361,12 @@ const EquipmentModal: React.FC<EquipmentModalProps> = ({ equipment, isOpen, onCl
 								width="800"
 								height="256"
 								loading="lazy"
-								onError={(e) => {
-									console.log('Modal image failed to load:', equipment.name);
-									e.currentTarget.src = '/Images/first.jpg';
-								}}
+									onError={(e) => {
+										if (process.env.NODE_ENV === 'development') {
+											console.log('Modal image failed to load:', equipment.name);
+										}
+										e.currentTarget.src = '/Images/first.jpg';
+									}}
 							/>
 							<div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 							<div className="absolute bottom-6 left-6 text-white">
@@ -480,11 +482,7 @@ const EquipmentModal: React.FC<EquipmentModalProps> = ({ equipment, isOpen, onCl
 									<button
 										onClick={() => {
 											onClose();
-											// Open quote form
-											const quoteForm = document.querySelector('[data-quote-form]');
-											if (quoteForm) {
-												quoteForm.scrollIntoView({ behavior: 'smooth' });
-											}
+											navigate('/quote');
 										}}
 										className="flex-1 bg-vd-orange hover:bg-vd-orange-alt text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center"
 									>
@@ -509,14 +507,38 @@ const EquipmentModal: React.FC<EquipmentModalProps> = ({ equipment, isOpen, onCl
 };
 
 const Equipment = () => {
+	const navigate = useNavigate();
 	const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
 	const [showEquipmentModal, setShowEquipmentModal] = useState(false);
 	const [showQuoteForm, setShowQuoteForm] = useState(false);
-	const [showVideoSpinnerDemo, setShowVideoSpinnerDemo] = useState(false);
 
 	const handleLearnMore = (equipment: Equipment) => {
-		setSelectedEquipment(equipment);
-		setShowEquipmentModal(true);
+		// Map equipment names to their individual page routes
+		const equipmentRoutes: { [key: string]: string } = {
+			'Bollegraaf Balers': '/equipment/bollegraaf',
+			'Lubo StarScreen® Technology': '/equipment/lubo-screening',
+			'TOMRA Optical Sorting': '/equipment/tomra',
+			'Pellenc ST Optical Sorting': '/equipment/pellenc-st',
+			'Walair Density Separation': '/equipment/walair-density-separation',
+			'Smicon Food Waste Depackagers': '/equipment/smicon-depackager',
+			'GÜNTHER Screens': '/equipment/gunther-screens',
+			'Centriair Odor Control': '/equipment/centriair-odor-control',
+			'Greyparrot AI': '/equipment/greyparrot-ai',
+			'Densimetric Table': '/equipment/densimetric-table',
+			'BeeFoam Dust Suppression': '/equipment/beefoam-dust-suppression',
+			'Reckelberg Environmental Technologies': '/equipment/reckelberg-environmental',
+			'Certified Pre-Owned Equipment': '/equipment/certified-pre-owned',
+			'Glass Cleanup Systems': '/equipment/glass-cleanup-systems'
+		};
+
+		const route = equipmentRoutes[equipment.name];
+		if (route) {
+			navigate(route);
+		} else {
+			// Fallback to modal for equipment without individual pages
+			setSelectedEquipment(equipment);
+			setShowEquipmentModal(true);
+		}
 	};
 
 	const handleGetQuoteFromCard = (equipment: Equipment) => {
@@ -532,8 +554,25 @@ const Equipment = () => {
 	return (
 		<div className="min-h-screen bg-gray-50">
 			{/* Hero Section */}
-			<div className="relative bg-gradient-to-r from-vd-blue-dark to-vd-blue text-white py-20 -mt-20 pt-20">
-				<div className="container mx-auto px-4 relative pt-20">
+			<div className="relative text-white py-20 -mt-20 pt-20 overflow-hidden">
+				{/* HD Background Image */}
+				<img 
+					src="/Images/bollegraaf-equipment.jpg"
+					alt="Advanced Recycling Equipment"
+					className="absolute inset-0 w-full h-full object-cover object-center scale-105"
+					width="1920"
+					height="1080"
+					loading="eager"
+					decoding="sync"
+					onError={(e) => {
+						if (process.env.NODE_ENV === 'development') {
+							console.log('Hero image failed to load, using fallback');
+						}
+						e.currentTarget.src = '/Images/bollegraaf-new-1.jpg';
+					}}
+				/>
+				<div className="absolute inset-0 bg-gradient-to-br from-black/20 to-black/40"></div>
+				<div className="container mx-auto px-4 relative z-10 pt-20">
 					<div className="flex flex-col md:flex-row justify-between items-center">
 						<motion.div
 							initial={{ opacity: 0, y: 20 }}
@@ -625,7 +664,9 @@ const Equipment = () => {
 									height="192"
 									loading="lazy"
 									onError={(e) => {
-										console.log('Equipment image failed to load:', equipment.name);
+										if (process.env.NODE_ENV === 'development') {
+											console.log('Equipment image failed to load:', equipment.name);
+										}
 										e.currentTarget.src = '/Images/first.jpg';
 									}}
 								/>
@@ -691,7 +732,7 @@ const Equipment = () => {
 					</p>
 					<div className="flex flex-col sm:flex-row gap-4 justify-center">
 						<button
-							onClick={() => setShowQuoteForm(true)}
+							onClick={() => navigate('/quote')}
 							className="bg-vd-orange hover:bg-vd-orange-alt text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5 hover:scale-105 flex items-center justify-center"
 						>
 							<Quote className="w-5 h-5 mr-2" />
@@ -703,12 +744,6 @@ const Equipment = () => {
 						>
 							Contact Us
 						</Link>
-						<button
-							onClick={() => setShowVideoSpinnerDemo(true)}
-							className="bg-vd-blue hover:bg-vd-blue-dark text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 backdrop-blur-md border border-white/30 hover:border-white/50 flex items-center justify-center"
-						>
-							🎬 Demo Video Spinner
-						</button>
 					</div>
 				</div>
 			</div>
@@ -718,6 +753,7 @@ const Equipment = () => {
 				equipment={selectedEquipment}
 				isOpen={showEquipmentModal}
 				onClose={closeEquipmentModal}
+				navigate={navigate}
 			/>
 
 			{/* Quote Form Modal */}
@@ -725,67 +761,6 @@ const Equipment = () => {
 				<QuoteForm />
 			)}
 
-			{/* Video Spinner Demo Modal */}
-			<AnimatePresence>
-				{showVideoSpinnerDemo && (
-					<motion.div
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						exit={{ opacity: 0 }}
-						className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-						onClick={() => setShowVideoSpinnerDemo(false)}
-					>
-						<motion.div
-							initial={{ opacity: 0, scale: 0.9 }}
-							animate={{ opacity: 1, scale: 1 }}
-							exit={{ opacity: 0, scale: 0.9 }}
-							className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-8"
-							onClick={(e) => e.stopPropagation()}
-						>
-							<div className="flex justify-between items-center mb-6">
-								<h2 className="text-2xl font-bold text-vd-blue">Video Loading Spinner Demo</h2>
-								<button
-									onClick={() => setShowVideoSpinnerDemo(false)}
-									aria-label="Close modal"
-									className="text-gray-400 hover:text-gray-600 transition-colors"
-								>
-									<X className="w-6 h-6" />
-								</button>
-							</div>
-
-							<div className="space-y-8">
-								<div className="text-center">
-									<p className="text-gray-600 mb-4">
-										This is your custom video loading spinner in action! It automatically loops and provides a smooth loading experience.
-									</p>
-								</div>
-
-								{/* Different sizes demo */}
-								<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-									<div className="text-center">
-										<h3 className="font-semibold text-gray-700 mb-3">Small Size</h3>
-										<VideoLoadingSpinner size="small" message="Loading..." showMessage={false} />
-									</div>
-									<div className="text-center">
-										<h3 className="font-semibold text-gray-700 mb-3">Medium Size</h3>
-										<VideoLoadingSpinner size="medium" message="Loading..." showMessage={false} />
-									</div>
-									<div className="text-center">
-										<h3 className="font-semibold text-gray-700 mb-3">Large Size</h3>
-										<VideoLoadingSpinner size="large" message="Loading..." showMessage={false} />
-									</div>
-								</div>
-
-								<div className="text-center">
-									<p className="text-sm text-gray-500">
-										The video spinner will automatically fallback to a CSS spinner if the video fails to load.
-									</p>
-								</div>
-							</div>
-						</motion.div>
-					</motion.div>
-				)}
-			</AnimatePresence>
 		</div>
 	);
 };

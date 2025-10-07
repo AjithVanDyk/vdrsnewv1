@@ -18,7 +18,7 @@ const Home = () => {
       icon: Recycle,
       image: '/Images/single-stream-recycling.jpg',
       linkText: 'Learn More',
-      linkPath: '/solutions#single-stream-recycling'
+      linkPath: '/solutions/single-stream-recycling'
     },
     {
       title: 'Bollegraaf Equipment',
@@ -26,7 +26,7 @@ const Home = () => {
       icon: Award,
       image: '/Images/bollegraaf-new-1.jpg',
       linkText: 'Learn More',
-      linkPath: '/equipment#bollegraaf-equipment'
+      linkPath: '/equipment/bollegraaf'
     },
     {
       title: 'Expert Consulting',
@@ -34,7 +34,7 @@ const Home = () => {
       icon: Users,
       image: '/Images/van-dyk-logo-new.jpg',
       linkText: 'Learn More',
-      linkPath: '/support'
+      linkPath: '/installation-process'
     },
     {
       title: 'Global Support',
@@ -50,7 +50,7 @@ const Home = () => {
   return (
     <div className="min-h-screen smooth-scroll">
       {/* Hero Section */}
-      <div className="relative h-screen overflow-hidden -mt-20 pt-20">
+      <div className="relative h-screen overflow-hidden -mt-16 sm:-mt-20 pt-16 sm:pt-20">
         <img 
           src="/Images/image-1749759459073.png"
           alt="Van Dyk Recycling Solutions"
@@ -60,24 +60,26 @@ const Home = () => {
           loading="eager"
           decoding="sync"
           onError={(e) => {
-            console.log('Hero image failed to load, using fallback');
+            if (process.env.NODE_ENV === 'development') {
+              console.log('Hero image failed to load, using fallback');
+            }
             e.currentTarget.src = '/Images/first.jpg';
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-black/40"></div>
-        <div className="absolute inset-0 flex items-center pt-20">
-          <div className="container mx-auto px-4">
+        <div className="absolute inset-0 flex items-center pt-16 sm:pt-20">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: "easeOut" }}
-              className="max-w-5xl text-white mt-20"
+              className="max-w-5xl text-white mt-8 sm:mt-12 lg:mt-20"
             >
               <motion.h1 
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight"
               >
                 We Consult and Sell
                 <span className="block">Equipment to Help</span>
@@ -89,7 +91,7 @@ const Home = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-xl md:text-2xl mb-8 text-blue-100 max-w-4xl"
+                className="text-lg sm:text-xl md:text-2xl mb-8 text-blue-100 max-w-4xl"
               >
                 Advanced recycling technology, expert consulting, and comprehensive support services to optimize your operations.
               </motion.p>
@@ -97,13 +99,13 @@ const Home = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 max-w-4xl"
+                className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-8 sm:mb-12 max-w-4xl"
               >
                 {/* BOLLEGRAAF BALERS - Semi-transparent card */}
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Link
                     to="/equipment"
-                    className="block bg-black/30 text-white px-8 py-6 rounded-xl font-bold text-lg transition-all duration-300 shadow-2xl hover:bg-black/50 flex items-center justify-center min-h-[80px]"
+                    className="block bg-black/30 text-white px-4 sm:px-6 lg:px-8 py-4 sm:py-6 rounded-xl font-bold text-sm sm:text-base lg:text-lg transition-all duration-300 shadow-2xl hover:bg-black/50 flex items-center justify-center min-h-[60px] sm:min-h-[80px]"
                   >
                     BOLLEGRAAF BALERS
                   </Link>
@@ -113,7 +115,7 @@ const Home = () => {
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Link
                     to="/contact"
-                    className="block bg-black/30 border-2 border-white text-white px-8 py-6 rounded-xl font-bold text-lg transition-all duration-300 shadow-2xl hover:bg-black/50 flex items-center justify-center min-h-[80px]"
+                    className="block bg-black/30 border-2 border-white text-white px-4 sm:px-6 lg:px-8 py-4 sm:py-6 rounded-xl font-bold text-sm sm:text-base lg:text-lg transition-all duration-300 shadow-2xl hover:bg-black/50 flex items-center justify-center min-h-[60px] sm:min-h-[80px]"
                   >
                     IS YOUR PRODUCT RECYCLABLE?
                   </Link>
@@ -123,7 +125,7 @@ const Home = () => {
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Link
                     to="/solutions"
-                    className="block bg-black/30 text-white px-8 py-6 rounded-xl font-bold text-lg transition-all duration-300 shadow-2xl hover:bg-black/50 flex items-center justify-center min-h-[80px]"
+                    className="block bg-black/30 text-white px-4 sm:px-6 lg:px-8 py-4 sm:py-6 rounded-xl font-bold text-sm sm:text-base lg:text-lg transition-all duration-300 shadow-2xl hover:bg-black/50 flex items-center justify-center min-h-[60px] sm:min-h-[80px]"
                   >
                     HIGH VOLUME FOOD DEPACKAGING
                   </Link>
@@ -133,7 +135,7 @@ const Home = () => {
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Link
                     to="/solutions"
-                    className="block bg-black/30 text-white px-8 py-6 rounded-xl font-bold text-lg transition-all duration-300 shadow-2xl hover:bg-black/50 flex items-center justify-center min-h-[80px]"
+                    className="block bg-black/30 text-white px-4 sm:px-6 lg:px-8 py-4 sm:py-6 rounded-xl font-bold text-sm sm:text-base lg:text-lg transition-all duration-300 shadow-2xl hover:bg-black/50 flex items-center justify-center min-h-[60px] sm:min-h-[80px]"
                   >
                     GOT ODOR PROBLEMS?
                   </Link>
@@ -161,7 +163,7 @@ const Home = () => {
                 ></div>
                 {/* Content */}
                 <div className="relative z-10">
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-7xl mx-auto px-4">
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 max-w-7xl mx-auto px-4">
                     {stats.map((stat, index) => (
                       <motion.div
                         key={index}
@@ -170,8 +172,8 @@ const Home = () => {
                         transition={{ duration: 0.6, delay: 1 + index * 0.1 }}
                         className="text-center"
                       >
-                        <div className="text-4xl md:text-5xl font-bold text-vd-orange mb-2">{stat.number}</div>
-                        <div className="text-sm md:text-base text-white font-medium">{stat.label}</div>
+                        <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-vd-orange mb-1 sm:mb-2">{stat.number}</div>
+                        <div className="text-xs sm:text-sm md:text-base text-white font-medium">{stat.label}</div>
                       </motion.div>
                     ))}
                   </div>
@@ -183,19 +185,19 @@ const Home = () => {
       </div>
 
       {/* Services Section */}
-      <div className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
+      <div className="py-12 sm:py-16 lg:py-20 bg-gray-50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="text-center mb-12"
+            className="text-center mb-8 sm:mb-12"
           >
-            <h2 className="text-3xl font-bold text-vd-blue mb-4">Our Services</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-2xl sm:text-3xl font-bold text-vd-blue mb-4">Our Services</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base">
               Comprehensive recycling solutions tailored to your needs, from equipment to expert support
             </p>
           </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {services.map((service, index) => (
               <motion.div
                 key={service.title}
@@ -204,11 +206,15 @@ const Home = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="bg-white rounded-xl shadow-lg overflow-hidden group hover:shadow-xl transition-all duration-300 border border-gray-100"
               >
-                <div className="relative h-48 overflow-hidden rounded-t-xl">
+                <div className="relative h-40 sm:h-48 overflow-hidden rounded-t-xl bg-gray-100">
                   <img
                     src={service.image}
                     alt={service.title}
-                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                    className={`w-full h-full transform group-hover:scale-110 transition-transform duration-500 ${
+                      service.title === 'Expert Consulting' || service.title === 'Global Support'
+                        ? 'object-contain p-4'
+                        : 'object-cover'
+                    }`}
                     width="400"
                     height="192"
                     loading="lazy"
@@ -217,16 +223,16 @@ const Home = () => {
                       e.currentTarget.src = '/Images/first.jpg';
                     }}
                   />
-                  <div className="absolute bottom-4 left-4">
-                    <service.icon className="w-8 h-8 text-vd-orange bg-white/90 rounded-full p-1.5" />
+                  <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4">
+                    <service.icon className="w-6 h-6 sm:w-8 sm:h-8 text-vd-orange bg-white/90 rounded-full p-1 sm:p-1.5" />
                   </div>
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-vd-blue mb-2">{service.title}</h3>
-                  <p className="text-gray-600 mb-4">{service.description}</p>
+                <div className="p-4 sm:p-6">
+                  <h3 className="text-lg sm:text-xl font-semibold text-vd-blue mb-2">{service.title}</h3>
+                  <p className="text-gray-600 mb-4 text-sm sm:text-base">{service.description}</p>
                   <Link
                     to={service.linkPath}
-                    className="text-vd-orange font-medium inline-flex items-center hover:text-vd-orange-alt transition-colors"
+                    className="text-vd-orange font-medium inline-flex items-center hover:text-vd-orange-alt transition-colors text-sm sm:text-base"
                   >
                     {service.linkText} →
                   </Link>

@@ -1,0 +1,79 @@
+import React from 'react';
+import EquipmentPageTemplate from '../components/EquipmentPageTemplate';
+
+const SmiconDepackagerPage: React.FC = () => {
+  const equipment = {
+    id: 6,
+    name: 'Smicon Food Waste Depackagers',
+    image: '/Images/smicon-depackager-new.jpg',
+    description: 'Advanced food waste depackaging systems designed to efficiently separate organic materials from packaging. Smicon technology maximizes organic recovery while minimizing contamination.',
+    features: [
+      'High-efficiency depackaging technology',
+      'Gentle separation of organic materials',
+      'Minimal packaging contamination',
+      'Robust construction for heavy-duty use',
+      'Easy maintenance and cleaning',
+      'Flexible processing capabilities',
+      'Low energy consumption',
+      'Automated operation with minimal supervision',
+      'Compatible with various packaging types',
+      'Advanced material handling systems'
+    ],
+    specifications: {
+      'Processing Capacity': 'Up to 25 tons per hour',
+      'Organic Recovery': '95%+ organic material recovery',
+      'Contamination Level': '<5% packaging contamination',
+      'Power Consumption': 'Energy efficient design',
+      'Maintenance': 'Low maintenance requirements',
+      'Operation': 'Fully automated operation',
+      'Packaging Types': 'Plastic, cardboard, metal containers',
+      'Material Handling': 'Gentle processing technology',
+      'Installation': 'Modular design for easy installation',
+      'Warranty': '2-year comprehensive warranty'
+    },
+    applications: [
+      'Food waste processing facilities',
+      'Organic waste management',
+      'Composting operations',
+      'Anaerobic digestion plants',
+      'Municipal waste processing',
+      'Commercial food service',
+      'Grocery store waste management',
+      'Restaurant waste processing',
+      'Food manufacturing facilities',
+      'Agricultural waste processing'
+    ],
+    videos: [
+      'https://youtu.be/ircipzTwJRM'
+    ],
+    gallery: [
+      '/Images/smicon-depackager-new.jpg',
+      '/Images/smicon-depackager.jpg',
+      '/Images/smicon-food-depackaging.jpg'
+    ],
+    testimonials: [
+      {
+        name: 'David Chen',
+        company: 'Organic Solutions LLC',
+        quote: 'The Smicon depackager has transformed our food waste processing. Recovery rates are exceptional.',
+        rating: 5
+      },
+      {
+        name: 'Lisa Thompson',
+        company: 'Green Compost Co.',
+        quote: 'Reliable, efficient, and easy to maintain. Perfect for our composting operation.',
+        rating: 5
+      },
+      {
+        name: 'Robert Wilson',
+        company: 'EcoWaste Management',
+        quote: 'Outstanding performance with minimal contamination. Highly recommended for food waste processing.',
+        rating: 5
+      }
+    ]
+  };
+
+  return <EquipmentPageTemplate equipment={equipment} />;
+};
+
+export default SmiconDepackagerPage;

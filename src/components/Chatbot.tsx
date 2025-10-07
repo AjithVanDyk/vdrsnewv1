@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Bot, ChevronRight, ArrowRight, ExternalLink } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface QuickQuestion {
   id: string;
@@ -12,20 +12,21 @@ interface QuickQuestion {
 }
 
 const Chatbot = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [inputText, setInputText] = useState('');
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const [filteredSuggestions, setFilteredSuggestions] = useState<QuickQuestion[]>([]);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
+  const [inputText, setInputText] = React.useState('');
+  const [showSuggestions, setShowSuggestions] = React.useState(false);
+  const [filteredSuggestions, setFilteredSuggestions] = React.useState<QuickQuestion[]>([]);
+  const messagesEndRef = React.useRef<HTMLDivElement>(null);
 
   // Scroll to bottom of messages whenever messages change
-  useEffect(() => {
+  React.useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [selectedCategory]);
 
   // Close suggestions when clicking outside
-  useEffect(() => {
+  React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Element;
       if (!target.closest('.suggestions-container')) {
@@ -40,16 +41,16 @@ const Chatbot = () => {
   }, [showSuggestions]);
 
   // Tree of questions organized by category
-  const questionTree = useMemo(() => ({
+  const questionTree = React.useMemo(() => ({
     equipment: {
       title: 'Equipment & Technology',
       icon: '🔧',
       questions: [
-        { id: 'bollegraaf', question: 'Tell me about Bollegraaf balers', path: '/equipment#bollegraaf-equipment', description: 'High-performance horizontal balers' },
-        { id: 'tomra', question: 'What is TOMRA optical sorting?', path: '/equipment#tomra-optical-sorting-equipment', description: 'Advanced optical sorting technology' },
-        { id: 'pellenc', question: 'How does Pellenc ST work?', path: '/equipment#pellenc-st-optical-sorting-equipment', description: 'AI-powered intelligent sorting' },
-        { id: 'lubo', question: 'What are Lubo screens?', path: '/equipment#lubo-screening-equipment', description: 'Elliptical screening technology' },
-        { id: 'greyparrot', question: 'Tell me about Greyparrot AI', path: '/equipment#greyparrot-ai-equipment', description: 'AI-based waste analytics' },
+        { id: 'bollegraaf', question: 'Tell me about Bollegraaf balers', path: '/equipment/bollegraaf', description: 'High-performance horizontal balers' },
+        { id: 'tomra', question: 'What is TOMRA optical sorting?', path: '/equipment/tomra', description: 'Advanced optical sorting technology' },
+        { id: 'pellenc', question: 'How does Pellenc ST work?', path: '/equipment/pellenc-st', description: 'AI-powered intelligent sorting' },
+        { id: 'lubo', question: 'What are Lubo screens?', path: '/equipment/lubo-screening', description: 'Elliptical screening technology' },
+        { id: 'greyparrot', question: 'Tell me about Greyparrot AI', path: '/equipment/greyparrot-ai', description: 'AI-based waste analytics' },
         { id: 'all-equipment', question: 'View all equipment', path: '/equipment', description: 'Complete equipment catalog' }
       ]
     },
@@ -57,10 +58,10 @@ const Chatbot = () => {
       title: 'Recycling Solutions',
       icon: '♻️',
       questions: [
-        { id: 'single-stream', question: 'Single stream recycling solutions', path: '/solutions#single-stream-recycling', description: 'Complete single stream processing' },
-        { id: 'plastics', question: 'Plastics recycling systems', path: '/solutions#plastics-recycling', description: 'Advanced plastics processing' },
-        { id: 'organics', question: 'Organics processing solutions', path: '/solutions#organics-processing', description: 'Food waste and organics handling' },
-        { id: 'e-scrap', question: 'E-scrap recycling technology', path: '/solutions#e-scrap-recycling', description: 'Electronics waste processing' },
+        { id: 'single-stream', question: 'Single stream recycling solutions', path: '/solutions/single-stream-recycling', description: 'Complete single stream processing' },
+        { id: 'plastics', question: 'Plastics recycling systems', path: '/solutions/plastics-recycling', description: 'Advanced plastics processing' },
+        { id: 'organics', question: 'Organics processing solutions', path: '/solutions/organics-processing', description: 'Food waste and organics handling' },
+        { id: 'e-scrap', question: 'E-scrap recycling technology', path: '/solutions/e-scrap-recycling', description: 'Electronics waste processing' },
         { id: 'all-solutions', question: 'View all solutions', path: '/solutions', description: 'Complete solutions overview' }
       ]
     },
@@ -69,8 +70,8 @@ const Chatbot = () => {
       icon: '🛠️',
       questions: [
         { id: 'turnkey', question: 'Turnkey design services', path: '/support', description: 'Complete facility design' },
-        { id: 'installation', question: 'Installation services', path: '/support', description: 'Professional equipment installation' },
-        { id: 'training', question: 'Training programs', path: '/support', description: 'Operator and maintenance training' },
+        { id: 'installation', question: 'Installation services', path: '/installation-process', description: 'Professional equipment installation' },
+        { id: 'training', question: 'Training programs', path: '/training-schedule', description: 'Operator and maintenance training' },
         { id: 'maintenance', question: 'Preventive maintenance', path: '/support', description: 'Ongoing equipment maintenance' },
         { id: 'test-center', question: 'Test center services', path: '/test-center', description: 'Material testing facility' }
       ]
@@ -98,7 +99,7 @@ const Chatbot = () => {
   }), []);
 
   // Get all questions for autocomplete
-  const allQuestions: QuickQuestion[] = useMemo(() => 
+  const allQuestions: QuickQuestion[] = React.useMemo(() => 
     Object.values(questionTree).flatMap(category => 
       category.questions.map(q => ({
         id: q.id,
@@ -163,8 +164,10 @@ const Chatbot = () => {
   };
 
   const handleQuestionClick = (path: string) => {
-    // Navigate to the page
-    window.location.href = path;
+    // Navigate to the page using React Router
+    navigate(path);
+    // Close the chatbot after navigation
+    setIsOpen(false);
   };
 
   const resetToMainMenu = () => {

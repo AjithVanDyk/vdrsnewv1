@@ -322,10 +322,11 @@ const ServicesSupport = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <div className="relative bg-gradient-to-r from-vd-blue-dark to-vd-blue text-white py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/Images/single-stream-recycling.jpg')] bg-center bg-no-repeat bg-cover opacity-30" />
-        <div className="absolute inset-0 bg-gradient-to-r from-vd-blue-dark/90 to-vd-blue/90" />
-        {/* Additional overlay pattern */}
-        <div className="absolute inset-0 bg-[url('/Images/mrf-systems.jpg')] bg-center bg-no-repeat bg-cover opacity-10 mix-blend-overlay" />
+        {/* Main hero background image */}
+        <div className="absolute inset-0 bg-[url('/Images/contact-team-photo.jpg')] bg-center bg-no-repeat bg-cover opacity-40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-vd-blue-dark/85 to-vd-blue/85" />
+        {/* Additional overlay pattern for depth */}
+        <div className="absolute inset-0 bg-[url('/Images/commercial-waste-processing.jpg')] bg-center bg-no-repeat bg-cover opacity-15 mix-blend-overlay" />
         <div className="container mx-auto px-4 relative">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -386,16 +387,22 @@ const ServicesSupport = () => {
 
       {/* Statistics Section */}
       <section id="stats-section" className="py-20 bg-gradient-to-br from-gray-900 via-vd-blue-dark to-gray-900 text-white relative overflow-hidden">
-        {/* Animated background pattern */}
+        {/* Enhanced animated background pattern */}
         <div className="absolute inset-0 bg-[url('/Images/commercial-waste-processing.jpg')] bg-center bg-no-repeat bg-cover opacity-10" />
         <div className="absolute inset-0 bg-gradient-to-br from-vd-blue-dark/95 via-vd-blue/90 to-vd-blue-dark/95" />
         
-        {/* Floating geometric shapes for visual interest */}
+        {/* Enhanced floating geometric shapes with blending */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-10 left-10 w-20 h-20 border border-vd-orange/30 rotate-45 animate-pulse"></div>
-          <div className="absolute top-32 right-20 w-16 h-16 border border-white/20 rounded-full animate-bounce"></div>
-          <div className="absolute bottom-20 left-1/4 w-12 h-12 border border-vd-orange/40 rotate-12 animate-pulse"></div>
-          <div className="absolute bottom-32 right-1/3 w-24 h-24 border border-white/15 rounded-full animate-bounce"></div>
+          <div className="absolute top-10 left-10 w-20 h-20 border border-vd-orange/30 rotate-45 animate-pulse bg-vd-orange/5 backdrop-blur-sm"></div>
+          <div className="absolute top-32 right-20 w-16 h-16 border border-white/20 rounded-full animate-bounce bg-white/5 backdrop-blur-sm"></div>
+          <div className="absolute bottom-20 left-1/4 w-12 h-12 border border-vd-orange/40 rotate-12 animate-pulse bg-vd-orange/5 backdrop-blur-sm"></div>
+          <div className="absolute bottom-32 right-1/3 w-24 h-24 border border-white/15 rounded-full animate-bounce bg-white/5 backdrop-blur-sm"></div>
+          
+          {/* Additional subtle pattern overlays */}
+          <div className="absolute inset-0 opacity-5" style={{
+            backgroundImage: `radial-gradient(circle at 20% 20%, rgba(255,165,0,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(255,255,255,0.05) 0%, transparent 50%)`,
+            backgroundSize: '200px 200px, 150px 150px'
+          }}></div>
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
@@ -422,23 +429,31 @@ const ServicesSupport = () => {
                 transition={{ duration: 0.8, delay: index * 0.2 }}
                 className="group"
               >
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 text-center border border-white/20 hover:border-vd-orange/50 transition-all duration-300 hover:bg-white/15 hover:scale-105">
-                  <div className="relative">
+                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 text-center border border-white/20 hover:border-vd-orange/50 transition-all duration-300 hover:bg-white/15 hover:scale-105 relative overflow-hidden group">
+                  {/* Enhanced background blending */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-vd-orange/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-vd-blue/20 via-transparent to-transparent"></div>
+                  {/* Subtle pattern overlay */}
+                  <div className="absolute inset-0 opacity-10" style={{
+                    backgroundImage: `radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255,165,0,0.1) 0%, transparent 50%)`,
+                    backgroundSize: '100px 100px, 80px 80px'
+                  }}></div>
+                  <div className="relative z-10">
                     <motion.div
                       whileHover={{ rotate: 360 }}
                       transition={{ duration: 0.6 }}
-                      className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-vd-orange to-orange-600 rounded-full mb-6 group-hover:shadow-lg group-hover:shadow-vd-orange/50"
+                      className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-vd-orange to-orange-600 rounded-full mb-6 group-hover:shadow-lg group-hover:shadow-vd-orange/50 relative z-10"
                     >
                       <stat.icon className="w-8 h-8 text-white" />
                     </motion.div>
-                    <div className="text-5xl md:text-6xl font-bold text-vd-orange mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <div className="text-5xl md:text-6xl font-bold text-vd-orange mb-4 group-hover:scale-110 transition-transform duration-300 relative z-10">
                       {stat.number}
                     </div>
-                    <div className="text-lg text-white font-semibold group-hover:text-vd-orange transition-colors duration-300">
+                    <div className="text-lg text-white font-semibold group-hover:text-vd-orange transition-colors duration-300 relative z-10">
                       {stat.label}
                     </div>
-                    {/* Decorative line */}
-                    <div className="w-16 h-1 bg-gradient-to-r from-vd-orange to-transparent mx-auto mt-4 group-hover:w-24 transition-all duration-300"></div>
+                    {/* Enhanced decorative line with blending */}
+                    <div className="w-16 h-1 bg-gradient-to-r from-vd-orange via-vd-orange/80 to-transparent mx-auto mt-4 group-hover:w-24 transition-all duration-300 relative z-10 shadow-lg shadow-vd-orange/30"></div>
                   </div>
                 </div>
               </motion.div>
@@ -452,16 +467,29 @@ const ServicesSupport = () => {
             transition={{ duration: 0.8, delay: 0.8 }}
             className="text-center mt-16"
           >
-            <div className="inline-flex items-center space-x-4 bg-white/10 backdrop-blur-md rounded-full px-8 py-4 border border-white/20">
-              <div className="w-3 h-3 bg-vd-orange rounded-full animate-pulse"></div>
-              <span className="text-white font-medium">Trusted by industry leaders worldwide</span>
-              <div className="w-3 h-3 bg-vd-orange rounded-full animate-pulse"></div>
+            <div className="inline-flex items-center space-x-4 bg-white/10 backdrop-blur-md rounded-full px-8 py-4 border border-white/20 relative overflow-hidden group hover:bg-white/15 transition-all duration-300">
+              {/* Enhanced background blending */}
+              <div className="absolute inset-0 bg-gradient-to-r from-vd-orange/10 via-transparent to-vd-orange/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
+              {/* Subtle pattern */}
+              <div className="absolute inset-0 opacity-5" style={{
+                backgroundImage: `radial-gradient(circle at 50% 50%, rgba(255,165,0,0.2) 0%, transparent 70%)`,
+                backgroundSize: '60px 60px'
+              }}></div>
+              <div className="w-3 h-3 bg-vd-orange rounded-full animate-pulse relative z-10"></div>
+              <span className="text-white font-medium relative z-10">Trusted by industry leaders worldwide</span>
+              <div className="w-3 h-3 bg-vd-orange rounded-full animate-pulse relative z-10"></div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      <section className="bg-white py-16">
+      <section className="bg-white py-16 relative overflow-hidden">
+        {/* Subtle background pattern for white section */}
+        <div className="absolute inset-0 opacity-3" style={{
+          backgroundImage: `radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.02) 0%, transparent 50%), radial-gradient(circle at 90% 80%, rgba(255, 165, 0, 0.02) 0%, transparent 50%)`,
+          backgroundSize: '300px 300px, 250px 250px'
+        }}></div>
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-vd-blue mb-4">Support</h2>
@@ -480,11 +508,21 @@ const ServicesSupport = () => {
                 scale: 1.02,
                 transition: { duration: 0.3 }
               }}
-              className="bg-gradient-to-br from-vd-blue to-vd-blue-dark rounded-2xl shadow-lg overflow-hidden group cursor-pointer"
+              className="bg-gradient-to-br from-vd-blue to-vd-blue-dark rounded-2xl shadow-lg overflow-hidden group cursor-pointer relative"
               onClick={() => navigate('/equipment')}
             >
               <div className="p-8 text-white text-center relative">
+                {/* Enhanced background blending layers */}
                 <div className="absolute inset-0 bg-gradient-to-br from-vd-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-t from-vd-orange/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                {/* Subtle pattern overlay */}
+                <div className="absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity duration-300" style={{
+                  backgroundImage: `radial-gradient(circle at 30% 70%, rgba(255,165,0,0.3) 0%, transparent 50%), radial-gradient(circle at 70% 30%, rgba(255,255,255,0.1) 0%, transparent 50%)`,
+                  backgroundSize: '120px 120px, 80px 80px'
+                }}></div>
+                {/* Animated background elements */}
+                <div className="absolute top-4 right-4 w-20 h-20 bg-vd-orange/5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-700 group-hover:scale-150"></div>
+                <div className="absolute bottom-4 left-4 w-16 h-16 bg-white/5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100 group-hover:scale-125"></div>
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   transition={{ duration: 0.3 }}
@@ -523,11 +561,21 @@ const ServicesSupport = () => {
                 scale: 1.02,
                 transition: { duration: 0.3 }
               }}
-              className="bg-gradient-to-br from-vd-orange to-orange-600 rounded-2xl shadow-lg overflow-hidden group cursor-pointer"
+              className="bg-gradient-to-br from-vd-orange to-orange-600 rounded-2xl shadow-lg overflow-hidden group cursor-pointer relative"
               onClick={() => navigate('/solutions')}
             >
               <div className="p-8 text-white text-center relative">
+                {/* Enhanced background blending layers */}
                 <div className="absolute inset-0 bg-gradient-to-br from-vd-orange/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-t from-white/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                {/* Subtle pattern overlay */}
+                <div className="absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity duration-300" style={{
+                  backgroundImage: `radial-gradient(circle at 70% 30%, rgba(255,255,255,0.2) 0%, transparent 50%), radial-gradient(circle at 30% 70%, rgba(0,0,0,0.1) 0%, transparent 50%)`,
+                  backgroundSize: '100px 100px, 90px 90px'
+                }}></div>
+                {/* Animated background elements */}
+                <div className="absolute top-4 left-4 w-18 h-18 bg-white/5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-600 group-hover:scale-140"></div>
+                <div className="absolute bottom-4 right-4 w-14 h-14 bg-black/5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-400 delay-200 group-hover:scale-130"></div>
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: -5 }}
                   transition={{ duration: 0.3 }}

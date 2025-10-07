@@ -276,8 +276,23 @@ const NewsMedia = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-vd-blue-dark via-vd-blue to-vd-blue-dark text-white py-24 -mt-20 pt-20">
-        <div className="container mx-auto px-4 relative">
+      <div className="relative text-white py-24 -mt-20 pt-20 overflow-hidden">
+        {/* HD Background Image */}
+        <img 
+          src="/Images/pollutec-trade-show.jpg"
+          alt="News & Media"
+          className="absolute inset-0 w-full h-full object-cover object-center scale-105"
+          width="1920"
+          height="1080"
+          loading="eager"
+          decoding="sync"
+          onError={(e) => {
+            console.log('Hero image failed to load, using fallback');
+            e.currentTarget.src = '/Images/first.jpg';
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-black/40"></div>
+        <div className="container mx-auto px-4 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
