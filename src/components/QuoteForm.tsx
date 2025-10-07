@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { User, Building2, Mail, Phone, MapPin, Send } from 'lucide-react';
+import { User, Building2, Mail, Phone, MapPin, Send, AlertCircle, CheckCircle } from 'lucide-react';
+import { z } from 'zod';
 
 interface Equipment {
   id: string;
@@ -90,9 +91,24 @@ const equipmentItems: Equipment[] = [
   }
 ];
 
+// Zod validation schema
+const quoteFormSchema = z.object({
+  firstName: z.string().min(2, 'First name must be at least 2 characters').max(50, 'First name must be less than 50 characters'),
+  lastName: z.string().min(2, 'Last name must be at least 2 characters').max(50, 'Last name must be less than 50 characters'),
+  email: z.string().email('Please enter a valid email address'),
+  phone: z.string().min(10, 'Phone number must be at least 10 digits').regex(/^[\+]?[1-9][\d]{0,15}$/, 'Please enter a valid phone number'),
+  company: z.string().min(2, 'Company name must be at least 2 characters').max(100, 'Company name must be less than 100 characters'),
+  city: z.string().min(2, 'City must be at least 2 characters').max(50, 'City must be less than 50 characters'),
+  state: z.string().min(2, 'State must be at least 2 characters').max(50, 'State must be less than 50 characters'),
+  country: z.string().min(2, 'Country must be at least 2 characters').max(50, 'Country must be less than 50 characters'),
+  additionalDetails: z.string().max(1000, 'Additional details must be less than 1000 characters').optional()
+});
+
+type QuoteFormData = z.infer<typeof quoteFormSchema>;
+
 const QuoteForm = () => {
   const [selectedEquipment, setSelectedEquipment] = useState<string[]>([]);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<QuoteFormData>({
     firstName: '',
     lastName: '',
     email: '',
@@ -103,6 +119,9 @@ const QuoteForm = () => {
     country: '',
     additionalDetails: ''
   });
+  const [errors, setErrors] = useState<Partial<Record<keyof QuoteFormData, string>>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   const handleEquipmentSelect = (equipmentId: string) => {
     setSelectedEquipment(prev => 
@@ -118,12 +137,84 @@ const QuoteForm = () => {
       ...prev,
       [name]: value
     }));
+    
+    // Clear error when user starts typing
+    if (errors[name as keyof QuoteFormData]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: undefined
+      }));
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validateForm = (): boolean => {
+    try {
+      quoteFormSchema.parse(formData);
+      setErrors({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const fieldErrors: Partial<Record<keyof QuoteFormData, string>> = {};
+        error.errors.forEach((err) => {
+          if (err.path[0]) {
+            fieldErrors[err.path[0] as keyof QuoteFormData] = err.message;
+          }
+        });
+        setErrors(fieldErrors);
+      }
+      return false;
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log({ ...formData, selectedEquipment });
+    
+    if (!validateForm()) {
+      setSubmitStatus('error');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // In production, replace with actual API call
+      const submissionData = { ...formData, selectedEquipment };
+      
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Quote form submitted:', submissionData);
+      }
+      
+      setSubmitStatus('success');
+      
+      // Reset form after successful submission
+      setTimeout(() => {
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          phone: '',
+          company: '',
+          city: '',
+          state: '',
+          country: '',
+          additionalDetails: ''
+        });
+        setSelectedEquipment([]);
+        setSubmitStatus('idle');
+      }, 3000);
+      
+    } catch (error) {
+      setSubmitStatus('error');
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Form submission error:', error);
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -194,9 +285,17 @@ const QuoteForm = () => {
                       required
                       value={formData.firstName}
                       onChange={handleInputChange}
-                      className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange"
+                      className={`block w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange ${
+                        errors.firstName ? 'border-red-500' : 'border-gray-300'
+                      }`}
                       placeholder="John"
                     />
+                    {errors.firstName && (
+                      <div className="flex items-center mt-1 text-red-600 text-sm">
+                        <AlertCircle className="w-4 h-4 mr-1" />
+                        {errors.firstName}
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -371,14 +470,53 @@ const QuoteForm = () => {
               </div>
             </div>
 
-            <div className="text-center">
-              <button
-                type="submit"
-                className="bg-vd-orange hover:bg-vd-orange-alt text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 mx-auto"
+            {/* Status Messages */}
+            {submitStatus === 'success' && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center"
               >
-                <Send className="w-5 h-5" />
-                <span>Send Quote Request</span>
-              </button>
+                <CheckCircle className="w-5 h-5 text-green-600 mr-2" />
+                <span className="text-green-800 font-medium">Quote request submitted successfully!</span>
+              </motion.div>
+            )}
+            
+            {submitStatus === 'error' && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center"
+              >
+                <AlertCircle className="w-5 h-5 text-red-600 mr-2" />
+                <span className="text-red-800 font-medium">Please fix the errors above and try again.</span>
+              </motion.div>
+            )}
+
+            <div className="text-center">
+              <motion.button
+                type="submit"
+                disabled={isSubmitting}
+                className={`font-semibold py-3 px-8 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2 mx-auto ${
+                  isSubmitting
+                    ? 'bg-gray-400 cursor-not-allowed'
+                    : 'bg-vd-orange hover:bg-vd-orange-alt'
+                } text-white`}
+                whileHover={!isSubmitting ? { scale: 1.02 } : {}}
+                whileTap={!isSubmitting ? { scale: 0.98 } : {}}
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                    <span>Submitting...</span>
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-5 h-5" />
+                    <span>Send Quote Request</span>
+                  </>
+                )}
+              </motion.button>
             </div>
           </form>
         </motion.div>

@@ -91,13 +91,13 @@ const Footer: React.FC = () => {
     },
     {
       icon: Youtube,
-      href: 'https://youtube.com/c/vandykrecycling',
+      href: 'https://www.youtube.com/@VanDykRecyclingSolns',
       label: 'YouTube'
     }
   ], []);
 
   return (
-    <footer className="bg-gradient-to-b from-vd-blue-dark to-vd-blue text-white" role="contentinfo">
+    <footer className="bg-gradient-to-b from-vd-blue to-vd-gray text-white" role="contentinfo">
       <div className="container mx-auto py-6 px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
           {/* Company Info */}
@@ -112,33 +112,33 @@ const Footer: React.FC = () => {
             <img 
               src="/Images/van-dyk-logo-new.jpg" 
               alt="Van Dyk Recycling Solutions Logo" 
-              className="h-12 w-auto mb-4" 
+              className="h-8 w-auto mb-2" 
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.style.display = 'none';
               }} 
             />
-            <p className="text-gray-200 mb-3 leading-relaxed">
+            <p className="text-white mb-3 text-sm leading-relaxed">
               Leading provider of recycling equipment and solutions since 1984. Innovative technology and expert support for sustainable operations.
             </p>
             
             {/* Contact Info */}
-            <div className="space-y-2">
+            <div className="space-y-1 mb-3">
               <div className="flex items-center">
-                <Phone className="w-4 h-4 text-vd-orange mr-3" />
-                <a href="tel:+12039671100" className="text-gray-200 hover:text-vd-orange transition-colors">
+                <Phone className="w-3 h-3 text-vd-orange mr-2" />
+                <a href="tel:+12039671100" className="text-white hover:text-vd-orange transition-colors text-sm">
                   (203) 967-1100
                 </a>
               </div>
               <div className="flex items-center">
-                <Mail className="w-4 h-4 text-vd-orange mr-3" />
-                <a href="mailto:info@vdrs.com" className="text-gray-200 hover:text-vd-orange transition-colors">
+                <Mail className="w-3 h-3 text-vd-orange mr-2" />
+                <a href="mailto:info@vdrs.com" className="text-white hover:text-vd-orange transition-colors text-sm">
                   info@vdrs.com
                 </a>
               </div>
               <div className="flex items-start">
-                <MapPin className="w-4 h-4 text-vd-orange mr-3 mt-0.5" />
-                <address className="text-gray-200 not-italic text-sm">
+                <MapPin className="w-3 h-3 text-vd-orange mr-2 mt-0.5" />
+                <address className="text-white not-italic text-xs">
                   360 Dr. Martin Luther King Jr. Drive<br />
                   Norwalk, CT 06854
                 </address>
@@ -146,19 +146,19 @@ const Footer: React.FC = () => {
             </div>
 
             {/* Social Links */}
-            <div className="mt-3">
-              <h4 className="text-sm font-semibold mb-2 text-vd-orange">Follow Us</h4>
-              <div className="flex space-x-4">
+            <div>
+              <h4 className="text-xs font-semibold mb-1 text-vd-orange">Follow Us</h4>
+              <div className="flex space-x-2">
                 {socialLinks.map(({ icon: Icon, href, label }) => (
                   <a
                     key={label}
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-200 hover:text-vd-orange transition-colors duration-200 p-2 rounded-lg hover:bg-white/10"
+                    className="text-white hover:text-vd-orange transition-colors duration-200 p-1 rounded hover:bg-white/10"
                     aria-label={`Follow us on ${label} (opens in new tab)`}
                   >
-                    <Icon className="w-5 h-5" />
+                    <Icon className="w-4 h-4" />
                   </a>
                 ))}
               </div>
@@ -175,14 +175,14 @@ const Footer: React.FC = () => {
               role="region"
               aria-label={`${section.title} links`}
             >
-              <h3 className="text-lg font-semibold mb-3 text-vd-orange">{section.title}</h3>
-              <ul className="space-y-1">
+              <h3 className="text-sm font-semibold mb-2 text-vd-orange">{section.title}</h3>
+              <ul className="space-y-0.5">
                 {section.links.map((link) => (
                   <li key={link.label}>
                     {link.isExternal ? (
                       <a 
                         href={link.to}
-                        className="text-gray-200 hover:text-vd-orange transition-colors duration-200 text-sm"
+                        className="text-vd-gray-light hover:text-vd-orange transition-colors duration-200 text-xs"
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`${link.label} (opens in new tab)`}
@@ -192,7 +192,7 @@ const Footer: React.FC = () => {
                     ) : (
                       <Link 
                         to={link.to}
-                        className="text-gray-200 hover:text-vd-orange transition-colors duration-200 text-sm"
+                        className="text-vd-gray-light hover:text-vd-orange transition-colors duration-200 text-xs"
                       >
                         {link.label}
                       </Link>
@@ -204,8 +204,8 @@ const Footer: React.FC = () => {
           ))}
         </div>
 
-        <div className="border-t border-white/10 mt-6 pt-4 text-center text-gray-300">
-          <p>&copy; {new Date().getFullYear()} Van Dyk Recycling Solutions. All rights reserved.</p>
+        <div className="border-t border-white/10 mt-4 pt-3 text-center text-gray-300">
+          <p className="text-xs">&copy; {new Date().getFullYear()} Van Dyk Recycling Solutions. All rights reserved.</p>
         </div>
       </div>
     </footer>
