@@ -126,27 +126,29 @@ const SmoothScrollHandler = () => {
 
 function App() {
   useEffect(() => {
-    serviceWorkerManager.register();
+    // Temporarily disable service worker to fix module loading issues
+    // serviceWorkerManager.register();
+    
+    // Unregister any existing service workers
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(registrations => {
+        registrations.forEach(registration => {
+          if (process.env.NODE_ENV === 'development') {
+            console.log('Unregistering service worker for testing:', registration.scope);
+          }
+          registration.unregister();
+        });
+      });
+    }
+    
     initializeImageLoading();
     initializePerformanceMonitoring();
     
     // Initialize accessibility features
     accessibilityManager.announceToScreenReader('Van Dyk Recycling Solutions website loaded');
     
-    // Temporary: Unregister service worker to test if it's causing image issues
-    if (process.env.NODE_ENV === 'development') {
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-          registrations.forEach(registration => {
-            console.log('Unregistering service worker for testing:', registration.scope);
-            registration.unregister();
-          });
-        });
-      }
-    }
-    
     return () => {
-      serviceWorkerManager.unregister();
+      // serviceWorkerManager.unregister();
     };
   }, []);
 
