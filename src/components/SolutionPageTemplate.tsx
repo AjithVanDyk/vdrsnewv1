@@ -472,8 +472,10 @@ const SolutionPageTemplate: React.FC<SolutionPageProps> = ({ solution }) => {
                     src={getYouTubeEmbedUrl(selectedVideo)}
                     title={`${solution.name} Video`}
                     className="absolute top-0 left-0 w-full h-full rounded-lg"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="strict-origin-when-cross-origin"
                   />
                 ) : (
                   <video

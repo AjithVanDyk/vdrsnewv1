@@ -393,8 +393,10 @@ const PMI = () => {
                       src="https://www.youtube.com/embed/h_CBQczJgxY"
                       title="Van Dyk Vision-AR™ Troubleshooting"
                       frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="strict-origin-when-cross-origin"
                       className="rounded-lg"
                     ></iframe>
                   </div>
