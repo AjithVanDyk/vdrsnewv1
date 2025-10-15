@@ -46,22 +46,12 @@ const Footer: React.FC = () => {
       ]
     },
     {
-      title: 'About Us',
-      links: [
-        { to: '/contact', label: 'Contact Us' },
-        { to: '/about', label: 'Overview' },
-        { to: '/careers', label: 'Careers' },
-        { to: '/news-media', label: 'News & Media' }
-      ]
-    },
-    {
       title: 'Services',
       links: [
         { to: '/support', label: 'Support & Training' },
         { to: '/pmi', label: 'PMI Services' },
         { to: '/quote', label: 'Get Quote' },
         { to: '/test-center', label: 'Test Center' },
-        { to: '/installation-process', label: 'Installation Process' },
         { to: '/training-schedule', label: 'Training Schedule' }
       ]
     }
@@ -97,7 +87,7 @@ const Footer: React.FC = () => {
   ], []);
 
   return (
-    <footer className="bg-gradient-to-b from-vd-blue to-vd-gray text-white" role="contentinfo">
+    <footer className="bg-gradient-to-b from-vd-blue to-vd-blue-dark text-white" role="contentinfo">
       <div className="container mx-auto py-6 px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
           {/* Company Info */}
@@ -110,12 +100,19 @@ const Footer: React.FC = () => {
             aria-label="Company Information"
           >
             <img 
-              src="/Images/van-dyk-logo-new.jpg" 
+              src="/Images/van-dyk-logo-white.svg" 
               alt="Van Dyk Recycling Solutions Logo" 
-              className="h-8 w-auto mb-2" 
+              className="h-60 w-auto mb-3" 
+              loading="lazy"
+              decoding="async"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
+                // Try fallback to PNG if SVG fails
+                if (target.src.includes('.svg')) {
+                  target.src = '/Images/van-dyk-logo-white.png';
+                } else {
+                  target.style.display = 'none';
+                }
               }} 
             />
             <p className="text-white mb-3 text-sm leading-relaxed">
@@ -182,7 +179,7 @@ const Footer: React.FC = () => {
                     {link.isExternal ? (
                       <a 
                         href={link.to}
-                        className="text-vd-gray-light hover:text-vd-orange transition-colors duration-200 text-xs"
+                        className="text-white hover:text-vd-orange transition-colors duration-200 text-xs"
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`${link.label} (opens in new tab)`}
@@ -192,7 +189,7 @@ const Footer: React.FC = () => {
                     ) : (
                       <Link 
                         to={link.to}
-                        className="text-vd-gray-light hover:text-vd-orange transition-colors duration-200 text-xs"
+                        className="text-white hover:text-vd-orange transition-colors duration-200 text-xs"
                       >
                         {link.label}
                       </Link>
@@ -204,7 +201,32 @@ const Footer: React.FC = () => {
           ))}
         </div>
 
-        <div className="border-t border-white/10 mt-4 pt-3 text-center text-gray-300">
+        {/* About Us Horizontal Section */}
+        <div className="border-t border-white/10 mt-4 pt-4">
+          <h3 className="text-sm font-semibold mb-3 text-vd-orange text-center">About Us</h3>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link to="/contact" className="text-white hover:text-vd-orange transition-colors duration-200 text-xs">
+              Contact Us
+            </Link>
+            <Link to="/about" className="text-white hover:text-vd-orange transition-colors duration-200 text-xs">
+              Overview
+            </Link>
+            <Link to="/careers" className="text-white hover:text-vd-orange transition-colors duration-200 text-xs">
+              Careers
+            </Link>
+          <Link to="/news-media" className="text-white hover:text-vd-orange transition-colors duration-200 text-xs">
+            News & Media
+          </Link>
+          <Link to="/privacy-policy" className="text-white hover:text-vd-orange transition-colors duration-200 text-xs">
+            Privacy Policy
+          </Link>
+          <Link to="/sitemap" className="text-white hover:text-vd-orange transition-colors duration-200 text-xs">
+            Site Map
+          </Link>
+          </div>
+        </div>
+
+        <div className="border-t border-white/10 mt-4 pt-3 text-center text-white">
           <p className="text-xs">&copy; {new Date().getFullYear()} Van Dyk Recycling Solutions. All rights reserved.</p>
         </div>
       </div>
