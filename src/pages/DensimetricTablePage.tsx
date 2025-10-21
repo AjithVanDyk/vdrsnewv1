@@ -32,16 +32,12 @@ const DensimetricTablePage: React.FC = () => {
       'Warranty': '2-year comprehensive warranty'
     },
     applications: [
-      'Material recovery facilities (MRF)',
-      'Plastic recycling operations',
-      'Metal recovery facilities',
-      'Glass processing plants',
-      'Mixed waste sorting',
-      'Industrial waste management',
-      'Municipal recycling centers',
-      'Commercial waste processing',
-      'Construction waste management',
-      'Electronic waste processing'
+      { name: 'Compost refining', link: '/solutions/composting-densimetric-tables' },
+      { name: 'Organics processing', link: '/solutions/organics-processing' }
+    ],
+    videos: [
+      'https://youtu.be/5VvtScst8yI', // Compost Cleaning with an Allgaier Densimetric Table
+      'https://youtu.be/uyoDglUAzWw'  // New Densimetric Table
     ],
     gallery: [
       '/Images/densimetric-table-new.jpg'

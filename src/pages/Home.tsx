@@ -2,6 +2,10 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Recycle, Users, Award, TrendingUp } from 'lucide-react';
 import { useMemo } from 'react';
+import { IMAGE_ASSIGNMENTS } from '../config/images';
+import SEO from '../components/SEO';
+import { SEO_PAGES } from '../utils/seo';
+import TrustBadges, { CompanyTagline } from '../components/TrustBadges';
 
 const Home = () => {
   const stats = useMemo(() => [
@@ -16,7 +20,7 @@ const Home = () => {
       title: 'Single Stream Recycling',
       description: 'Complete turnkey solutions for single stream recycling facilities with advanced sorting technology.',
       icon: Recycle,
-      image: '/Images/single-stream-recycling.jpg',
+      image: IMAGE_ASSIGNMENTS.homepage.services.singleStream,
       linkText: 'Learn More',
       linkPath: '/solutions/single-stream-recycling'
     },
@@ -24,7 +28,7 @@ const Home = () => {
       title: 'Bollegraaf Equipment',
       description: 'Industry-leading ballistic separators and optical sorting systems for maximum efficiency.',
       icon: Award,
-      image: '/Images/bollegraaf-new-1.jpg',
+      image: IMAGE_ASSIGNMENTS.homepage.services.bollegraaf,
       linkText: 'Learn More',
       linkPath: '/equipment/bollegraaf'
     },
@@ -32,15 +36,15 @@ const Home = () => {
       title: 'Expert Consulting',
       description: 'Professional guidance and training to optimize your recycling operations and processes.',
       icon: Users,
-      image: '/Images/van-dyk-logo-new.jpg',
+      image: IMAGE_ASSIGNMENTS.homepage.services.expertConsulting,
       linkText: 'Learn More',
-      linkPath: '/installation-process'
+      linkPath: '/support'
     },
     {
       title: 'Global Support',
       description: 'Worldwide service network with local support and 24/7 technical assistance.',
       icon: TrendingUp,
-      image: '/Images/van-dyk-university.jpg',
+      image: IMAGE_ASSIGNMENTS.homepage.services.globalSupport,
       linkText: 'Learn More',
       linkPath: '/support'
     },
@@ -48,27 +52,37 @@ const Home = () => {
 
 
   return (
-    <div className="min-h-screen smooth-scroll">
+    <>
+      <SEO data={SEO_PAGES.home} />
+      <div className="min-h-screen smooth-scroll">
       {/* Hero Section */}
-      <div className="relative h-screen overflow-hidden -mt-16 sm:-mt-20 pt-16 sm:pt-20">
+      <div className="relative h-screen overflow-hidden -mt-16 sm:-mt-20 pt-16 sm:pt-20 w-full">
         <img 
-          src="/Images/image-1749759459073.png"
+          src={IMAGE_ASSIGNMENTS.homepage.hero}
           alt="Van Dyk Recycling Solutions"
-          className="absolute inset-0 w-full h-full object-cover object-center scale-105"
-          width="1920"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          width="8000"
           height="1080"
           loading="eager"
           decoding="sync"
+          style={{
+            filter: 'blur(2px)',
+            transform: 'scale(1.1)',
+            objectPosition: 'center 30%'
+          }}
           onError={(e) => {
-            if (process.env.NODE_ENV === 'development') {
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
               console.log('Hero image failed to load, using fallback');
             }
-            e.currentTarget.src = '/Images/first.jpg';
+            e.currentTarget.src = IMAGE_ASSIGNMENTS.homepage.heroFallback;
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-black/40"></div>
+        {/* Dark blue overlay for text readability */}
+        <div className="absolute inset-0 bg-vd-blue-dark/60"></div>
+        
+        
         <div className="absolute inset-0 flex items-center pt-16 sm:pt-20">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -79,19 +93,15 @@ const Home = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight"
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight"
               >
-                We Consult and Sell
-                <span className="block">Equipment to Help</span>
-                <span className="block text-vd-orange">Recyclers and Waste</span>
-                <span className="block text-vd-orange">Processors</span>
-                <span className="block">Maximize Profits</span>
+                We Consult and Sell Equipment to Help Recyclers and Waste Processors Maximize Profits
               </motion.h1>
               <motion.p 
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="text-lg sm:text-xl md:text-2xl mb-8 text-blue-100 max-w-4xl"
+                className="text-base sm:text-lg md:text-xl mb-8 text-blue-100 max-w-4xl"
               >
                 Advanced recycling technology, expert consulting, and comprehensive support services to optimize your operations.
               </motion.p>
@@ -101,84 +111,81 @@ const Home = () => {
                 transition={{ duration: 0.8, delay: 0.6 }}
                 className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-8 sm:mb-12 max-w-4xl"
               >
-                {/* BOLLEGRAAF BALERS - Semi-transparent card */}
+                {/* BOLLEGRAAF BALERS - Orange button */}
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Link
                     to="/equipment"
-                    className="block bg-black/30 text-white px-4 sm:px-6 lg:px-8 py-4 sm:py-6 rounded-xl font-bold text-sm sm:text-base lg:text-lg transition-all duration-300 shadow-2xl hover:bg-black/50 flex items-center justify-center min-h-[60px] sm:min-h-[80px]"
+                    className="block bg-vd-orange hover:bg-vd-orange-alt text-white px-4 sm:px-6 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base transition-all duration-300 shadow-2xl hover:shadow-3xl flex items-center justify-center min-h-[50px] sm:min-h-[60px]"
                   >
                     BOLLEGRAAF BALERS
                   </Link>
                 </motion.div>
 
-                {/* IS YOUR PRODUCT RECYCLABLE? - Semi-transparent card */}
+                {/* IS YOUR PRODUCT RECYCLABLE? - Orange button */}
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Link
                     to="/contact"
-                    className="block bg-black/30 border-2 border-white text-white px-4 sm:px-6 lg:px-8 py-4 sm:py-6 rounded-xl font-bold text-sm sm:text-base lg:text-lg transition-all duration-300 shadow-2xl hover:bg-black/50 flex items-center justify-center min-h-[60px] sm:min-h-[80px]"
+                    className="block bg-vd-orange hover:bg-vd-orange-alt text-white px-4 sm:px-6 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base transition-all duration-300 shadow-2xl hover:shadow-3xl flex items-center justify-center min-h-[50px] sm:min-h-[60px]"
                   >
                     IS YOUR PRODUCT RECYCLABLE?
                   </Link>
                 </motion.div>
 
-                {/* HIGH VOLUME FOOD DEPACKAGING - Semi-transparent card */}
+                {/* HIGH VOLUME FOOD DEPACKAGING - Orange button */}
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Link
                     to="/solutions"
-                    className="block bg-black/30 text-white px-4 sm:px-6 lg:px-8 py-4 sm:py-6 rounded-xl font-bold text-sm sm:text-base lg:text-lg transition-all duration-300 shadow-2xl hover:bg-black/50 flex items-center justify-center min-h-[60px] sm:min-h-[80px]"
+                    className="block bg-vd-orange hover:bg-vd-orange-alt text-white px-4 sm:px-6 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base transition-all duration-300 shadow-2xl hover:shadow-3xl flex items-center justify-center min-h-[50px] sm:min-h-[60px]"
                   >
                     HIGH VOLUME FOOD DEPACKAGING
                   </Link>
                 </motion.div>
 
-                {/* GOT ODOR PROBLEMS? - Semi-transparent card */}
+                {/* GOT ODOR PROBLEMS? - Orange button */}
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Link
                     to="/solutions"
-                    className="block bg-black/30 text-white px-4 sm:px-6 lg:px-8 py-4 sm:py-6 rounded-xl font-bold text-sm sm:text-base lg:text-lg transition-all duration-300 shadow-2xl hover:bg-black/50 flex items-center justify-center min-h-[60px] sm:min-h-[80px]"
+                    className="block bg-vd-orange hover:bg-vd-orange-alt text-white px-4 sm:px-6 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base transition-all duration-300 shadow-2xl hover:shadow-3xl flex items-center justify-center min-h-[50px] sm:min-h-[60px]"
                   >
                     GOT ODOR PROBLEMS?
                   </Link>
                 </motion.div>
               </motion.div>
               
-              {/* Stats Bar */}
+              {/* Stats Section - Full width */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.8 }}
-                className="w-full py-8 border-y border-white/30 relative"
-                style={{ marginLeft: 'calc(-50vw + 50%)', marginRight: 'calc(-50vw + 50%)', width: '100vw' }}
+                className="absolute left-0 right-0 py-8 border-y border-white/30"
+                style={{ 
+                  marginLeft: 'calc(-50vw + 50%)', 
+                  marginRight: 'calc(-50vw + 50%)', 
+                  width: '100vw',
+                  bottom: '0'
+                }}
               >
-                {/* Blurred background */}
-                <div 
-                  className="absolute inset-0 bg-vd-blue-dark/60"
-                  style={{
-                    backgroundImage: 'url(/Images/mrf-systems.jpg)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    filter: 'blur(8px)',
-                    transform: 'scale(1.1)'
-                  }}
-                ></div>
+                {/* Dark blue background */}
+                <div className="absolute inset-0 bg-vd-blue-dark"></div>
                 {/* Content */}
-                <div className="relative z-10">
-                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 max-w-7xl mx-auto px-4">
+                <div className="relative z-10 flex justify-center items-center">
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 max-w-7xl px-4">
                     {stats.map((stat, index) => (
                       <motion.div
                         key={index}
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.6, delay: 1 + index * 0.1 }}
-                        className="text-center"
+                        className="text-center flex flex-col items-center justify-center"
                       >
-                        <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-vd-orange mb-1 sm:mb-2">{stat.number}</div>
-                        <div className="text-xs sm:text-sm md:text-base text-white font-medium">{stat.label}</div>
+                        <div className="text-xl sm:text-2xl md:text-3xl font-bold text-vd-orange mb-1 sm:mb-2">{stat.number}</div>
+                        <div className="text-xs sm:text-sm md:text-base text-white font-medium text-center">{stat.label}</div>
                       </motion.div>
                     ))}
                   </div>
                 </div>
               </motion.div>
+              
             </motion.div>
           </div>
         </div>
@@ -192,7 +199,7 @@ const Home = () => {
             whileInView={{ opacity: 1, y: 0 }}
             className="text-center mb-8 sm:mb-12"
           >
-            <h2 className="text-2xl sm:text-3xl font-bold text-vd-blue mb-4">Our Services</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-vd-blue mb-4">Our Services</h2>
             <p className="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base">
               Comprehensive recycling solutions tailored to your needs, from equipment to expert support
             </p>
@@ -243,6 +250,20 @@ const Home = () => {
         </div>
       </div>
 
+      {/* Trust Badges Section */}
+      <div className="bg-gray-50 py-16">
+        <div className="container mx-auto px-4">
+          <TrustBadges />
+        </div>
+      </div>
+
+      {/* Company Tagline */}
+      <div className="bg-white py-16">
+        <div className="container mx-auto px-4">
+          <CompanyTagline />
+        </div>
+      </div>
+
       {/* Training and Parts Sections */}
       <div className="bg-gradient-to-b from-white to-gray-50 py-20">
         <div className="container mx-auto px-4">
@@ -255,11 +276,11 @@ const Home = () => {
               className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 p-8 text-center"
             >
               <img
-                src="/Images/van-dyk-university.jpg"
+                src={IMAGE_ASSIGNMENTS.homepage.training}
                 alt="Van Dyk University"
                 className="w-48 h-auto mx-auto mb-6"
               />
-              <h2 className="text-3xl font-bold text-vd-blue mb-3">Train Like the Best</h2>
+              <h2 className="text-2xl font-bold text-vd-blue mb-3">Train Like the Best</h2>
               <p className="text-gray-600 mb-6">Training on the installation and repair of our products.</p>
               <Link
                 to="/support"
@@ -277,15 +298,15 @@ const Home = () => {
               className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 p-8 text-center"
             >
               <img
-                src="/Images/van-dyk-logo-new.jpg"
+                src={IMAGE_ASSIGNMENTS.homepage.orderParts}
                 alt="Van Dyk Direct Logo"
                 className="w-48 h-auto mx-auto mb-6"
                 onError={(e) => {
-                  e.currentTarget.src = '/Images/image-1749759453479.png';
+                  e.currentTarget.src = IMAGE_ASSIGNMENTS.homepage.orderPartsFallback;
                   e.currentTarget.alt = 'Image not available';
                 }}
               />
-              <h2 className="text-3xl font-bold text-vd-blue mb-3">Order Parts</h2>
+              <h2 className="text-2xl font-bold text-vd-blue mb-3">Order Parts</h2>
               <p className="text-gray-600 mb-6">Get a quote. Order parts. Find what you need here.</p>
               <a
                 href="https://www.shopvandykdirect.com/"
@@ -299,7 +320,8 @@ const Home = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 

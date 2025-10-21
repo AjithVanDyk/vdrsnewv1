@@ -32,16 +32,12 @@ const ReckelbergEnvironmentalPage: React.FC = () => {
       'Warranty': '2-year comprehensive warranty'
     },
     applications: [
-      'Waste processing facilities',
-      'Environmental remediation',
-      'Industrial waste management',
-      'Municipal waste processing',
-      'Hazardous waste treatment',
-      'Biomass processing',
-      'Material recovery operations',
-      'Transfer stations',
-      'Landfill operations',
-      'Commercial waste processing'
+      { name: 'Battery recycling', link: '/solutions/battery-recycling-systems' }
+    ],
+    videos: [
+      'https://youtu.be/OSOB0JfqPTY', // E-Scrap Processing with Tomra Autosort Fines Optical Sorter
+      'https://youtu.be/B_VmEcZBy6M', // E-Scrap E-Waste Sorting with Artificial Intelligence Tomra Autosort Optical Sorter
+      'https://youtu.be/xjqEJdePkS4'  // E-Waste Processing Tomra Autosort Optical Sorter Finder Mode
     ],
     gallery: [
       '/Images/reckelberg-impact-reactor-new.jpg',

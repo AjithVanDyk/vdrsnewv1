@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, X, CheckCircle, Quote } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import QuoteForm from '../components/QuoteForm';
+import { IMAGE_ASSIGNMENTS } from '../config/images';
 
 interface Equipment {
 	id?: number;
@@ -26,7 +27,7 @@ const equipmentItems = [
 	{
 		id: 1,
 		name: 'Bollegraaf Balers',
-		image: '/Images/bollegraaf-new-1.jpg',
+		image: IMAGE_ASSIGNMENTS.equipment.categories.bollegraaf,
 		description: 'Industry-leading single ram balers with no-shear design for maximum efficiency and density. Single ram uses 1/3 power of two-ram balers and operates automatically without dedicated operator.',
 		features: [
 			'Single ram uses 1/3 power of two-ram balers',
@@ -56,7 +57,7 @@ const equipmentItems = [
 	{
 		id: 2,
 		name: 'Lubo StarScreen® Technology',
-		image: '/Images/lubo-screening-new.jpg',
+		image: IMAGE_ASSIGNMENTS.equipment.categories.lubo,
 		description: 'Patented StarScreen® technology with non-wrapping ONP screens, elliptical separators, and high-capacity 880 screens. Lubo USA LLC, founded in 1996, is a sister company of Van Dyk Recycling Solutions and exclusive distributor.',
 		features: [
 			'Patented StarScreen® technology with various star sizes',
@@ -81,7 +82,7 @@ const equipmentItems = [
 	{
 		id: 3,
 		name: 'TOMRA Optical Sorting',
-		image: '/Images/tomra-optical-sorting-new.jpg',
+		image: IMAGE_ASSIGNMENTS.equipment.categories.tomra,
 		description: 'Worldwide leader in optical sorting with industry-highest NIR resolution BY FAR and patented FLYING BEAM® illumination. Scanner placement up to 5 feet above conveyors (5x distance of competitors) with 95%+ purity rates maintained over long periods.',
 		features: [
 			'Industry-highest NIR resolution BY FAR - 5x distance capability',
@@ -124,26 +125,6 @@ const equipmentItems = [
 			'Technology': 'AI-powered optical sorting',
 			'Learning': 'Real-time algorithm adaptation',
 			'Applications': 'Mixed waste, plastics, recyclables'
-		}
-	},
-	{
-		id: 5,
-		name: 'Walair Density Separation',
-		image: '/Images/walair-density-separation.jpg',
-		description: 'Advanced density separation technology for efficient material recovery. Efficient separation of materials based on density differences.',
-		features: [
-			'Density-based separation',
-			'High recovery rates',
-			'Efficient material processing',
-			'Low energy consumption',
-			'Robust construction',
-			'Flexible applications'
-		],
-		specifications: {
-			'Separation': 'Density-based material separation',
-			'Efficiency': 'High recovery rates',
-			'Energy': 'Low energy consumption',
-			'Applications': 'Material recovery, waste processing'
 		}
 	},
 	{
@@ -305,32 +286,6 @@ const equipmentItems = [
 			'Applications': 'Cost-effective equipment solutions'
 		}
 	},
-	{
-		id: 14,
-		name: 'Glass Cleanup Systems',
-		image: '/Images/glass-cleanup-1.jpg',
-		description: 'Advanced glass cleanup and processing systems for efficient glass recovery and recycling. Specialized equipment for glass separation, cleaning, and processing in MRF operations.',
-		features: [
-			'Advanced glass separation technology',
-			'High-purity glass recovery',
-			'Efficient cleanup processes',
-			'Automated glass processing',
-			'Reduced contamination levels',
-			'High throughput capacity',
-			'Durable construction for harsh environments',
-			'Minimal maintenance requirements'
-		],
-		specifications: {
-			'Processing Capacity': 'High-volume glass processing',
-			'Recovery Rate': 'Superior glass purity levels',
-			'Technology': 'Advanced separation and cleanup',
-			'Maintenance': 'Low maintenance design',
-			'Applications': 'MRF operations, glass recycling facilities',
-			'Construction': 'Durable for harsh environments',
-			'Automation': 'Fully automated processing',
-			'Contamination': 'Minimal contamination levels'
-		}
-	}
 ];
 const EquipmentModal: React.FC<EquipmentModalProps> = ({ equipment, isOpen, onClose, navigate }) => {
 	if (!equipment) return null;
@@ -370,9 +325,9 @@ const EquipmentModal: React.FC<EquipmentModalProps> = ({ equipment, isOpen, onCl
 							/>
 							<div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 							<div className="absolute bottom-6 left-6 text-white">
-								<h2 className="text-4xl font-bold text-white mb-2 leading-tight">{equipment.name}</h2>
+								<h2 className="text-2xl font-bold text-white mb-2 leading-tight">{equipment.name}</h2>
 								{equipment.description && (
-									<p className="text-lg opacity-90">{equipment.description}</p>
+									<p className="text-base opacity-90">{equipment.description}</p>
 								)}
 							</div>
 							<button
@@ -580,7 +535,7 @@ const Equipment = () => {
 							transition={{ duration: 0.8 }}
 							className="max-w-3xl"
 						>
-							<h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+							<h1 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
 								Advanced Recycling Equipment
 							</h1>
 							<p className="text-xl text-blue-100 mb-8 leading-relaxed">

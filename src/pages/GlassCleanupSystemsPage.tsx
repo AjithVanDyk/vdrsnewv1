@@ -43,6 +43,10 @@ const GlassCleanupSystemsPage: React.FC = () => {
       'Event waste management',
       'Disaster waste processing'
     ],
+    videos: [
+      'https://youtu.be/6QVk7q7OEqo', // Eddy Current
+      'https://youtu.be/XyIYg0wBHC4'  // Magnet
+    ],
     gallery: [
       '/Images/glass-cleanup.jpg',
       '/Images/glass-cleanup-1.jpg',

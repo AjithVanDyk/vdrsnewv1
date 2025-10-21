@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { IMAGE_ASSIGNMENTS } from '../config/images';
 import { 
   Search, Wrench, GraduationCap, Package, Phone, Mail, 
   ArrowRight, ExternalLink, CheckCircle,
@@ -139,7 +140,7 @@ const ServicesSupport = () => {
       cta: 'Order Parts',
       ctaLink: 'https://www.shopvandykdirect.com/',
       ctaExternal: true,
-      image: '/Images/mrf-systems.jpg',
+      image: IMAGE_ASSIGNMENTS.branding.directLogo,
       imageAlt: 'Parts warehouse with $35 million inventory',
       icon: Package
     },
@@ -338,7 +339,7 @@ const ServicesSupport = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-4xl md:text-5xl font-bold mb-6"
+              className="text-3xl md:text-4xl font-bold mb-6"
             >
               Services & Support
             </motion.h1>
@@ -346,7 +347,7 @@ const ServicesSupport = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-xl text-gray-100 mb-8 leading-relaxed"
+              className="text-lg text-gray-100 mb-8 leading-relaxed"
             >
               Comprehensive recycling solutions from design and startup to training and 24×7 after-sales support
             </motion.p>
@@ -412,7 +413,7 @@ const ServicesSupport = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white to-vd-orange bg-clip-text text-transparent">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-white to-vd-orange bg-clip-text text-transparent">
               Why Choose Van Dyk?
             </h2>
             <p className="text-xl text-gray-200 max-w-2xl mx-auto">
@@ -498,115 +499,6 @@ const ServicesSupport = () => {
             </p>
           </div>
           
-          {/* Equipment & Solutions Redirect Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              whileHover={{ 
-                scale: 1.02,
-                transition: { duration: 0.3 }
-              }}
-              className="bg-gradient-to-br from-vd-blue to-vd-blue-dark rounded-2xl shadow-lg overflow-hidden group cursor-pointer relative"
-              onClick={() => navigate('/equipment')}
-            >
-              <div className="p-8 text-white text-center relative">
-                {/* Enhanced background blending layers */}
-                <div className="absolute inset-0 bg-gradient-to-br from-vd-blue/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute inset-0 bg-gradient-to-t from-vd-orange/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                {/* Subtle pattern overlay */}
-                <div className="absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity duration-300" style={{
-                  backgroundImage: `radial-gradient(circle at 30% 70%, rgba(255,165,0,0.3) 0%, transparent 50%), radial-gradient(circle at 70% 30%, rgba(255,255,255,0.1) 0%, transparent 50%)`,
-                  backgroundSize: '120px 120px, 80px 80px'
-                }}></div>
-                {/* Animated background elements */}
-                <div className="absolute top-4 right-4 w-20 h-20 bg-vd-orange/5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-700 group-hover:scale-150"></div>
-                <div className="absolute bottom-4 left-4 w-16 h-16 bg-white/5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100 group-hover:scale-125"></div>
-                <motion.div
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  transition={{ duration: 0.3 }}
-                  className="relative z-10"
-                >
-                  <Package className="w-16 h-16 mx-auto mb-4 text-vd-orange drop-shadow-lg" />
-                </motion.div>
-                <h3 className="text-2xl font-bold mb-4 relative z-10">Equipment</h3>
-                <p className="text-gray-100 mb-6 leading-relaxed relative z-10">
-                  Explore our comprehensive range of recycling equipment including balers, screens, sorters, and more.
-                </p>
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="relative z-10"
-                >
-                  <div className="bg-vd-orange hover:bg-vd-orange-alt text-white px-6 py-3 rounded-lg font-semibold transition-colors inline-flex items-center justify-center shadow-lg">
-                    View Equipment
-                    <motion.div
-                      animate={{ x: [0, 4, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                      className="ml-2"
-                    >
-                      <ArrowRight className="w-5 h-5" />
-                    </motion.div>
-                  </div>
-                </motion.div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              whileHover={{ 
-                scale: 1.02,
-                transition: { duration: 0.3 }
-              }}
-              className="bg-gradient-to-br from-vd-orange to-orange-600 rounded-2xl shadow-lg overflow-hidden group cursor-pointer relative"
-              onClick={() => navigate('/solutions')}
-            >
-              <div className="p-8 text-white text-center relative">
-                {/* Enhanced background blending layers */}
-                <div className="absolute inset-0 bg-gradient-to-br from-vd-orange/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute inset-0 bg-gradient-to-t from-white/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                {/* Subtle pattern overlay */}
-                <div className="absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity duration-300" style={{
-                  backgroundImage: `radial-gradient(circle at 70% 30%, rgba(255,255,255,0.2) 0%, transparent 50%), radial-gradient(circle at 30% 70%, rgba(0,0,0,0.1) 0%, transparent 50%)`,
-                  backgroundSize: '100px 100px, 90px 90px'
-                }}></div>
-                {/* Animated background elements */}
-                <div className="absolute top-4 left-4 w-18 h-18 bg-white/5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-600 group-hover:scale-140"></div>
-                <div className="absolute bottom-4 right-4 w-14 h-14 bg-black/5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-400 delay-200 group-hover:scale-130"></div>
-                <motion.div
-                  whileHover={{ scale: 1.1, rotate: -5 }}
-                  transition={{ duration: 0.3 }}
-                  className="relative z-10"
-                >
-                  <Settings className="w-16 h-16 mx-auto mb-4 text-white drop-shadow-lg" />
-                </motion.div>
-                <h3 className="text-2xl font-bold mb-4 relative z-10">Solutions</h3>
-                <p className="text-gray-100 mb-6 leading-relaxed relative z-10">
-                  Discover our complete recycling solutions tailored for different materials and applications.
-                </p>
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="relative z-10"
-                >
-                  <div className="bg-white hover:bg-gray-100 text-vd-orange px-6 py-3 rounded-lg font-semibold transition-colors inline-flex items-center justify-center shadow-lg">
-                    View Solutions
-                    <motion.div
-                      animate={{ x: [0, 4, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                      className="ml-2"
-                    >
-                      <ArrowRight className="w-5 h-5" />
-                    </motion.div>
-                  </div>
-                </motion.div>
-              </div>
-            </motion.div>
-          </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {supportCards.map((card, index) => renderCard(card, index))}
           </div>

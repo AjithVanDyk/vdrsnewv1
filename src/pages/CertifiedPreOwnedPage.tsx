@@ -32,16 +32,19 @@ const CertifiedPreOwnedPage: React.FC = () => {
       'Warranty': 'Comprehensive warranty coverage'
     },
     applications: [
-      'Material recovery facilities (MRF)',
-      'Single stream recycling',
-      'Waste processing operations',
-      'Municipal recycling programs',
-      'Commercial recycling centers',
-      'Industrial waste management',
-      'Transfer stations',
-      'Landfill operations',
-      'Construction waste processing',
-      'Agricultural waste management'
+      { name: 'Bollegraaf balers', link: '/equipment/bollegraaf' },
+      { name: 'Optical sorters' },
+      { name: 'Conveyors' },
+      { name: 'Belts' },
+      { name: 'Eddy currents' },
+      { name: 'Magnets' },
+      { name: 'Screens' }
+    ],
+    videos: [
+      'https://youtu.be/zqbJbMABi-A', // Bollegraaf HBC 140 Baler at Yes Recycling Newark NJ
+      'https://youtu.be/m4VQvwWW9yU', // Single Ram Baler
+      'https://youtu.be/6QVk7q7OEqo', // Eddy Current
+      'https://youtu.be/XyIYg0wBHC4'  // Magnet
     ],
     gallery: [
       '/Images/certified-pre-owned.jpg'

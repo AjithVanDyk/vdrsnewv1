@@ -32,16 +32,20 @@ const FoodWasteDepackagingPage: React.FC = () => {
       'Warranty': '2-year comprehensive warranty'
     },
     applications: [
-      'Food processing facilities',
-      'Restaurant waste management',
-      'Grocery store waste processing',
-      'Commercial kitchens',
-      'Food manufacturing plants',
-      'Cafeteria operations',
-      'Event catering waste',
-      'Hospital food services',
-      'School dining facilities',
-      'Corporate dining centers'
+      { name: 'Residential SSO' },
+      { name: 'Commercial SSO' },
+      { name: 'Bulk food waste' },
+      { name: 'Restaurant waste' },
+      { name: 'Mixed supermarket waste' },
+      { name: 'Packaged produce' },
+      { name: 'Canned foods' },
+      { name: 'Beverage cartons and cans' }
+    ],
+    equipment: [
+      { name: 'Smicon', link: '/equipment/smicon-depackager' }
+    ],
+    videos: [
+      'https://youtu.be/ircipzTwJRM' // VDRS Smimo Depackager
     ],
     gallery: [
       '/Images/smicon-food-depackaging.jpg',

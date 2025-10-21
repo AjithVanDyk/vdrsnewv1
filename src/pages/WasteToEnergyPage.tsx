@@ -31,20 +31,19 @@ const WasteToEnergyPage: React.FC = () => {
       'Installation': 'Turnkey installation',
       'Warranty': '2-year comprehensive warranty'
     },
-    applications: [
-      'Municipal waste-to-energy facilities',
-      'Industrial waste processing',
-      'Medical waste treatment',
-      'Hazardous waste disposal',
-      'Biomass energy production',
-      'District heating systems',
-      'Power generation facilities',
-      'Environmental remediation',
-      'Disaster waste management',
-      'Sustainable energy projects'
+    applications: [],
+    equipment: [
+      { name: 'Bollegraaf', link: '/equipment/bollegraaf' },
+      { name: 'Lubo', link: '/equipment/lubo-screening' },
+      { name: 'Tomra', link: '/equipment/tomra' },
+      { name: 'Pellenc', link: '/equipment/pellenc-st' },
+      { name: 'Gunther', link: '/equipment/gunther-screens' },
+      { name: 'Centriair', link: '/equipment/centriair-odor-control' },
+      { name: 'Greyparrot', link: '/equipment/greyparrot-ai' },
+      { name: 'Smicon', link: '/equipment/smicon-depackager' }
     ],
     videos: [
-      'https://youtu.be/Bvt06EqzI0U'
+      'https://youtu.be/jJ0G65ako44' // MRFs in Crisis 2019
     ],
     gallery: [
       '/Images/waste-to-energy.jpg',

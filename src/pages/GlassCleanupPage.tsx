@@ -31,17 +31,10 @@ const GlassCleanupPage: React.FC = () => {
       'Installation': 'Turnkey installation',
       'Warranty': '2-year comprehensive warranty'
     },
-    applications: [
-      'Glass recycling facilities',
-      'Material recovery facilities (MRF)',
-      'Single stream recycling',
-      'Mixed waste processing',
-      'Commercial recycling centers',
-      'Municipal recycling programs',
-      'Industrial waste management',
-      'Construction waste processing',
-      'Event waste management',
-      'Disaster waste processing'
+    applications: [    ],
+    videos: [
+      'https://youtu.be/6QVk7q7OEqo', // Eddy Current
+      'https://youtu.be/XyIYg0wBHC4'  // Magnet
     ],
     gallery: [
       '/Images/glass-cleanup.jpg',

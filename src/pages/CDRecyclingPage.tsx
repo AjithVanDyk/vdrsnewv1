@@ -31,17 +31,18 @@ const CDRecyclingPage: React.FC = () => {
       'Installation': 'Turnkey installation',
       'Warranty': '2-year comprehensive warranty'
     },
-    applications: [
-      'Construction sites',
-      'Demolition projects',
-      'Renovation activities',
-      'Infrastructure projects',
-      'Commercial construction',
-      'Residential development',
-      'Industrial construction',
-      'Road construction',
-      'Bridge construction',
-      'Public works projects'
+    applications: [],
+    equipment: [
+      { name: 'Bollegraaf', link: '/equipment/bollegraaf' },
+      { name: 'Lubo', link: '/equipment/lubo-screening' },
+      { name: 'Tomra', link: '/equipment/tomra' },
+      { name: 'Pellenc', link: '/equipment/pellenc-st' },
+      { name: 'Gunther', link: '/equipment/gunther-screens' },
+      { name: 'Beefoam', link: '/equipment/beefoam-dust-suppression' }
+    ],
+    videos: [
+      'https://youtu.be/MOjFp3y7mEw', // Construction and Demolition Waste Sorting System
+      'https://youtu.be/Lt-ZYSw6p3w'  // Lubo Neptune AWS StarScreen Sorting C&D Waste
     ],
     gallery: [
       '/Images/cd-recycling.jpg',

@@ -31,17 +31,14 @@ const BatteryRecyclingSystemsPage: React.FC = () => {
       'Installation': 'Turnkey installation',
       'Warranty': '2-year comprehensive warranty'
     },
-    applications: [
-      'Electric vehicle batteries',
-      'Consumer electronics batteries',
-      'Industrial battery systems',
-      'Energy storage systems',
-      'Portable device batteries',
-      'Automotive batteries',
-      'Marine batteries',
-      'UPS batteries',
-      'Solar energy storage',
-      'Grid storage systems'
+    applications: [],
+    equipment: [
+      { name: 'Reckelberg', link: '/equipment/reckelberg-environmental' }
+    ],
+    videos: [
+      'https://youtu.be/OSOB0JfqPTY', // E-Scrap Processing with Tomra Autosort Fines Optical Sorter
+      'https://youtu.be/B_VmEcZBy6M', // E-Scrap E-Waste Sorting with Artificial Intelligence Tomra Autosort Optical Sorter
+      'https://youtu.be/xjqEJdePkS4'  // E-Waste Processing Tomra Autosort Optical Sorter Finder Mode
     ],
     gallery: [
       '/Images/battery-recycling.jpg'

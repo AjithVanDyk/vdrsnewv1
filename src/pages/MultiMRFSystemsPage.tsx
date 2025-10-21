@@ -31,17 +31,22 @@ const MultiMRFSystemsPage: React.FC = () => {
       'Installation': 'Turnkey installation',
       'Warranty': '2-year comprehensive warranty'
     },
-    applications: [
-      'Municipal waste processing',
-      'Regional recycling centers',
-      'Large-scale MRF facilities',
-      'Waste management companies',
-      'Government facilities',
-      'Industrial complexes',
-      'Commercial districts',
-      'Educational institutions',
-      'Healthcare facilities',
-      'Airport terminals'
+    applications: [],
+    equipment: [
+      { name: 'Bollegraaf', link: '/equipment/bollegraaf' },
+      { name: 'Lubo', link: '/equipment/lubo-screening' },
+      { name: 'Tomra', link: '/equipment/tomra' },
+      { name: 'Pellenc', link: '/equipment/pellenc-st' },
+      { name: 'Gunther', link: '/equipment/gunther-screens' },
+      { name: 'Centriair', link: '/equipment/centriair-odor-control' },
+      { name: 'Greyparrot', link: '/equipment/greyparrot-ai' },
+      { name: 'Beefoam', link: '/equipment/beefoam-dust-suppression' }
+    ],
+    videos: [
+      'https://youtu.be/Qerp8XcGDw0', // A New Way to Sort Single Stream
+      'https://youtu.be/M5nmNKVNCBw', // Single Stream Recycling Tour Material Recovery Facility
+      'https://youtu.be/QFmP4fvjk6I', // Positive Sorting Next Gen MRF
+      'https://youtu.be/9dxwdU9iGOM'  // Building a 25 TPH Single Stream Recycling Facility
     ],
     gallery: [
       '/Images/mrf-systems.jpg',

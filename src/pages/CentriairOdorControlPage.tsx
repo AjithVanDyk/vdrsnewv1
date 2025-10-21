@@ -32,16 +32,14 @@ const CentriairOdorControlPage: React.FC = () => {
       'Warranty': '2-year comprehensive warranty'
     },
     applications: [
-      'Material recovery facilities (MRF)',
-      'Composting facilities',
-      'Food waste processing',
-      'Municipal waste processing',
-      'Industrial waste management',
-      'Transfer stations',
-      'Landfill operations',
-      'Anaerobic digestion plants',
-      'Waste-to-energy facilities',
-      'Commercial waste processing'
+      { name: 'Biogas systems', link: '/solutions/organics-processing' },
+      { name: 'Waste water treatment', link: '/solutions/organics-processing' },
+      { name: 'Food waste processing', link: '/solutions/organics-processing' },
+      { name: 'MSW processing', link: '/solutions/msw-processing' },
+      { name: 'Waste to Energy', link: '/solutions/waste-to-energy' }
+    ],
+    videos: [
+      'https://youtu.be/ircipzTwJRM' // VDRS Smimo Depackager (shows odor control in action)
     ],
     gallery: [
       '/Images/centriair-new-1.jpg',

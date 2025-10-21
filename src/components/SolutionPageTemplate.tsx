@@ -4,6 +4,16 @@ import { ArrowRight, CheckCircle, Star, Quote, X, Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import QuoteForm from './QuoteForm';
 
+interface ApplicationItem {
+  name: string;
+  link?: string;
+}
+
+interface EquipmentItem {
+  name: string;
+  link?: string;
+}
+
 interface SolutionPageProps {
   solution: {
     id: number;
@@ -12,7 +22,8 @@ interface SolutionPageProps {
     description: string;
     features: string[];
     specifications: { [key: string]: string };
-    applications: string[];
+    applications?: ApplicationItem[];
+    equipment?: EquipmentItem[];
     benefits?: string[];
     gallery?: string[];
     videos?: string[];
@@ -75,8 +86,8 @@ const SolutionPageTemplate: React.FC<SolutionPageProps> = ({ solution }) => {
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">{solution.name}</h1>
-            <p className="text-xl md:text-2xl text-blue-100 max-w-4xl mx-auto leading-relaxed">
+            <h1 className="text-3xl md:text-4xl font-bold mb-6">{solution.name}</h1>
+            <p className="text-lg md:text-xl text-blue-100 max-w-4xl mx-auto leading-relaxed">
               {solution.description}
             </p>
           </motion.div>
@@ -227,6 +238,19 @@ const SolutionPageTemplate: React.FC<SolutionPageProps> = ({ solution }) => {
                       src={`https://img.youtube.com/vi/${video.split('v=')[1]?.split('&')[0] || video.split('/').pop()}/maxresdefault.jpg`}
                       alt={`${solution.name} Video ${index + 1}`}
                       className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      onError={(e) => {
+                        // Fallback to hqdefault if maxresdefault fails
+                        const currentSrc = e.currentTarget.src;
+                        if (currentSrc.includes('maxresdefault')) {
+                          e.currentTarget.src = currentSrc.replace('maxresdefault', 'hqdefault');
+                        } else if (currentSrc.includes('hqdefault')) {
+                          // Final fallback to default thumbnail
+                          e.currentTarget.src = currentSrc.replace('hqdefault', 'default');
+                        } else {
+                          // Ultimate fallback to a placeholder image
+                          e.currentTarget.src = '/Images/image-1749759453479.png';
+                        }
+                      }}
                     />
                     <div className="absolute inset-0 bg-black/50 flex items-center justify-center group-hover:bg-black/60 transition-colors">
                       <Play className="w-16 h-16 text-white" />
@@ -267,45 +291,108 @@ const SolutionPageTemplate: React.FC<SolutionPageProps> = ({ solution }) => {
       ) : null}
 
       {/* Applications Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-vd-blue-dark mb-4">
-              Applications
-            </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Versatile applications across various industries and use cases
-            </p>
-          </motion.div>
+      {solution.applications && solution.applications.length > 0 && (
+        <section className="py-16 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-vd-blue-dark mb-4">
+                Applications
+              </h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                Versatile applications across various industries and use cases
+              </p>
+            </motion.div>
 
-          <motion.div
-            variants={staggerChildren}
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
-          >
-            {solution.applications.map((application, index) => (
-              <motion.div
-                key={index}
-                variants={fadeInUp}
-                className="bg-gradient-to-br from-vd-blue to-vd-blue-dark text-white p-6 rounded-xl"
-              >
-                <div className="flex items-center space-x-3">
-                  <Star className="w-6 h-6 text-vd-orange" />
-                  <p className="font-medium">{application}</p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
+            <motion.div
+              variants={staggerChildren}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+              className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+            >
+              {solution.applications.map((application, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeInUp}
+                  className="bg-gradient-to-br from-vd-blue to-vd-blue-dark text-white p-6 rounded-xl"
+                >
+                  <div className="flex items-center space-x-3">
+                    <Star className="w-6 h-6 text-vd-orange" />
+                    {application.link ? (
+                      <Link
+                        to={application.link}
+                        className="font-medium hover:text-vd-orange transition-colors"
+                      >
+                        {application.name}
+                      </Link>
+                    ) : (
+                      <p className="font-medium">{application.name}</p>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      {/* Equipment Section */}
+      {solution.equipment && solution.equipment.length > 0 && (
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-vd-blue-dark mb-4">
+                Equipment
+              </h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                Recommended equipment for this solution
+              </p>
+            </motion.div>
+
+            <motion.div
+              variants={staggerChildren}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+              className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+            >
+              {solution.equipment.map((equipment, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeInUp}
+                  className="bg-gradient-to-br from-vd-orange to-orange-600 text-white p-6 rounded-xl"
+                >
+                  <div className="flex items-center space-x-3">
+                    <Star className="w-6 h-6 text-white" />
+                    {equipment.link ? (
+                      <Link
+                        to={equipment.link}
+                        className="font-medium hover:text-gray-200 transition-colors"
+                      >
+                        {equipment.name}
+                      </Link>
+                    ) : (
+                      <p className="font-medium">{equipment.name}</p>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+      )}
 
       {/* Gallery Section */}
       {solution.gallery && solution.gallery.length > 0 && (

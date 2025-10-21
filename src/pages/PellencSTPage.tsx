@@ -32,21 +32,18 @@ const PellencSTPage: React.FC = () => {
       'Operating Temperature': '-10°C to +50°C'
     },
     applications: [
-      'Single stream recycling facilities',
-      'Material recovery facilities (MRF)',
-      'Plastic recycling operations',
-      'Paper and cardboard sorting',
-      'Mixed waste processing',
-      'Industrial waste management',
-      'Municipal solid waste sorting',
-      'Commercial recycling centers',
-      'Construction and demolition waste',
-      'Electronic waste processing'
+      { name: 'Single stream recycling', link: '/solutions/single-stream-recycling' },
+      { name: 'Municipal solid waste', link: '/solutions/msw-processing' },
+      { name: 'Commercial waste', link: '/solutions/commercial-waste' },
+      { name: 'C&D recycling', link: '/solutions/cd-recycling' },
+      { name: 'Plastics Recycling', link: '/solutions/plastics-recycling' },
+      { name: 'Waste to Energy', link: '/solutions/waste-to-energy' },
+      { name: 'E-scrap recycling', link: '/solutions/electronics-waste-recycling' }
     ],
     videos: [
-      'https://youtu.be/hyJnigC4Kbg',
-      'https://youtu.be/_RQM1idOUMM',
-      'https://youtu.be/_mE3uamgIVk'
+      'https://youtu.be/8Xj4Zwv81uE', // Container Line Featuring Optical Sorting
+      'https://youtu.be/FfoIMHZv9CQ', // Container Line Featuring Optical Sorting 2
+      'https://youtu.be/_AHxVzUYGxE'  // Clean Up Mixed Paper with Laser Object Detection
     ],
     gallery: [
       '/Images/pellenc-optical-new.jpg',

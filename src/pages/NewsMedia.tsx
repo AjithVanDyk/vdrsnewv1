@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
 import { 
   Search, Calendar, ArrowRight, ExternalLink, 
   Grid, List, X, Mail, CheckCircle, Filter, Clock, Eye
@@ -22,6 +23,7 @@ interface Article {
 }
 
 const NewsMedia = () => {
+  const location = useLocation();
   const [activeFilter, setActiveFilter] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
   const [activeView, setActiveView] = useState<'grid' | 'list'>('grid');
@@ -33,6 +35,14 @@ const NewsMedia = () => {
   const [closeTimeoutId, setCloseTimeoutId] = useState<number | null>(null);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [showArticleModal, setShowArticleModal] = useState(false);
+
+  // Sidebar navigation items
+  const sidebarItems = [
+    { name: 'Van Dyk in the News', path: '/news-media', isActive: location.pathname === '/news-media' },
+    { name: 'Videos', path: '/videos', isActive: location.pathname === '/videos' },
+    { name: 'Expert Tips', path: '/expert-tips', isActive: location.pathname === '/expert-tips' },
+    { name: 'Our Customers in the News', path: '/our-customers-in-the-news', isActive: location.pathname === '/our-customers-in-the-news' }
+  ];
 
   // Comprehensive news data
   const newsData: Article[] = [
@@ -309,9 +319,34 @@ const NewsMedia = () => {
         </div>
       </div>
 
-      {/* Search and Filters */}
+      {/* Main Content with Sidebar */}
       <div className="container mx-auto px-4 py-8">
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Sidebar */}
+          <div className="lg:w-1/4">
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 sticky top-8">
+              <h2 className="text-xl font-bold text-vd-blue mb-4">News & Media</h2>
+              <nav className="space-y-2">
+                {sidebarItems.map((item) => (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className={`block px-4 py-3 rounded-lg transition-all duration-200 ${
+                      item.isActive
+                        ? 'bg-vd-blue text-white shadow-md'
+                        : 'text-gray-700 hover:bg-gray-50 hover:text-vd-blue'
+                    }`}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+          </div>
+
+          {/* Main Content */}
+          <div className="lg:w-3/4">
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
             {/* Search */}
             <div className="relative flex-1 max-w-md">
@@ -522,6 +557,8 @@ const NewsMedia = () => {
             <p className="text-gray-500">Try adjusting your search terms or filters.</p>
           </div>
         )}
+          </div>
+        </div>
       </div>
 
       {/* Newsletter Popup */}

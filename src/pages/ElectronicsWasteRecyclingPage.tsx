@@ -31,17 +31,20 @@ const ElectronicsWasteRecyclingPage: React.FC = () => {
       'Installation': 'Turnkey installation',
       'Warranty': '2-year comprehensive warranty'
     },
-    applications: [
-      'Corporate IT equipment',
-      'Consumer electronics',
-      'Medical devices',
-      'Telecommunications equipment',
-      'Industrial electronics',
-      'Data centers',
-      'Educational institutions',
-      'Healthcare facilities',
-      'Government agencies',
-      'Financial institutions'
+    applications: [],
+    equipment: [
+      { name: 'Bollegraaf', link: '/equipment/bollegraaf' },
+      { name: 'Lubo', link: '/equipment/lubo-screening' },
+      { name: 'Tomra', link: '/equipment/tomra' },
+      { name: 'Pellenc', link: '/equipment/pellenc-st' },
+      { name: 'Greyparrot', link: '/equipment/greyparrot-ai' },
+      { name: 'Beefoam', link: '/equipment/beefoam-dust-suppression' }
+    ],
+    videos: [
+      'https://youtu.be/OSOB0JfqPTY', // E-Scrap Processing with Tomra Autosort Fines Optical Sorter
+      'https://youtu.be/B_VmEcZBy6M', // E-Scrap E-Waste Sorting with Artificial Intelligence Tomra Autosort Optical Sorter
+      'https://youtu.be/xjqEJdePkS4', // E-Waste Processing Tomra Autosort Optical Sorter Finder Mode
+      'https://youtu.be/bnpoNRYk7_I'  // E-Scrap Recycling Processing with Tomra Optical Sorter at Premier Surplus Dawsonville GA
     ],
     gallery: [
       '/Images/electronics-recycling.jpg',

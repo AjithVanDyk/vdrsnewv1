@@ -32,19 +32,18 @@ const SmiconDepackagerPage: React.FC = () => {
       'Warranty': '2-year comprehensive warranty'
     },
     applications: [
-      'Food waste processing facilities',
-      'Organic waste management',
-      'Composting operations',
-      'Anaerobic digestion plants',
-      'Municipal waste processing',
-      'Commercial food service',
-      'Grocery store waste management',
-      'Restaurant waste processing',
-      'Food manufacturing facilities',
-      'Agricultural waste processing'
+      { name: 'Food waste depackaging', link: '/solutions/food-waste-depackaging' },
+      { name: 'Residential SSO' },
+      { name: 'Commercial SSO' },
+      { name: 'Bulk food waste' },
+      { name: 'Restaurant waste' },
+      { name: 'Mixed supermarket waste' },
+      { name: 'Packaged produce' },
+      { name: 'Canned foods' },
+      { name: 'Beverage cartons and cans' }
     ],
     videos: [
-      'https://youtu.be/ircipzTwJRM'
+      'https://youtu.be/ircipzTwJRM' // VDRS Smimo Depackager
     ],
     gallery: [
       '/Images/smicon-depackager-new.jpg',

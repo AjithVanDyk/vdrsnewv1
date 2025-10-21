@@ -3,29 +3,26 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Briefcase, Wrench, User, FileText, ExternalLink, ChevronLeft, ChevronRight,
   Heart, Shield, DollarSign, Clock, MapPin, Users, Award, Star,
-  CheckCircle, ArrowRight, Globe, Zap, Coffee, Dumbbell, Mail
+  CheckCircle, ArrowRight, Globe, Zap, Coffee, Dumbbell, Mail, X
 } from 'lucide-react';
+import { IMAGE_ASSIGNMENTS } from '../config/images';
 
 const Careers = () => {
   const [activeTab, setActiveTab] = useState('whoIsVanDyk');
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [selectedJob, setSelectedJob] = useState(null);
 
   // Slideshow images with facility information
   const slideImages = [
-    { src: '/Images/careers-front-lobby.jpg', title: 'Front Lobby', description: 'Welcoming reception area' },
-    { src: '/Images/careers-cafe-1.jpg', title: 'Employee Cafe', description: 'Comfortable dining and break space' },
-    { src: '/Images/careers-gym.jpg', title: 'Fitness Center', description: 'Employee gym and wellness center' },
-    { src: '/Images/careers-board-room.jpg', title: 'Board Room', description: 'Executive meeting and conference space' },
-    { src: '/Images/careers-exterior-2.jpg', title: 'Building Exterior', description: 'Modern facility exterior view' },
-    { src: '/Images/careers-living-wall-2.jpg', title: 'Living Wall', description: 'Green living wall for natural ambiance' },
-    { src: '/Images/careers-lounge-1.jpg', title: 'Employee Lounge', description: 'Relaxing lounge area for employees' },
-    { src: '/Images/1.jpg', title: 'Norwalk Headquarters', description: 'Our main office and administrative center' },
-    { src: '/Images/2.jpg', title: 'Lobby', description: 'Welcoming reception area' },
-    { src: '/Images/3.jpg', title: 'Dining Area', description: 'Employee dining and break space' },
-    { src: '/Images/4.jpg', title: 'Meeting Room', description: 'Conference and collaboration space' },
-    { src: '/Images/5.jpg', title: 'Gym', description: 'Employee fitness and wellness center' },
-    { src: '/Images/8.jpg', title: 'Warehouse', description: 'Parts and equipment storage facility' },
-    { src: '/Images/9.jpg', title: 'Rebuilt Shop', description: 'Equipment refurbishment and repair center' }
+    { src: IMAGE_ASSIGNMENTS.careers.slideshow[0], title: 'Front Lobby', description: 'Welcoming reception area' },
+    { src: IMAGE_ASSIGNMENTS.careers.slideshow[1], title: 'Employee Cafe', description: 'Comfortable dining and break space' },
+    { src: IMAGE_ASSIGNMENTS.careers.slideshow[2], title: 'Fitness Center', description: 'Employee gym and wellness center' },
+    { src: IMAGE_ASSIGNMENTS.careers.slideshow[3], title: 'Board Room', description: 'Executive meeting and conference space' },
+    { src: IMAGE_ASSIGNMENTS.careers.slideshow[4], title: 'Building Exterior', description: 'Modern facility exterior view' },
+    { src: IMAGE_ASSIGNMENTS.careers.slideshow[5], title: 'Living Wall', description: 'Green living wall for natural ambiance' },
+    { src: IMAGE_ASSIGNMENTS.careers.slideshow[6], title: 'Employee Lounge', description: 'Relaxing lounge area for employees' },
+    { src: IMAGE_ASSIGNMENTS.careers.slideshow[7], title: 'Norwalk Headquarters', description: 'Our main office and administrative center' },
+    { src: IMAGE_ASSIGNMENTS.careers.slideshow[8], title: 'Rebuilt Shop', description: 'Equipment refurbishment and repair center' }
   ];
 
   // Auto-advance slideshow
@@ -207,10 +204,10 @@ const Careers = () => {
             transition={{ duration: 0.8 }}
             className="text-center max-w-4xl mx-auto"
           >
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
+            <h1 className="text-3xl md:text-4xl font-bold mb-6">
               Join Our Team
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-gray-100">
+            <p className="text-lg md:text-xl mb-8 text-gray-100">
               Experience the Van Dyk difference. {slideImages[currentSlide].title} - {slideImages[currentSlide].description}
             </p>
             <motion.div
@@ -355,7 +352,7 @@ const Careers = () => {
 
                       <div className="space-y-3">
                         <button
-                          onClick={() => setActiveTab(role.id)}
+                          onClick={() => setSelectedJob(role)}
                           className={`w-full bg-gradient-to-r ${role.gradient} hover:opacity-90 text-white font-bold px-6 py-4 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center`}
                         >
                           <ArrowRight className="h-5 w-5 mr-2" />
@@ -457,6 +454,310 @@ const Careers = () => {
           </div>
         </section>
       </div>
+
+      {/* Job Details Modal */}
+      {selectedJob && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+          >
+            {/* Modal Header */}
+            <div className={`bg-gradient-to-r ${selectedJob.gradient} p-6 text-white relative`}>
+              <button
+                onClick={() => setSelectedJob(null)}
+                className="absolute top-4 right-4 text-white hover:text-gray-200 transition-colors"
+              >
+                <X className="h-6 w-6" />
+              </button>
+              <div className="flex items-center">
+                <div className="bg-white/20 p-3 rounded-xl mr-4">
+                  <selectedJob.icon className="h-8 w-8 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold">{selectedJob.name}</h2>
+                  <div className="flex items-center text-white/80 mt-1">
+                    <MapPin className="w-4 h-4 mr-1" />
+                    <span className="text-sm">{selectedJob.location}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-6">
+              {/* Job Details Grid */}
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="bg-gray-50 rounded-xl p-4 text-center">
+                  <div className="text-sm text-gray-500 mb-1">Type</div>
+                  <div className="font-bold text-vd-blue">{selectedJob.type}</div>
+                </div>
+                <div className="bg-gray-50 rounded-xl p-4 text-center">
+                  <div className="text-sm text-gray-500 mb-1">Experience</div>
+                  <div className="font-bold text-vd-blue">{selectedJob.experience}</div>
+                </div>
+              </div>
+
+              {/* Travel Requirements */}
+              <div className={`bg-gradient-to-r ${selectedJob.gradient}/10 border border-${selectedJob.color}-200 rounded-xl p-4 mb-6`}>
+                <div className={`flex items-center text-sm font-semibold mb-2 text-${selectedJob.color}-600`}>
+                  <Globe className="w-4 h-4 mr-2" />
+                  Travel Requirements
+                </div>
+                <p className="text-sm text-gray-700">{selectedJob.travel}</p>
+              </div>
+
+              {/* Job Description */}
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-vd-blue mb-3">Job Description</h3>
+                <div className="text-gray-700 leading-relaxed space-y-4">
+                  {selectedJob.id === 'fieldService' && (
+                    <>
+                      <p>
+                        Van Dyk Recycling Solutions has several vacancies across the United States, in Canada and in Mexico. 
+                        Van Dyk is a rapidly growing company and we are constantly seeking additional service technicians 
+                        for the installation and service of large industrial recycling equipment installations.
+                      </p>
+                      <div>
+                        <h4 className="font-semibold text-vd-blue mb-2">The Role</h4>
+                        <p>
+                          You will be responsible for handling turn-key installation, service and maintenance of all machinery 
+                          sold by Van Dyk. You will troubleshoot, repair and resolve any issues with the associated equipment. 
+                          Installations and service can be electrical, hydraulic and/or mechanical in nature. You will maintain 
+                          contact with the customer, as it pertains to the installation, training, or service of the customer's machines. 
+                          Regularly you will have to perform preventive maintenance inspections on machines. Part of the job is also 
+                          to train the customer on the safe operating procedures and standard preventative maintenance of all equipment.
+                        </p>
+                        <p className="mt-2">
+                          <strong>90% of jobs will require you to travel;</strong> 60% of that is within a designated territory (near your home). 
+                          Deployment in Canada, Mexico and occasionally elsewhere in Central America is also possible.
+                        </p>
+                      </div>
+                    </>
+                  )}
+                  {selectedJob.id === 'mechanicalInstaller' && (
+                    <>
+                      <p>
+                        Van Dyk Recycling Solutions has several vacancies across the United States, in Canada and in Mexico. 
+                        Van Dyk is a family-owned, rapidly growing company, and we are constantly seeking additional mechanical 
+                        installers for the installation of large industrial recycling equipment.
+                      </p>
+                      <div>
+                        <h4 className="font-semibold text-vd-blue mb-2">The Role</h4>
+                        <p>
+                          You will be responsible for mechanical installation of all machinery sold by Van Dyk. Installations may be 
+                          a single piece of equipment or a complete sorting system. Systems consist of conveyors, screens, balers and 
+                          optical sorters. You will receive training in the form of hands-on experiential learning, during which you 
+                          will travel to sites and shadow veteran mechanics on installations, working alongside them. You will maintain 
+                          contact with the customer as it pertains to the installation.
+                        </p>
+                        <p className="mt-2">
+                          <strong>90% of jobs will require you to travel</strong> within the United States. Deployment in Canada, 
+                          Mexico and other locations abroad is also possible.
+                        </p>
+                      </div>
+                    </>
+                  )}
+                  {selectedJob.id === 'interns' && (
+                    <p>
+                      Start your career with our internship program. Gain valuable hands-on experience in electrical, mechanical, 
+                      and hydraulic systems while working alongside industry experts.
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Requirements */}
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-vd-blue mb-3">Experience Needed</h3>
+                <ul className="space-y-2 text-gray-700">
+                  {selectedJob.id === 'fieldService' && (
+                    <>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Knowledge of electrical, mechanical, and/or hydraulic systems and schematics</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Ability to read electrical and hydraulic diagrams, connection drawings and mechanical drawings</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Comfortable working with 480 volt electrical systems</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Experience working with relevant large machinery is beneficial</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Troubleshooting experience is extremely sought after – being able to diagnose issues on site</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Solid verbal communication skills in English (other languages such as Spanish, French, Dutch, German, or Polish are an advantage)</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Excellent customer relations skills and customer focus</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Willingness to work outside normal working hours and spend nights on location if necessary</span>
+                      </li>
+                    </>
+                  )}
+                  {selectedJob.id === 'mechanicalInstaller' && (
+                    <>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Experience erecting heavy equipment</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Experience working with related large machinery is a plus</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Strong work ethic and willingness to heed advice are a must</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Ability to work diligently in an unsupervised setting</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Solid verbal communication skills in English (other languages such as Spanish, French, Dutch, German, or Polish are an advantage)</span>
+                      </li>
+                    </>
+                  )}
+                  {selectedJob.id === 'interns' && (
+                    <>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Currently enrolled in or recent graduate of engineering program</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Interest in recycling and environmental technology</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Strong analytical and problem-solving skills</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Eagerness to learn and work with industry experts</span>
+                      </li>
+                    </>
+                  )}
+                </ul>
+              </div>
+
+              {/* Benefits */}
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-vd-blue mb-3">Benefits</h3>
+                <div className="text-gray-700 leading-relaxed space-y-3">
+                  {(selectedJob.id === 'fieldService' || selectedJob.id === 'mechanicalInstaller') && (
+                    <>
+                      <div className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Salaried position with paid overtime (travel and work) for anything beyond 8 hours per business day</span>
+                      </div>
+                      <div className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Work and travel on Saturday and Sunday are considered overtime</span>
+                      </div>
+                      <div className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>20 paid vacation days and 8 paid holidays</span>
+                      </div>
+                      <div className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Paid health insurance for you, your spouse, and dependent children</span>
+                      </div>
+                      <div className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Paid dental insurance for you, your spouse, and dependent children</span>
+                      </div>
+                      <div className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Paid $250,000.00 life insurance policy</span>
+                      </div>
+                      <div className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Profit-sharing pension plan as well as an additional 401K plan offer</span>
+                      </div>
+                      <div className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>A varied and challenging position with a high degree of independence within an internationally active organization with strong growth ambitions</span>
+                      </div>
+                      <div className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Plenty of opportunities for personal development</span>
+                      </div>
+                      {selectedJob.id === 'mechanicalInstaller' && (
+                        <div className="flex items-start">
+                          <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                          <span>Fully funded health insurance including company-funded HSA to fully cover deductibles</span>
+                        </div>
+                      )}
+                      {selectedJob.id === 'mechanicalInstaller' && (
+                        <div className="flex items-start">
+                          <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                          <span>Profit-sharing pension plan where approx. 7-12% of your salary is put into an account for your future pension</span>
+                        </div>
+                      )}
+                    </>
+                  )}
+                  {selectedJob.id === 'interns' && (
+                    <>
+                      <div className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Hands-on experience with industry-leading recycling equipment</span>
+                      </div>
+                      <div className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Mentorship from experienced industry professionals</span>
+                      </div>
+                      <div className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Exposure to electrical, mechanical, and hydraulic systems</span>
+                      </div>
+                      <div className="flex items-start">
+                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Potential for full-time employment upon successful completion</span>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-3">
+                <a
+                  href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7YKQMSwus0K6eGyqSyijxbLJzBecdydNjMz8TRHTYd1UQVNMVFpNMFFGMFpGNVRFMEdVWlZNOVFIQi4u&embed=true"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 bg-vd-blue hover:bg-vd-blue-dark text-white font-bold px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center"
+                >
+                  <FileText className="h-5 w-5 mr-2" />
+                  Apply Now
+                  <ExternalLink className="h-4 w-4 ml-2" />
+                </a>
+                <button
+                  onClick={() => setSelectedJob(null)}
+                  className="px-6 py-3 border-2 border-gray-300 text-gray-700 hover:border-gray-400 hover:bg-gray-50 font-semibold rounded-xl transition-all duration-300"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 };

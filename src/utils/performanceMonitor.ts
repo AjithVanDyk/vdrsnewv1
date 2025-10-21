@@ -231,7 +231,7 @@ class PerformanceMonitor {
   optimizeImageLoading(): void {
     // Preload critical images
     const criticalImages = [
-      '/Images/van-dyk-logo-new.jpg',
+      '/Images/van-dyk-direct-logo.png',
       '/Images/image-1749759459073.png'
     ];
 
@@ -302,3 +302,6 @@ export const initializePerformanceMonitoring = (): void => {
   performanceMonitor.optimizeImageLoading();
   performanceMonitor.monitorBundleSize();
 };
+
+
+

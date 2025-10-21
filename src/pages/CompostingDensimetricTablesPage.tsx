@@ -32,23 +32,18 @@ const CompostingDensimetricTablesPage: React.FC = () => {
       'Warranty': '2-year comprehensive warranty'
     },
     applications: [
-      'Municipal composting facilities',
-      'Food waste processing',
-      'Yard waste management',
-      'Agricultural waste processing',
-      'Restaurant waste management',
-      'Grocery store waste processing',
-      'Educational institutions',
-      'Healthcare facilities',
-      'Corporate cafeterias',
-      'Event waste management'
+      { name: 'Organics processing', link: '/solutions/organics-processing' }
+    ],
+    equipment: [
+      { name: 'Densimetric table', link: '/equipment/densimetric-table' }
     ],
     gallery: [
       '/Images/densimetric-table-new.jpg',
       '/Images/composting.jpg'
     ],
     videos: [
-      'https://youtu.be/5VvtScst8yI'
+      'https://youtu.be/5VvtScst8yI', // Compost Cleaning with an Allgaier Densimetric Table
+      'https://youtu.be/uyoDglUAzWw'  // New Densimetric Table
     ],
     testimonials: [
       {

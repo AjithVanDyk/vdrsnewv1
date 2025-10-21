@@ -31,22 +31,21 @@ const SingleStreamRecyclingPage: React.FC = () => {
       'Installation': 'Turnkey installation',
       'Warranty': '2-year comprehensive warranty'
     },
-    applications: [
-      'Municipal recycling programs',
-      'Material recovery facilities (MRF)',
-      'Commercial recycling centers',
-      'Residential waste processing',
-      'Multi-family housing complexes',
-      'Office buildings and complexes',
-      'Educational institutions',
-      'Healthcare facilities',
-      'Retail and shopping centers',
-      'Industrial facilities'
+    applications: [],
+    equipment: [
+      { name: 'Bollegraaf', link: '/equipment/bollegraaf' },
+      { name: 'Lubo', link: '/equipment/lubo-screening' },
+      { name: 'Tomra', link: '/equipment/tomra' },
+      { name: 'Pellenc', link: '/equipment/pellenc-st' },
+      { name: 'Gunther', link: '/equipment/gunther-screens' },
+      { name: 'Greyparrot', link: '/equipment/greyparrot-ai' }
     ],
     videos: [
-      'https://youtu.be/QYaqrF9vNbU',
-      'https://youtu.be/M5nmNKVNCBw',
-      'https://youtu.be/Qerp8XcGDw0'
+      'https://youtu.be/Qerp8XcGDw0', // A New Way to Sort Single Stream
+      'https://youtu.be/M5nmNKVNCBw', // Single Stream Recycling Tour Material Recovery Facility
+      'https://youtu.be/QFmP4fvjk6I', // Positive Sorting Next Gen MRF
+      'https://youtu.be/9dxwdU9iGOM', // Building a 25 TPH Single Stream Recycling Facility
+      'https://youtu.be/QYaqrF9vNbU'  // Norwalk CT Education and Testing Center
     ],
     gallery: [
       '/Images/single-stream-recycling.jpg',

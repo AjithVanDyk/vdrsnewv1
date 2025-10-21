@@ -4,6 +4,11 @@ import { ArrowRight, CheckCircle, Star, Quote, X, Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import QuoteForm from './QuoteForm';
 
+interface ApplicationItem {
+  name: string;
+  link?: string;
+}
+
 interface EquipmentPageProps {
   equipment: {
     id: number;
@@ -12,7 +17,7 @@ interface EquipmentPageProps {
     description: string;
     features: string[];
     specifications: { [key: string]: string };
-    applications: string[];
+    applications: ApplicationItem[];
     benefits?: string[];
     gallery?: string[];
     videos?: string[];
@@ -21,6 +26,15 @@ interface EquipmentPageProps {
       company: string;
       quote: string;
       rating: number;
+    }>;
+    equipmentNews?: Array<{
+      id: number;
+      title: string;
+      description: string;
+      date: string;
+      image: string;
+      link: string;
+      category: string;
     }>;
   };
 }
@@ -74,8 +88,8 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">{equipment.name}</h1>
-            <p className="text-xl md:text-2xl text-blue-100 max-w-4xl mx-auto leading-relaxed">
+            <h1 className="text-3xl md:text-4xl font-bold mb-6">{equipment.name}</h1>
+            <p className="text-lg md:text-xl text-blue-100 max-w-4xl mx-auto leading-relaxed">
               {equipment.description}
             </p>
           </motion.div>
@@ -225,6 +239,19 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
                       src={`https://img.youtube.com/vi/${video.split('v=')[1]?.split('&')[0] || video.split('/').pop()}/maxresdefault.jpg`}
                       alt={`${equipment.name} Video ${index + 1}`}
                       className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      onError={(e) => {
+                        // Fallback to hqdefault if maxresdefault fails
+                        const currentSrc = e.currentTarget.src;
+                        if (currentSrc.includes('maxresdefault')) {
+                          e.currentTarget.src = currentSrc.replace('maxresdefault', 'hqdefault');
+                        } else if (currentSrc.includes('hqdefault')) {
+                          // Final fallback to default thumbnail
+                          e.currentTarget.src = currentSrc.replace('hqdefault', 'default');
+                        } else {
+                          // Ultimate fallback to a placeholder image
+                          e.currentTarget.src = '/Images/image-1749759453479.png';
+                        }
+                      }}
                     />
                     <div className="absolute inset-0 bg-black/50 flex items-center justify-center group-hover:bg-black/60 transition-colors">
                       <Play className="w-16 h-16 text-white" />
@@ -241,45 +268,56 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
       )}
 
       {/* Applications Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-vd-blue-dark mb-4">
-              Applications
-            </h2>
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Versatile applications across various industries and use cases
-            </p>
-          </motion.div>
+      {equipment.applications && equipment.applications.length > 0 && (
+        <section className="py-16 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-vd-blue-dark mb-4">
+                {equipment.name === 'Certified Pre-Owned Equipment' ? 'Available Equipment' : 'Applications'}
+              </h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                Versatile applications across various industries and use cases
+              </p>
+            </motion.div>
 
-          <motion.div
-            variants={staggerChildren}
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
-          >
-            {equipment.applications.map((application, index) => (
-              <motion.div
-                key={index}
-                variants={fadeInUp}
-                className="bg-gradient-to-br from-vd-blue to-vd-blue-dark text-white p-6 rounded-xl"
-              >
-                <div className="flex items-center space-x-3">
-                  <Star className="w-6 h-6 text-vd-orange" />
-                  <p className="font-medium">{application}</p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
+            <motion.div
+              variants={staggerChildren}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+              className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+            >
+              {equipment.applications.map((application, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeInUp}
+                  className="bg-gradient-to-br from-vd-blue to-vd-blue-dark text-white p-6 rounded-xl"
+                >
+                  <div className="flex items-center space-x-3">
+                    <Star className="w-6 h-6 text-vd-orange" />
+                    {application.link ? (
+                      <Link
+                        to={application.link}
+                        className="font-medium hover:text-vd-orange transition-colors"
+                      >
+                        {application.name}
+                      </Link>
+                    ) : (
+                      <p className="font-medium">{application.name}</p>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+      )}
 
       {/* Gallery Section */}
       {equipment.gallery && equipment.gallery.length > 0 && (
@@ -325,8 +363,8 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
         </section>
       )}
 
-      {/* Testimonials Section */}
-      {equipment.testimonials && equipment.testimonials.length > 0 && (
+      {/* Equipment News Section */}
+      {equipment.equipmentNews && equipment.equipmentNews.length > 0 && (
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
             <motion.div
@@ -337,10 +375,10 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
               className="text-center mb-16"
             >
               <h2 className="text-3xl md:text-4xl font-bold text-vd-blue-dark mb-4">
-                Customer Testimonials
+                {equipment.name} in the News
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                Hear what our customers say about {equipment.name}
+                Latest news, success stories, and expert insights about {equipment.name}
               </p>
             </motion.div>
 
@@ -351,27 +389,47 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
               viewport={{ once: true }}
               className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
             >
-              {equipment.testimonials.map((testimonial, index) => (
+              {equipment.equipmentNews.map((news, index) => (
                 <motion.div
-                  key={index}
+                  key={news.id}
                   variants={fadeInUp}
-                  className="bg-white p-6 rounded-xl shadow-lg"
+                  className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                  onClick={() => window.open(news.link, '_blank')}
                 >
-                  <div className="flex items-center mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`w-5 h-5 ${
-                          i < testimonial.rating ? 'text-vd-orange' : 'text-gray-300'
-                        }`}
-                        fill={i < testimonial.rating ? 'currentColor' : 'none'}
-                      />
-                    ))}
+                  <div className="relative h-48 overflow-hidden">
+                    <img
+                      src={news.image}
+                      alt={news.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        e.currentTarget.src = '/Images/first.jpg';
+                      }}
+                    />
+                    <div className="absolute top-4 left-4">
+                      <span className="bg-vd-orange text-white px-3 py-1 rounded-full text-sm font-medium">
+                        {news.category}
+                      </span>
+                    </div>
                   </div>
-                  <p className="text-gray-700 mb-4 italic">"{testimonial.quote}"</p>
-                  <div>
-                    <p className="font-semibold text-vd-blue-dark">{testimonial.name}</p>
-                    <p className="text-gray-600">{testimonial.company}</p>
+                  <div className="p-6">
+                    <div className="text-sm text-gray-500 mb-3">
+                      {new Date(news.date).toLocaleDateString('en-US', { 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                      })}
+                    </div>
+                    <h3 className="text-lg font-bold text-vd-blue-dark mb-3 leading-tight group-hover:text-vd-orange transition-colors">
+                      {news.title}
+                    </h3>
+                    <p className="text-gray-600 mb-4 leading-relaxed">
+                      {news.description}
+                    </p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-medium text-vd-orange">
+                        Read More →
+                      </span>
+                    </div>
                   </div>
                 </motion.div>
               ))}

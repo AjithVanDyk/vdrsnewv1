@@ -32,16 +32,22 @@ const OrganicsProcessingPage: React.FC = () => {
       'Warranty': '2-year comprehensive warranty'
     },
     applications: [
-      'Municipal composting facilities',
-      'Food waste processing',
-      'Yard waste management',
-      'Agricultural waste processing',
-      'Restaurant waste management',
-      'Grocery store waste processing',
-      'Educational institutions',
-      'Healthcare facilities',
-      'Corporate cafeterias',
-      'Event waste management'
+      { name: 'Food waste processing', link: '/solutions/organics-processing' },
+      { name: 'Compost refining', link: '/solutions/composting-densimetric-tables' },
+      { name: 'Odor control', link: '/equipment/centriair-odor-control' },
+      { name: 'Yard waste' },
+      { name: 'Green waste' }
+    ],
+    equipment: [
+      { name: 'Gunther Screen', link: '/equipment/gunther-screens' },
+      { name: 'Smicon', link: '/equipment/smicon-depackager' },
+      { name: 'Densimetric table', link: '/equipment/densimetric-table' },
+      { name: 'Centriair', link: '/equipment/centriair-odor-control' }
+    ],
+    videos: [
+      'https://youtu.be/5VvtScst8yI', // Compost Cleaning with an Allgaier Densimetric Table
+      'https://youtu.be/uyoDglUAzWw', // New Densimetric Table
+      'https://youtu.be/ircipzTwJRM'  // VDRS Smimo Depackager
     ],
     gallery: [
       '/Images/organics-processing.jpg',

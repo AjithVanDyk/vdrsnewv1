@@ -34,16 +34,19 @@ const BollegraafBalersSolutionPage: React.FC = () => {
       'Warranty': '2-year comprehensive warranty'
     },
     applications: [
-      'Material recovery facilities (MRF)',
-      'Single stream recycling',
-      'Cardboard processing',
-      'Plastic container baling',
-      'Steel container processing',
-      'Aluminum container baling',
-      'Fiber material processing',
-      'Commercial recycling centers',
-      'Industrial waste management',
-      'Municipal recycling programs'
+      { name: 'Single stream recycling', link: '/solutions/single-stream-recycling' },
+      { name: 'MSW recycling', link: '/solutions/msw-processing' },
+      { name: 'Commercial waste', link: '/solutions/commercial-waste' },
+      { name: 'Plastics recycling', link: '/solutions/plastics-recycling' },
+      { name: 'Multi-MRF', link: '/solutions/multi-mrf-systems' },
+      { name: 'OCC' },
+      { name: 'Fiber grades' },
+      { name: 'Plastic containers' },
+      { name: 'Ferrous and non-ferrous containers' }
+    ],
+    videos: [
+      'https://youtu.be/zqbJbMABi-A', // Bollegraaf HBC 140 Baler at Yes Recycling Newark NJ
+      'https://youtu.be/m4VQvwWW9yU'  // Single Ram Baler
     ],
     gallery: [
       '/Images/bollegraaf-new-1.jpg',

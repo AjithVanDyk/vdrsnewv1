@@ -32,16 +32,19 @@ const GuntherScreensPage: React.FC = () => {
       'Warranty': '2-year comprehensive warranty'
     },
     applications: [
-      'Material recovery facilities (MRF)',
-      'Single stream recycling',
-      'Construction and demolition waste',
-      'Municipal solid waste processing',
-      'Industrial waste management',
-      'Aggregate processing',
-      'Compost screening',
-      'Biomass processing',
-      'Mining operations',
-      'Agricultural waste processing'
+      { name: 'Single stream recycling', link: '/solutions/single-stream-recycling' },
+      { name: 'Municipal solid waste', link: '/solutions/msw-processing' },
+      { name: 'Commercial waste', link: '/solutions/commercial-waste' },
+      { name: 'C&D recycling', link: '/solutions/cd-recycling' },
+      { name: 'Green waste and compost', link: '/solutions/organics-processing' },
+      { name: 'Industrial waste' },
+      { name: 'Waste wood' },
+      { name: 'Metals' },
+      { name: 'Clay and stones' }
+    ],
+    videos: [
+      'https://youtu.be/y--l35L8EzI', // Elliptical Screen
+      'https://youtu.be/uz4r_gb1Wjs'  // Sizing Screen
     ],
     gallery: [
       '/Images/gunther-screens-new.jpg',

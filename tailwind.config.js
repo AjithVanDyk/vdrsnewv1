@@ -7,7 +7,7 @@ export default {
         // Brand Colors - Exact Specifications
         'vd-blue': {
           DEFAULT: '#154B7F', // Primary Blue (R: 0, G: 70, B: 127) - EXACT BRAND COLOR
-          dark: '#77787C',   // Brand Gray (R: 119, G: 120, B: 124) - EXACT BRAND COLOR
+          dark: '#00133D',   // Dark Blue (R: 0, G: 19, B: 61) - EXACT BRAND COLOR
           light: '#2A5A8F',  // Lighter blue for gradients
         },
         'vd-orange': {

@@ -43,6 +43,10 @@ const WalairDensitySeparationPage: React.FC = () => {
       'Construction waste management',
       'Electronic waste processing'
     ],
+    videos: [
+      'https://youtu.be/6QVk7q7OEqo', // Eddy Current
+      'https://youtu.be/XyIYg0wBHC4'  // Magnet
+    ],
     gallery: [
       '/Images/walair-density-separation.jpg'
     ],

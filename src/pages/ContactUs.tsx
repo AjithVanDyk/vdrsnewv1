@@ -1,18 +1,96 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { 
   ArrowRight, Briefcase, Wrench, User, MapPin, Phone, Mail, Clock, 
   Send, Building2, MessageSquare, ChevronLeft, ChevronRight, X,
   FileText, Upload, CheckCircle, DollarSign, Calendar, Globe,
-  Award, Target, Heart, Zap
+  Award, Target, Heart, Zap, AlertCircle
 } from 'lucide-react';
+import { IMAGE_ASSIGNMENTS } from '../config/images';
+import { submitContactForm, FormSubmissionResult } from '../utils/formSubmission';
+import ReCAPTCHA from '../components/ReCAPTCHA';
+import SEO from '../components/SEO';
+import { SEO_PAGES } from '../utils/seo';
+
+// Form validation schema
+const contactFormSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  company: z.string().min(1, 'Company name is required'),
+  email: z.string().email('Please enter a valid email address'),
+  phone: z.string().min(10, 'Please enter a valid phone number'),
+  message: z.string().min(10, 'Message must be at least 10 characters'),
+});
+
+type ContactFormData = z.infer<typeof contactFormSchema>;
 
 const AboutCareersContact = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showApplicationForm, setShowApplicationForm] = useState<string | null>(null);
   const [expandedJob, setExpandedJob] = useState<string | null>(null);
+  const [formSubmission, setFormSubmission] = useState<FormSubmissionResult | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState<string>('');
+  const [recaptchaError, setRecaptchaError] = useState<string>('');
   const location = useLocation();
+
+  // Form handling
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<ContactFormData>({
+    resolver: zodResolver(contactFormSchema),
+  });
+
+  const onSubmit = async (data: ContactFormData) => {
+    // Validate reCAPTCHA
+    if (!recaptchaToken) {
+      setRecaptchaError('Please complete the reCAPTCHA verification');
+      return;
+    }
+
+    setIsSubmitting(true);
+    setFormSubmission(null);
+    setRecaptchaError('');
+    
+    try {
+      const result = await submitContactForm(data);
+      setFormSubmission(result);
+      
+      if (result.success) {
+        reset(); // Clear form on success
+        setRecaptchaToken(''); // Reset reCAPTCHA
+      }
+    } catch (error) {
+      setFormSubmission({
+        success: false,
+        message: 'An unexpected error occurred. Please try again.',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleRecaptchaVerify = (token: string) => {
+    setRecaptchaToken(token);
+    setRecaptchaError('');
+  };
+
+  const handleRecaptchaExpire = () => {
+    setRecaptchaToken('');
+    setRecaptchaError('reCAPTCHA expired. Please verify again.');
+  };
+
+  const handleRecaptchaError = () => {
+    setRecaptchaToken('');
+    setRecaptchaError('reCAPTCHA verification failed. Please try again.');
+  };
 
   // Determine active tab based on URL path
   const getActiveTab = () => {
@@ -26,24 +104,14 @@ const AboutCareersContact = () => {
 
   // Slideshow images (all contact/about images plus existing ones)
   const slideImages = [
-    '/Images/contact-team-photo.jpg',
-    '/Images/contact-1-01619.jpg',
-    '/Images/contact-1-01725.jpg',
-    '/Images/contact-1-01741.jpg',
-    '/Images/contact-1-01749.jpg',
-    '/Images/contact-img-6050.jpg',
-    '/Images/contact-wm-mesquite-10.jpg',
-    '/Images/contact-wm-mesquite-19.jpg',
-    '/Images/contact-wm-mesquite-5.jpg',
-    '/Images/1.jpg',
-    '/Images/2.jpg',
-    '/Images/3.jpg',
-    '/Images/4.jpg',
-    '/Images/5.jpg',
-    '/Images/6.jpeg',
-    '/Images/7.jpeg',
-    '/Images/8.jpg',
-    '/Images/9.jpg'
+    IMAGE_ASSIGNMENTS.contact.gallery[0],
+    IMAGE_ASSIGNMENTS.contact.gallery[1],
+    IMAGE_ASSIGNMENTS.contact.gallery[2],
+    IMAGE_ASSIGNMENTS.contact.gallery[3],
+    IMAGE_ASSIGNMENTS.contact.gallery[4],
+    IMAGE_ASSIGNMENTS.contact.gallery[5],
+    IMAGE_ASSIGNMENTS.contact.gallery[6],
+    IMAGE_ASSIGNMENTS.contact.gallery[7]
   ];
 
   // Auto-advance slideshow - pause when modals are open
@@ -391,7 +459,9 @@ const AboutCareersContact = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <>
+      <SEO data={SEO_PAGES.contact} />
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Image Slideshow Banner */}
       <div className="relative h-96 overflow-hidden -mt-20 pt-20">
         <AnimatePresence mode="wait">
@@ -700,110 +770,182 @@ const AboutCareersContact = () => {
                   className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100"
                 >
                   <h2 className="text-2xl font-bold text-vd-blue mb-6">Send Us a Message</h2>
-                  <form className="space-y-6">
+                  
+                  {/* Form Submission Status */}
+                  {formSubmission && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className={`mb-6 p-4 rounded-lg flex items-center space-x-3 ${
+                        formSubmission.success 
+                          ? 'bg-green-50 border border-green-200 text-green-800' 
+                          : 'bg-red-50 border border-red-200 text-red-800'
+                      }`}
+                    >
+                      {formSubmission.success ? (
+                        <CheckCircle className="w-5 h-5 text-green-600" />
+                      ) : (
+                        <AlertCircle className="w-5 h-5 text-red-600" />
+                      )}
+                      <span className="text-sm font-medium">{formSubmission.message}</span>
+                    </motion.div>
+                  )}
+
+                  <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                          Full Name
+                          Full Name *
                         </label>
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <User className="h-5 w-5 text-gray-400" />
                           </div>
                           <input
+                            {...register('name')}
                             type="text"
                             id="name"
-                            name="name"
                             autoComplete="name"
-                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange"
+                            className={`block w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange ${
+                              errors.name ? 'border-red-300' : 'border-gray-300'
+                            }`}
                             placeholder="John Doe"
                           />
                         </div>
+                        {errors.name && (
+                          <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
+                        )}
                       </div>
                       <div>
                         <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
-                          Company Name
+                          Company Name *
                         </label>
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <Building2 className="h-5 w-5 text-gray-400" />
                           </div>
                           <input
+                            {...register('company')}
                             type="text"
                             id="company"
-                            name="company"
                             autoComplete="organization"
-                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange"
+                            className={`block w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange ${
+                              errors.company ? 'border-red-300' : 'border-gray-300'
+                            }`}
                             placeholder="Your Company"
                           />
                         </div>
+                        {errors.company && (
+                          <p className="mt-1 text-sm text-red-600">{errors.company.message}</p>
+                        )}
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                          Email Address
+                          Email Address *
                         </label>
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <Mail className="h-5 w-5 text-gray-400" />
                           </div>
                           <input
+                            {...register('email')}
                             type="email"
                             id="email"
-                            name="email"
                             autoComplete="email"
-                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange"
+                            className={`block w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange ${
+                              errors.email ? 'border-red-300' : 'border-gray-300'
+                            }`}
                             placeholder="john@company.com"
                           />
                         </div>
+                        {errors.email && (
+                          <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+                        )}
                       </div>
                       <div>
                         <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                          Phone Number
+                          Phone Number *
                         </label>
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <Phone className="h-5 w-5 text-gray-400" />
                           </div>
                           <input
+                            {...register('phone')}
                             type="tel"
                             id="phone"
-                            name="phone"
                             autoComplete="tel"
-                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange"
+                            className={`block w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange ${
+                              errors.phone ? 'border-red-300' : 'border-gray-300'
+                            }`}
                             placeholder="+1 (555) 000-0000"
                           />
                         </div>
+                        {errors.phone && (
+                          <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
+                        )}
                       </div>
                     </div>
 
                     <div>
                       <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                        Message
+                        Message *
                       </label>
                       <div className="relative">
                         <div className="absolute top-3 left-3 flex items-start pointer-events-none">
                           <MessageSquare className="h-5 w-5 text-gray-400" />
                         </div>
                         <textarea
+                          {...register('message')}
                           id="message"
-                          name="message"
                           autoComplete="off"
                           rows={4}
-                          className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange"
+                          className={`block w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange ${
+                            errors.message ? 'border-red-300' : 'border-gray-300'
+                          }`}
                           placeholder="How can we help you?"
                         />
                       </div>
+                      {errors.message && (
+                        <p className="mt-1 text-sm text-red-600">{errors.message.message}</p>
+                      )}
                     </div>
+
+                    {/* reCAPTCHA */}
+                    <div className="flex justify-center">
+                      <ReCAPTCHA
+                        siteKey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" // Test key - replace with real key
+                        onVerify={handleRecaptchaVerify}
+                        onExpire={handleRecaptchaExpire}
+                        onError={handleRecaptchaError}
+                        theme="light"
+                        size="normal"
+                        className="mb-4"
+                      />
+                    </div>
+                    {recaptchaError && (
+                      <p className="text-sm text-red-600 text-center">{recaptchaError}</p>
+                    )}
 
                     <button
                       type="submit"
-                      className="w-full bg-vd-orange hover:bg-vd-orange-alt text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2"
+                      disabled={isSubmitting || !recaptchaToken}
+                      className="w-full bg-vd-orange hover:bg-vd-orange-alt disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2"
                     >
-                      <Send className="w-5 h-5" />
-                      <span>Send Message</span>
+                      {isSubmitting ? (
+                        <>
+                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                          <span>Sending...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-5 h-5" />
+                          <span>Send Message</span>
+                        </>
+                      )}
                     </button>
                   </form>
                 </motion.div>
@@ -836,7 +978,8 @@ const AboutCareersContact = () => {
           />
         )}
       </AnimatePresence>
-    </div>
+      </div>
+    </>
   );
 };
 

@@ -31,17 +31,19 @@ const CommercialWastePage: React.FC = () => {
       'Installation': 'Turnkey installation',
       'Warranty': '2-year comprehensive warranty'
     },
-    applications: [
-      'Office buildings',
-      'Shopping centers',
-      'Restaurants and cafes',
-      'Hotels and hospitality',
-      'Retail stores',
-      'Corporate headquarters',
-      'Medical facilities',
-      'Educational institutions',
-      'Government buildings',
-      'Commercial complexes'
+    applications: [],
+    equipment: [
+      { name: 'Bollegraaf', link: '/equipment/bollegraaf' },
+      { name: 'Lubo', link: '/equipment/lubo-screening' },
+      { name: 'Tomra', link: '/equipment/tomra' },
+      { name: 'Pellenc', link: '/equipment/pellenc-st' },
+      { name: 'Gunther', link: '/equipment/gunther-screens' },
+      { name: 'Greyparrot', link: '/equipment/greyparrot-ai' }
+    ],
+    videos: [
+      'https://youtu.be/8Xj4Zwv81uE', // Container Line Featuring Optical Sorting
+      'https://youtu.be/FfoIMHZv9CQ', // Container Line Featuring Optical Sorting 2
+      'https://youtu.be/lTQ4xEe7WOg'  // Lubo StarScreen Sorting MSW
     ],
     gallery: [
       '/Images/commercial-waste-processing.jpg',

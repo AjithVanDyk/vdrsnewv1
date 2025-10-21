@@ -31,20 +31,19 @@ const MSWProcessingPage: React.FC = () => {
       'Installation': 'Turnkey installation',
       'Warranty': '2-year comprehensive warranty'
     },
-    applications: [
-      'Municipal waste processing facilities',
-      'Transfer stations',
-      'Landfill diversion programs',
-      'Waste-to-energy facilities',
-      'Material recovery facilities (MRF)',
-      'Commercial waste processing',
-      'Industrial waste management',
-      'Construction and demolition waste',
-      'Event waste management',
-      'Disaster waste processing'
+    applications: [],
+    equipment: [
+      { name: 'Bollegraaf', link: '/equipment/bollegraaf' },
+      { name: 'Lubo', link: '/equipment/lubo-screening' },
+      { name: 'Tomra', link: '/equipment/tomra' },
+      { name: 'Pellenc', link: '/equipment/pellenc-st' },
+      { name: 'Gunther', link: '/equipment/gunther-screens' },
+      { name: 'Centriair', link: '/equipment/centriair-odor-control' },
+      { name: 'Greyparrot', link: '/equipment/greyparrot-ai' }
     ],
     videos: [
-      'https://youtu.be/2fkjMGj8ozs'
+      'https://youtu.be/2fkjMGj8ozs', // Mexico First MRF MSW Processing
+      'https://youtu.be/lTQ4xEe7WOg'  // Lubo StarScreen Sorting MSW
     ],
     gallery: [
       '/Images/msw-processing.jpg',

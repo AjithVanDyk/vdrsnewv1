@@ -32,16 +32,22 @@ const TOMRAPage: React.FC = () => {
       'Operating Range': '-20°C to +60°C'
     },
     applications: [
-      'Material recovery facilities (MRF)',
-      'Single stream recycling',
-      'Plastic recycling operations',
-      'Paper and cardboard sorting',
-      'Metal recovery facilities',
-      'Glass processing plants',
-      'Mixed waste sorting',
-      'Industrial waste management',
-      'Municipal recycling centers',
-      'Commercial waste processing'
+      { name: 'Single stream recycling', link: '/solutions/single-stream-recycling' },
+      { name: 'Municipal solid waste', link: '/solutions/msw-processing' },
+      { name: 'Commercial waste', link: '/solutions/commercial-waste' },
+      { name: 'C&D recycling', link: '/solutions/cd-recycling' },
+      { name: 'Plastics Recycling', link: '/solutions/plastics-recycling' },
+      { name: 'Waste to Energy', link: '/solutions/waste-to-energy' },
+      { name: 'E-scrap recycling', link: '/solutions/electronics-waste-recycling' }
+    ],
+    videos: [
+      'https://youtu.be/8Xj4Zwv81uE', // Container Line Featuring Optical Sorting
+      'https://youtu.be/FfoIMHZv9CQ', // Container Line Featuring Optical Sorting 2
+      'https://youtu.be/_AHxVzUYGxE',  // Clean Up Mixed Paper with Laser Object Detection
+      'https://youtu.be/OSOB0JfqPTY', // E-Scrap Processing with Tomra Autosort Fines Optical Sorter
+      'https://youtu.be/B_VmEcZBy6M', // E-Scrap E-Waste Sorting with Artificial Intelligence Tomra Autosort Optical Sorter
+      'https://youtu.be/xjqEJdePkS4', // E-Waste Processing Tomra Autosort Optical Sorter Finder Mode
+      'https://youtu.be/bnpoNRYk7_I'  // E-Scrap Recycling Processing with Tomra Optical Sorter at Premier Surplus Dawsonville GA
     ],
     gallery: [
       '/Images/tomra-optical-sorting-new.jpg',

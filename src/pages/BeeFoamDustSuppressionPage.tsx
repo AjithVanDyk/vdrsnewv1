@@ -32,16 +32,20 @@ const BeeFoamDustSuppressionPage: React.FC = () => {
       'Warranty': '2-year comprehensive warranty'
     },
     applications: [
-      'Material recovery facilities (MRF)',
-      'Waste processing operations',
-      'Transfer stations',
-      'Landfill operations',
-      'Construction sites',
-      'Mining operations',
-      'Industrial facilities',
-      'Demolition sites',
-      'Agricultural operations',
-      'Commercial waste processing'
+      { name: 'C&D recycling', link: '/solutions/cd-recycling' },
+      { name: 'Plastics recycling', link: '/solutions/plastics-recycling' },
+      { name: 'Compost', link: '/solutions/organics-processing' },
+      { name: 'E-scrap recycling', link: '/solutions/electronics-waste-recycling' },
+      { name: 'Sorting lines' },
+      { name: 'Metal recycling' },
+      { name: 'Wood shredders' },
+      { name: 'Stone crushers' },
+      { name: 'Coal' },
+      { name: 'Cement and concrete' }
+    ],
+    videos: [
+      'https://youtu.be/MOjFp3y7mEw', // Construction and Demolition Waste Sorting System
+      'https://youtu.be/Lt-ZYSw6p3w'  // Lubo Neptune AWS StarScreen Sorting C&D Waste
     ],
     gallery: [
       '/Images/beefoam-after-new.jpg',

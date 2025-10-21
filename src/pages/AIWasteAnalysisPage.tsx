@@ -32,16 +32,18 @@ const AIWasteAnalysisPage: React.FC = () => {
       'Warranty': '2-year comprehensive warranty'
     },
     applications: [
-      'Material recovery facilities (MRF)',
-      'Waste processing optimization',
-      'Quality control systems',
-      'Performance monitoring',
-      'Data analytics platforms',
-      'Process optimization',
-      'Material identification',
-      'Waste characterization',
-      'Operational efficiency',
-      'Predictive maintenance'
+      { name: 'Single stream recycling', link: '/solutions/single-stream-recycling' },
+      { name: 'Municipal solid waste', link: '/solutions/msw-processing' },
+      { name: 'Commercial waste', link: '/solutions/commercial-waste' },
+      { name: 'E-scrap recycling', link: '/solutions/electronics-waste-recycling' },
+      { name: 'Plastics Recycling', link: '/solutions/plastics-recycling' }
+    ],
+    equipment: [
+      { name: 'Greyparrot', link: '/equipment/greyparrot-ai' }
+    ],
+    videos: [
+      'https://youtu.be/B_VmEcZBy6M', // E-Scrap E-Waste Sorting with Artificial Intelligence Tomra Autosort Optical Sorter
+      'https://youtu.be/xjqEJdePkS4'  // E-Waste Processing Tomra Autosort Optical Sorter Finder Mode
     ],
     gallery: [
       '/Images/greyparrot-ai-new.jpg',

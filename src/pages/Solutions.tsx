@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, X, CheckCircle, Quote } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import QuoteForm from '../components/QuoteForm';
+import { IMAGE_ASSIGNMENTS } from '../config/images';
 
 interface Solution {
 	id?: number;
@@ -26,7 +27,7 @@ const solutionItems = [
 	{
 		id: 1,
 		name: 'Single Stream Recycling',
-		image: '/Images/single-stream-recycling.jpg',
+		image: IMAGE_ASSIGNMENTS.solutions.categories.singleStream,
 		description: 'Complete single stream recycling solutions for efficient processing of mixed recyclable materials. Our systems maximize recovery rates while minimizing contamination.',
 		features: [
 			'Mixed recyclable processing',
@@ -64,7 +65,7 @@ const solutionItems = [
 	{
 		id: 2,
 		name: 'Plastics Recycling',
-		image: '/Images/plastics-recycling.jpg',
+		image: IMAGE_ASSIGNMENTS.solutions.categories.plastics,
 		description: 'Advanced plastics recycling solutions for efficient processing and recovery of various plastic materials. Our systems maximize plastic recovery while maintaining material quality.',
 		features: [
 			'Multi-plastic processing',
@@ -102,7 +103,7 @@ const solutionItems = [
 	{
 		id: 3,
 		name: 'Organics Processing',
-		image: '/Images/organics-processing.jpg',
+		image: IMAGE_ASSIGNMENTS.solutions.categories.organics,
 		description: 'Comprehensive organics processing solutions for efficient handling of organic waste materials. Our systems maximize organic recovery and produce high-quality compost.',
 		features: [
 			'Organic waste processing',
@@ -140,7 +141,7 @@ const solutionItems = [
 	{
 		id: 4,
 		name: 'Food Waste Depackaging',
-		image: '/Images/smicon-food-depackaging.jpg',
+		image: IMAGE_ASSIGNMENTS.solutions.categories.foodWaste,
 		description: 'Advanced food waste depackaging solutions for efficient separation of organic materials from packaging. Our systems maximize organic recovery while minimizing contamination.',
 		features: [
 			'Advanced depackaging technology',
@@ -178,7 +179,7 @@ const solutionItems = [
 	{
 		id: 5,
 		name: 'MSW Processing',
-		image: '/Images/msw-processing.jpg',
+		image: IMAGE_ASSIGNMENTS.solutions.categories.msw,
 		description: 'Comprehensive Municipal Solid Waste (MSW) processing solutions for efficient handling of mixed waste streams. Our systems maximize material recovery and minimize environmental impact.',
 		features: [
 			'Mixed waste processing',
@@ -216,7 +217,7 @@ const solutionItems = [
 	{
 		id: 6,
 		name: 'Commercial Waste',
-		image: '/Images/commercial-waste-processing.jpg',
+		image: IMAGE_ASSIGNMENTS.solutions.categories.commercial,
 		description: 'Comprehensive commercial waste processing solutions for businesses, offices, and commercial facilities. Our systems efficiently handle mixed commercial waste streams.',
 		features: [
 			'Mixed commercial waste processing',
@@ -254,7 +255,7 @@ const solutionItems = [
 	{
 		id: 7,
 		name: 'C&D Recycling',
-		image: '/Images/cd-recycling.jpg',
+		image: IMAGE_ASSIGNMENTS.solutions.categories.cd,
 		description: 'Specialized Construction and Demolition (C&D) waste recycling solutions for construction sites, demolition projects, and renovation activities.',
 		features: [
 			'C&D waste processing systems',
@@ -709,8 +710,8 @@ const Solutions = () => {
 						transition={{ duration: 0.8 }}
 						className="text-center"
 					>
-						<h1 className="text-4xl md:text-6xl font-bold mb-6">Recycling Solutions</h1>
-						<p className="text-xl md:text-2xl text-blue-100 max-w-4xl mx-auto leading-relaxed">
+						<h1 className="text-3xl md:text-4xl font-bold mb-6">Recycling Solutions</h1>
+						<p className="text-lg md:text-xl text-blue-100 max-w-4xl mx-auto leading-relaxed">
 							Comprehensive recycling solutions for every waste stream. From single stream recycling to waste-to-energy, 
 							we provide complete solutions for efficient material recovery and environmental compliance.
 						</p>

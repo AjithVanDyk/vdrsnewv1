@@ -1,53 +1,54 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Users, Award, Globe, Target, Lightbulb, CheckCircle, ArrowRight, ChevronLeft, ChevronRight, ExternalLink, Linkedin } from 'lucide-react';
+import { IMAGE_ASSIGNMENTS } from '../config/images';
 
 const About = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   
   const slideshowImages = [
     {
-      src: '/Images/bollegraaf-new-1.jpg',
+      src: IMAGE_ASSIGNMENTS.about.slideshow[0],
       alt: 'Bollegraaf Balers Installation',
       title: 'Bollegraaf Equipment'
     },
     {
-      src: '/Images/tomra-optical-sorting-new.jpg',
+      src: IMAGE_ASSIGNMENTS.about.slideshow[1],
       alt: 'TOMRA Optical Sorting System',
       title: 'TOMRA Technology'
     },
     {
-      src: '/Images/glass-cleanup-1.jpg',
+      src: IMAGE_ASSIGNMENTS.about.slideshow[2],
       alt: 'Glass Cleanup Systems',
       title: 'Glass Processing'
     },
     {
-      src: '/Images/smicon-depackager-new.jpg',
+      src: IMAGE_ASSIGNMENTS.about.slideshow[3],
       alt: 'Smicon Food Waste Processing',
       title: 'Food Waste Processing'
     },
     {
-      src: '/Images/lubo-screening-new.jpg',
+      src: IMAGE_ASSIGNMENTS.about.slideshow[4],
       alt: 'Lubo Screening Technology',
       title: 'Screening Technology'
     },
     {
-      src: '/Images/greyparrot-ai-new.jpg',
+      src: IMAGE_ASSIGNMENTS.about.slideshow[5],
       alt: 'Greyparrot AI Technology',
       title: 'AI Technology'
     },
     {
-      src: '/Images/centriair-new-1.jpg',
+      src: IMAGE_ASSIGNMENTS.about.slideshow[6],
       alt: 'Centriair Odor Control',
       title: 'Odor Control Systems'
     },
     {
-      src: '/Images/pellenc-optical-new.jpg',
+      src: IMAGE_ASSIGNMENTS.about.slideshow[7],
       alt: 'Pellenc Optical Sorting',
       title: 'Optical Sorting'
     },
     {
-      src: '/Images/gunther-screens-new.jpg',
+      src: IMAGE_ASSIGNMENTS.about.slideshow[8],
       alt: 'Gunther Screening Equipment',
       title: 'Screening Equipment'
     }
@@ -179,10 +180,10 @@ const About = () => {
             transition={{ duration: 0.8 }}
             className="text-center max-w-4xl mx-auto"
           >
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
+            <h1 className="text-3xl md:text-4xl font-bold mb-6">
               Overview - Van Dyk Recycling Solutions
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-blue-100">
+            <p className="text-lg md:text-xl mb-8 text-blue-100">
               Leading the Future of Recycling Technology Since 1995
             </p>
             <motion.div

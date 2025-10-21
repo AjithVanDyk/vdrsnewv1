@@ -31,17 +31,20 @@ const PlasticsRecyclingPage: React.FC = () => {
       'Installation': 'Turnkey installation',
       'Warranty': '2-year comprehensive warranty'
     },
-    applications: [
-      'Plastic recycling facilities',
-      'Material recovery facilities (MRF)',
-      'Manufacturing facilities',
-      'Retail and commercial centers',
-      'Educational institutions',
-      'Healthcare facilities',
-      'Food service operations',
-      'Packaging facilities',
-      'Distribution centers',
-      'Industrial complexes'
+    applications: [],
+    equipment: [
+      { name: 'Bollegraaf', link: '/equipment/bollegraaf' },
+      { name: 'Lubo', link: '/equipment/lubo-screening' },
+      { name: 'Tomra', link: '/equipment/tomra' },
+      { name: 'Pellenc', link: '/equipment/pellenc-st' },
+      { name: 'Gunther', link: '/equipment/gunther-screens' },
+      { name: 'Greyparrot', link: '/equipment/greyparrot-ai' },
+      { name: 'Beefoam', link: '/equipment/beefoam-dust-suppression' }
+    ],
+    videos: [
+      'https://youtu.be/8Xj4Zwv81uE', // Container Line Featuring Optical Sorting
+      'https://youtu.be/FfoIMHZv9CQ', // Container Line Featuring Optical Sorting 2
+      'https://youtu.be/r6qxQsl7ABU'  // Cardboard and Paper Separation Purifying Fiber Lines
     ],
     localVideos: [
       '/Images/plastics-recycling-white-bg.mp4'
