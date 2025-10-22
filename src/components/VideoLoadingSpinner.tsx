@@ -15,8 +15,6 @@ const VideoLoadingSpinner: React.FC<VideoLoadingSpinnerProps> = ({
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
 
-  console.log('VideoLoadingSpinner rendered, videoLoaded:', videoLoaded, 'videoError:', videoError);
-
   const sizeClasses = {
     small: 'w-16 h-16',
     medium: 'w-24 h-24',
@@ -30,12 +28,10 @@ const VideoLoadingSpinner: React.FC<VideoLoadingSpinnerProps> = ({
   };
 
   const handleVideoLoad = () => {
-    console.log('Video loaded successfully');
     setVideoLoaded(true);
   };
 
   const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    console.error('Video failed to load:', e);
     setVideoError(true);
   };
 
@@ -63,8 +59,6 @@ const VideoLoadingSpinner: React.FC<VideoLoadingSpinnerProps> = ({
                 onLoadedData={handleVideoLoad}
                 onCanPlay={handleVideoLoad}
                 onError={handleVideoError}
-                onLoadStart={() => console.log('Video load started')}
-                onLoadedMetadata={() => console.log('Video metadata loaded')}
               />
             </motion.div>
           )}

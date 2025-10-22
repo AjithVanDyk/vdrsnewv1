@@ -186,7 +186,7 @@ const ServicesSupport = () => {
         'Ongoing Education'
       ],
       cta: 'View Courses',
-      ctaAction: () => setActiveModal('training'),
+      ctaLink: '/van-dyk-university',
       image: '/Images/Van%20Dyk%20University.jpg',
       imageAlt: 'Van Dyk University training facility',
       icon: GraduationCap

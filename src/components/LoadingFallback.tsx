@@ -11,7 +11,7 @@ interface LoadingFallbackProps {
 const LoadingFallback: React.FC<LoadingFallbackProps> = ({ 
   message = 'Loading...', 
   size = 'md',
-  useVideoSpinner = true
+  useVideoSpinner = false
 }) => {
   const sizeClasses = {
     sm: 'h-6 w-6',
@@ -26,7 +26,6 @@ const LoadingFallback: React.FC<LoadingFallbackProps> = ({
   };
 
   if (useVideoSpinner) {
-    console.log('LoadingFallback using VideoLoadingSpinner');
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
         <VideoLoadingSpinner 
@@ -37,8 +36,6 @@ const LoadingFallback: React.FC<LoadingFallbackProps> = ({
       </div>
     );
   }
-
-  console.log('LoadingFallback using CSS spinner');
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

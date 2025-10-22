@@ -93,27 +93,6 @@ const PMI = () => {
     }
   ];
 
-  const equipmentTypes = [
-    {
-      name: 'Bollegraaf Balers',
-      image: '/Images/bollegraaf-new-1.jpg',
-      description: 'Comprehensive baler inspection and optimization for maximum performance',
-      features: ['Ram inspection and maintenance', 'Hydraulic system check', 'Control system verification', 'Safety system testing', 'Performance optimization']
-    },
-    {
-      name: 'Lubo Screens',
-      image: '/Images/lubo-screening-new.jpg',
-      description: 'Screening system inspection and maintenance for optimal material separation',
-      features: ['Screen deck inspection', 'Drive system check', 'Material flow optimization', 'Wear pattern analysis', 'Performance calibration']
-    },
-    {
-      name: 'TOMRA Optical Sorters',
-      image: '/Images/tomra-optical-sorting-new.jpg',
-      description: 'Advanced optical sorting system maintenance and calibration',
-      features: ['Sensor calibration', 'Camera system check', 'Software updates', 'Performance optimization', 'Recognition accuracy testing']
-    }
-  ];
-
   const testimonials = [
     {
       name: 'Kevin Hanner',
@@ -445,62 +424,6 @@ const PMI = () => {
                 <h3 className="text-xl font-bold text-vd-blue mb-4">Enhanced Safety</h3>
                 <p className="text-gray-600">Our technicians monitor and advise on safe practices while looking in on your plant</p>
               </motion.div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Equipment Types Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-6xl mx-auto"
-          >
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-vd-blue mb-4">
-                Equipment We Service
-              </h2>
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                Our PMI program covers all major recycling equipment types with specialized inspection protocols
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {equipmentTypes.map((equipment, index) => (
-                <motion.div
-                  key={equipment.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 hover:scale-105 group"
-                >
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={equipment.image}
-                      alt={equipment.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <h3 className="text-xl font-bold">{equipment.name}</h3>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <p className="text-gray-600 mb-4">{equipment.description}</p>
-                    <ul className="space-y-2">
-                      {equipment.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-center text-sm text-gray-600">
-                          <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </motion.div>
-              ))}
             </div>
           </motion.div>
         </div>

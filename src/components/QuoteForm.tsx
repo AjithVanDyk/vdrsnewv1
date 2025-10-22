@@ -10,6 +10,13 @@ interface Equipment {
   image: string;
 }
 
+interface Solution {
+  id: number;
+  name: string;
+  description: string;
+  image: string;
+}
+
 const equipmentItems: Equipment[] = [
   {
     id: 'bollegraaf',
@@ -25,32 +32,26 @@ const equipmentItems: Equipment[] = [
   },
   {
     id: 'tomra',
-    name: 'TOMRA Optical Sorters',
+    name: 'TOMRA Optical Sorting',
     description: 'Advanced optical sorting systems.',
     image: ''
   },
   {
     id: 'pellenc',
-    name: 'Pellenc ST Optical Sorters',
+    name: 'Pellenc Optical Sorting',
     description: 'Innovative optical sorting for various waste streams.',
     image: ''
   },
   {
-    id: 'walair',
-    name: 'Walair Air Separation',
-    description: 'Efficient air separation technology.',
-    image: ''
-  },
-  {
     id: 'smicon',
-    name: 'Smicon Depackaging Equipment',
+    name: 'Smicon Food Waste',
     description: 'Specialized depackaging solutions.',
     image: ''
   },
   {
     id: 'gunther',
-    name: 'Gunther Balers',
-    description: 'Reliable and robust baling machines.',
+    name: 'Gunther Screen',
+    description: 'Reliable and robust screening machines.',
     image: ''
   },
   {
@@ -61,32 +62,131 @@ const equipmentItems: Equipment[] = [
   },
   {
     id: 'greyparrot',
-    name: 'Greyparrot AI-Powered Robotics',
+    name: 'Greyparrot AI',
     description: 'Robotic sorting with artificial intelligence.',
     image: ''
   },
   {
     id: 'densimetric',
-    name: 'Densimetric Density Separators',
+    name: 'Densimetric Table',
     description: 'Density-based material separation.',
     image: ''
   },
   {
     id: 'beefoam',
-    name: 'Beefoam Conveyor Belts',
+    name: 'Beefoam',
     description: 'Durable conveyor belts for heavy-duty applications.',
     image: ''
   },
   {
     id: 'reckelberg',
-    name: 'Reckelberg Screens',
-    description: 'High-capacity screening solutions.',
+    name: 'Reckelberg ET',
+    description: 'Battery recycling equipment.',
     image: ''
   },
   {
     id: 'pre-owned',
-    name: 'Pre-Owned Equipment',
+    name: 'Certified Pre-Owned Equipment',
     description: 'Quality used recycling equipment.',
+    image: ''
+  }
+];
+
+const solutionItems: Solution[] = [
+  {
+    id: 1,
+    name: 'Single Stream Recycling',
+    description: 'Complete single stream recycling solutions for efficient processing of mixed recyclable materials.',
+    image: ''
+  },
+  {
+    id: 2,
+    name: 'Plastics Recycling',
+    description: 'Advanced plastic sorting and processing systems for various polymer types.',
+    image: ''
+  },
+  {
+    id: 3,
+    name: 'Organics Processing',
+    description: 'Food waste processing, compost refining, and odor control solutions.',
+    image: ''
+  },
+  {
+    id: 4,
+    name: 'Food Waste Depackaging',
+    description: 'Efficient food waste processing with organic recovery capabilities.',
+    image: ''
+  },
+  {
+    id: 5,
+    name: 'MSW Processing',
+    description: 'Municipal solid waste processing systems with material recovery.',
+    image: ''
+  },
+  {
+    id: 6,
+    name: 'Commercial Waste',
+    description: 'Commercial waste processing solutions for businesses.',
+    image: ''
+  },
+  {
+    id: 7,
+    name: 'C&D Recycling',
+    description: 'Construction and demolition waste processing solutions.',
+    image: ''
+  },
+  {
+    id: 8,
+    name: 'Multi-MRF Systems',
+    description: 'Advanced multi-material recovery facility systems for comprehensive waste processing.',
+    image: ''
+  },
+  {
+    id: 9,
+    name: 'Waste to Energy',
+    description: 'Waste-to-energy conversion systems for sustainable power generation.',
+    image: ''
+  },
+  {
+    id: 10,
+    name: 'E-Scrap Recycling',
+    description: 'Specialized e-waste processing systems with data security and material recovery.',
+    image: ''
+  },
+  {
+    id: 11,
+    name: 'Glass Cleanup',
+    description: 'High-purity glass processing systems with contamination removal.',
+    image: ''
+  },
+  {
+    id: 12,
+    name: 'Composting',
+    description: 'Advanced composting systems with odor control and pathogen reduction.',
+    image: ''
+  },
+  {
+    id: 13,
+    name: 'Bollegraaf Balers',
+    description: 'High production balers for various recycling applications.',
+    image: ''
+  },
+  {
+    id: 14,
+    name: 'AI-Based Waste Analytics',
+    description: 'Artificial intelligence-powered waste analysis and sorting systems.',
+    image: ''
+  },
+  {
+    id: 15,
+    name: 'Odor Control',
+    description: 'Comprehensive odor control solutions for waste processing facilities.',
+    image: ''
+  },
+  {
+    id: 16,
+    name: 'EV Battery Recycling',
+    description: 'Specialized battery processing and recycling equipment.',
     image: ''
   }
 ];
@@ -108,6 +208,7 @@ type QuoteFormData = z.infer<typeof quoteFormSchema>;
 
 const QuoteForm = () => {
   const [selectedEquipment, setSelectedEquipment] = useState<string[]>([]);
+  const [selectedSolutions, setSelectedSolutions] = useState<number[]>([]);
   const [formData, setFormData] = useState<QuoteFormData>({
     firstName: '',
     lastName: '',
@@ -128,6 +229,14 @@ const QuoteForm = () => {
       prev.includes(equipmentId)
         ? prev.filter(id => id !== equipmentId)
         : [...prev, equipmentId]
+    );
+  };
+
+  const handleSolutionSelect = (solutionId: number) => {
+    setSelectedSolutions(prev => 
+      prev.includes(solutionId)
+        ? prev.filter(id => id !== solutionId)
+        : [...prev, solutionId]
     );
   };
 
@@ -204,6 +313,7 @@ const QuoteForm = () => {
           additionalDetails: ''
         });
         setSelectedEquipment([]);
+        setSelectedSolutions([]);
         setSubmitStatus('idle');
       }, 3000);
       
@@ -229,11 +339,42 @@ const QuoteForm = () => {
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-vd-blue mb-4">Get a Quote Today</h1>
             <p className="text-xl text-gray-600">
-              Get a fast quote for our products. Fill out the form below, and we'll get in touch with you promptly.
+              Select from our comprehensive range of equipment and solutions. Fill out the form below, and we'll get in touch with you promptly.
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-8">
+            {/* Solutions Selection */}
+            <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+              <h2 className="text-2xl font-bold text-vd-blue mb-6">Select Solutions</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {solutionItems.map((solution) => (
+                  <motion.div
+                    key={solution.id}
+                    whileHover={{ scale: 1.02 }}
+                    className={`relative rounded-xl border-2 cursor-pointer transition-all duration-200 ${
+                      selectedSolutions.includes(solution.id)
+                        ? 'border-vd-orange bg-vd-orange/5'
+                        : 'border-gray-200 hover:border-vd-orange/50'
+                    }`}
+                    onClick={() => handleSolutionSelect(solution.id)}
+                  >
+                    <div className="p-4">
+                      <h3 className="font-semibold text-gray-900 mb-2">{solution.name}</h3>
+                      <p className="text-sm text-gray-600">{solution.description}</p>
+                    </div>
+                    {selectedSolutions.includes(solution.id) && (
+                      <div className="absolute top-2 right-2 bg-vd-orange text-white rounded-full p-1">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
             {/* Equipment Selection */}
             <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
               <h2 className="text-2xl font-bold text-vd-blue mb-6">Select Equipment</h2>
