@@ -189,7 +189,8 @@ const ServicesSupport = () => {
       ctaLink: '/van-dyk-university',
       image: '/Images/Van%20Dyk%20University.jpg',
       imageAlt: 'Van Dyk University training facility',
-      icon: GraduationCap
+      icon: GraduationCap,
+      imageClass: 'object-contain bg-gradient-to-br from-vd-blue to-vd-blue-dark'
     },
     {
       id: 6,
@@ -205,7 +206,8 @@ const ServicesSupport = () => {
       ctaLink: '/test-center',
       image: '/Images/waste-to-energy.jpg',
       imageAlt: 'Material Testing Center with recycling equipment',
-      icon: Eye
+      icon: Eye,
+      imageClass: 'object-cover'
     }
   ];
 
@@ -226,7 +228,7 @@ const ServicesSupport = () => {
         <img
           src={card.image}
           alt={card.imageAlt}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          className={`w-full h-full ${card.imageClass || 'object-cover'} group-hover:scale-110 transition-transform duration-500`}
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />

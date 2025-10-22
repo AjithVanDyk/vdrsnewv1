@@ -4,7 +4,6 @@ import { AnimatePresence } from 'framer-motion';
 import { HelmetProvider } from 'react-helmet-async';
 import ErrorBoundary from './components/ErrorBoundary';
 import NavigationErrorBoundary from './components/NavigationErrorBoundary';
-import LoadingFallback from './components/LoadingFallback';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Chatbot from './components/Chatbot';
@@ -172,7 +171,7 @@ function App() {
               <Navbar />
               <SmoothScrollHandler />
               <NavigationErrorBoundary>
-                <Suspense fallback={<LoadingFallback message="Loading page..." />}>
+                <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-gray-100"><div className="text-gray-600">Loading page...</div></div>}>
                   <AnimatePresence mode="wait">
                     <Routes>
                       <Route path="/" element={<Home />} />

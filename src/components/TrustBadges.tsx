@@ -197,3 +197,5 @@ export const CertificationsSection: React.FC = () => (
 
 export default TrustBadges;
 
+
+
