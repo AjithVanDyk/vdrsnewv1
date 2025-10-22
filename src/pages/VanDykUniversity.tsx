@@ -139,25 +139,32 @@ const VanDykUniversity = () => {
 
   const testimonials = [
     {
-      quote: "The Bollegraaf training program transformed our team's efficiency. We reduced downtime by 40% and increased throughput by 25%.",
-      author: "John Smith",
-      company: "Metro Recycling Solutions",
+      quote: "Todd presented the information in an easy to understand format and was very thorough in his explanations. The small class size gave us the ability to dive deep into technical details of classifier builds, geometry, and sensors.",
+      author: "Kevin Hanner",
+      company: "Smurfit Westrock",
       rating: 5,
-      program: "Bollegraaf Baler Training"
+      program: "TOMRA Training School - October 2025"
     },
     {
-      quote: "Van Dyk University's TOMRA training gave us the expertise to optimize our optical sorting systems. The ROI was immediate.",
-      author: "Lisa Rodriguez",
-      company: "Green Valley Processing",
+      quote: "Todd is very knowledgeable and gave very good information. The troubleshooting tasks were very helpful and helped me broaden my optical knowledge. Todd & Victoria are very professional.",
+      author: "Ronak Pored",
+      company: "GFL",
       rating: 5,
-      program: "TOMRA Optical Sorting Technology"
+      program: "TOMRA Training School - October 2025"
     },
     {
-      quote: "The MRF Operations course provided comprehensive knowledge that helped us streamline our entire facility operations.",
-      author: "Michael Brown",
-      company: "EcoTech Materials",
+      quote: "The class was very good. Learned a lot. The instructor was very good. 10/10. Van Dyk is very friendly and the training was super exciting.",
+      author: "Abdul Kabah Rahini",
+      company: "GFL",
       rating: 5,
-      program: "MRF Operations & Management"
+      program: "TOMRA Training School - October 2025"
+    },
+    {
+      quote: "OUTSTANDING. Well versed and personable. Much more in-depth than other training programs. Very beneficial for knowledgeable maintenance staff which is key to efficient operations.",
+      author: "An Kruan",
+      company: "WM Germantown",
+      rating: 5,
+      program: "TOMRA Training School - October 2025"
     }
   ];
 

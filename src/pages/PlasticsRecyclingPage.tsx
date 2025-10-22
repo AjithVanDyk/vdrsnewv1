@@ -53,26 +53,7 @@ const PlasticsRecyclingPage: React.FC = () => {
       '/Images/plastics-recycling.jpg',
       '/Images/7-Plastics-Recycling-c.jpg'
     ],
-    testimonials: [
-      {
-        name: 'David Kim',
-        company: 'Plastic Solutions Corp',
-        quote: 'Exceptional plastic recovery rates with minimal contamination. Outstanding technology.',
-        rating: 5
-      },
-      {
-        name: 'Maria Garcia',
-        company: 'EcoPlastics Inc',
-        quote: 'The sorting accuracy is incredible. We\'ve achieved 99%+ purity rates.',
-        rating: 5
-      },
-      {
-        name: 'James Wilson',
-        company: 'Green Materials LLC',
-        quote: 'Best plastic recycling system we\'ve used. Highly efficient and reliable.',
-        rating: 5
-      }
-    ]
+    testimonials: []
   };
 
   return <SolutionPageTemplate solution={solution} />;

@@ -51,26 +51,7 @@ const FoodWasteDepackagingPage: React.FC = () => {
       '/Images/smicon-food-depackaging.jpg',
       '/Images/smicon-depackager.jpg'
     ],
-    testimonials: [
-      {
-        name: 'Sarah Johnson',
-        company: 'Food Processing Solutions',
-        quote: 'Food waste depackaging has revolutionized our organic recovery. Exceptional separation efficiency.',
-        rating: 5
-      },
-      {
-        name: 'Michael Chen',
-        company: 'EcoFood Systems',
-        quote: 'Outstanding depackaging technology with minimal contamination and high organic recovery.',
-        rating: 5
-      },
-      {
-        name: 'Lisa Rodriguez',
-        company: 'Green Kitchen Solutions',
-        quote: 'Best food waste processing system we\'ve implemented. Highly efficient and reliable.',
-        rating: 5
-      }
-    ]
+    testimonials: []
   };
 
   return <SolutionPageTemplate solution={solution} />;

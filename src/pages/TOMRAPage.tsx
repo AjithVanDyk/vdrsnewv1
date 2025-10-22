@@ -55,21 +55,21 @@ const TOMRAPage: React.FC = () => {
     ],
     testimonials: [
       {
-        name: 'Amanda Foster',
-        company: 'Precision Recycling Corp',
-        quote: 'TOMRA technology has transformed our sorting accuracy. We\'ve achieved 99%+ purity rates.',
+        name: 'Kevin Hanner',
+        company: 'Smurfit Westrock',
+        quote: 'Todd presented the information in an easy to understand format and was very thorough in his explanations. The small class size gave us the ability to dive deep into technical details of classifier builds, geometry, and sensors.',
         rating: 5
       },
       {
-        name: 'James Patterson',
-        company: 'Advanced Materials LLC',
-        quote: 'Exceptional performance and reliability. The AI recognition is incredibly accurate.',
+        name: 'Ronak Pored',
+        company: 'GFL',
+        quote: 'Todd is very knowledgeable and gave very good information. The troubleshooting tasks were very helpful and helped me broaden my optical knowledge.',
         rating: 5
       },
       {
-        name: 'Maria Garcia',
-        company: 'EcoSort Solutions',
-        quote: 'Outstanding investment. The sorting speed and accuracy exceed all expectations.',
+        name: 'An Kruan',
+        company: 'WM Germantown',
+        quote: 'OUTSTANDING. Well versed and personable. Much more in-depth than other training programs. Very beneficial for knowledgeable maintenance staff.',
         rating: 5
       }
     ]

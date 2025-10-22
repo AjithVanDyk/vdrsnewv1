@@ -116,18 +116,18 @@ const PMI = () => {
 
   const testimonials = [
     {
-      name: 'John Smith',
-      company: 'WM Recycling',
+      name: 'Kevin Hanner',
+      company: 'Smurfit Westrock',
       role: 'Plant Manager',
-      content: 'PMI has been a game-changer for our facility. We\'ve seen a 40% reduction in downtime and significant cost savings.',
+      content: 'Todd presented the information in an easy to understand format and was very thorough in his explanations. The small class size gave us the ability to dive deep into technical details of classifier builds, geometry, and sensors.',
       rating: 5,
       image: '/Images/contact-team-photo.jpg'
     },
     {
-      name: 'Sarah Johnson',
-      company: 'Republic Services',
+      name: 'An Kruan',
+      company: 'WM Germantown',
       role: 'Operations Director',
-      content: 'The detailed reports and recommendations help us plan maintenance more effectively. Our equipment runs smoother than ever.',
+      content: 'OUTSTANDING. Well versed and personable. Much more in-depth than other training programs. Very beneficial for knowledgeable maintenance staff which is key to efficient operations.',
       rating: 5,
       image: '/Images/contact-team-photo.jpg'
     }

@@ -51,26 +51,7 @@ const ElectronicsWasteRecyclingPage: React.FC = () => {
       '/Images/cd-recycling.jpg',
       '/Images/cdrecycle.jpg'
     ],
-    testimonials: [
-      {
-        name: 'John Smith',
-        company: 'TechRecycle Solutions',
-        quote: 'Electronics waste recycling has transformed our e-waste management. Exceptional recovery rates.',
-        rating: 5
-      },
-      {
-        name: 'Sarah Johnson',
-        company: 'EcoElectronics Inc',
-        quote: 'Outstanding data security and material recovery capabilities.',
-        rating: 5
-      },
-      {
-        name: 'Mike Rodriguez',
-        company: 'Green Tech Recycling',
-        quote: 'Best e-waste processing system we\'ve implemented. Highly efficient and compliant.',
-        rating: 5
-      }
-    ]
+    testimonials: []
   };
 
   return <SolutionPageTemplate solution={solution} />;

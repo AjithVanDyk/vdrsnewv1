@@ -53,21 +53,9 @@ const SingleStreamRecyclingPage: React.FC = () => {
     ],
     testimonials: [
       {
-        name: 'Sarah Johnson',
-        company: 'Metro Recycling Authority',
-        quote: 'Single stream recycling has revolutionized our operations. Recovery rates have increased by 40%.',
-        rating: 5
-      },
-      {
-        name: 'Michael Chen',
-        company: 'Green Valley Materials',
-        quote: 'Outstanding technology with exceptional sorting accuracy. Highly recommended.',
-        rating: 5
-      },
-      {
-        name: 'Lisa Rodriguez',
-        company: 'EcoSolutions Inc',
-        quote: 'Best investment we\'ve made. The system handles everything efficiently.',
+        name: 'Kevin Hanner',
+        company: 'Smurfit Westrock',
+        quote: 'Todd presented the information in an easy to understand format and was very thorough in his explanations. The small class size gave us the ability to dive deep into technical details.',
         rating: 5
       }
     ]

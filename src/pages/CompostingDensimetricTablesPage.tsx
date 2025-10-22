@@ -45,26 +45,7 @@ const CompostingDensimetricTablesPage: React.FC = () => {
       'https://youtu.be/5VvtScst8yI', // Compost Cleaning with an Allgaier Densimetric Table
       'https://youtu.be/uyoDglUAzWw'  // New Densimetric Table
     ],
-    testimonials: [
-      {
-        name: 'Mark Johnson',
-        company: 'Compost Solutions Inc',
-        quote: 'Composting densimetric tables have transformed our composting operations. Exceptional compost quality.',
-        rating: 5
-      },
-      {
-        name: 'Sarah Davis',
-        company: 'EcoCompost Systems',
-        quote: 'Outstanding composting technology with excellent odor control and pathogen reduction.',
-        rating: 5
-      },
-      {
-        name: 'Michael Brown',
-        company: 'Green Composting',
-        quote: 'Best composting system we\'ve used. Highly efficient and produces premium compost.',
-        rating: 5
-      }
-    ]
+    testimonials: []
   };
 
   return <SolutionPageTemplate solution={solution} />;

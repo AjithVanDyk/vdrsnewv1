@@ -42,26 +42,7 @@ const DensimetricTablePage: React.FC = () => {
     gallery: [
       '/Images/densimetric-table-new.jpg'
     ],
-    testimonials: [
-      {
-        name: 'Jennifer Chen',
-        company: 'Density Solutions Inc',
-        quote: 'Densimetric table technology has transformed our material sorting accuracy.',
-        rating: 5
-      },
-      {
-        name: 'Michael Torres',
-        company: 'Precision Recycling',
-        quote: 'Outstanding density separation performance with minimal maintenance requirements.',
-        rating: 5
-      },
-      {
-        name: 'Lisa Anderson',
-        company: 'EcoSort Technologies',
-        quote: 'Excellent investment. The density separation accuracy exceeds all expectations.',
-        rating: 5
-      }
-    ]
+    testimonials: []
   };
 
   return <EquipmentPageTemplate equipment={equipment} />;

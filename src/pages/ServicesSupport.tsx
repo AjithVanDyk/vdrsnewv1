@@ -32,15 +32,15 @@ const ServicesSupport = () => {
       rating: 5
     },
     {
-      quote: "The PMI program has extended our equipment life by 30% and reduced emergency repairs by 60%. Highly recommended.",
-      author: "Sarah Chen",
-      company: "Green Valley Processing",
+      quote: "Todd presented the information in an easy to understand format and was very thorough in his explanations. The small class size gave us the ability to dive deep into technical details.",
+      author: "Kevin Hanner",
+      company: "Smurfit Westrock",
       rating: 5
     },
     {
-      quote: "Van Dyk University training transformed our team's efficiency. The hands-on approach made all the difference.",
-      author: "Robert Martinez",
-      company: "EcoTech Materials",
+      quote: "OUTSTANDING. Well versed and personable. Much more in-depth than other training programs. Very beneficial for knowledgeable maintenance staff which is key to efficient operations.",
+      author: "An Kruan",
+      company: "WM Germantown",
       rating: 5
     }
   ];

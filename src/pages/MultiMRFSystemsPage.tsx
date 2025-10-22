@@ -52,26 +52,7 @@ const MultiMRFSystemsPage: React.FC = () => {
       '/Images/mrf-systems.jpg',
       '/Images/single-stream-recycling.jpg'
     ],
-    testimonials: [
-      {
-        name: 'Amanda Foster',
-        company: 'MRF Solutions Inc',
-        quote: 'Multi-MRF™ systems have revolutionized our waste processing. Exceptional recovery rates.',
-        rating: 5
-      },
-      {
-        name: 'Thomas Anderson',
-        company: 'EcoMRF Systems',
-        quote: 'Outstanding MRF technology with excellent multi-material processing capabilities.',
-        rating: 5
-      },
-      {
-        name: 'Rachel Green',
-        company: 'Green MRF Technologies',
-        quote: 'Best MRF system we\'ve implemented. Highly efficient and reliable.',
-        rating: 5
-      }
-    ]
+    testimonials: []
   };
 
   return <SolutionPageTemplate solution={solution} />;
