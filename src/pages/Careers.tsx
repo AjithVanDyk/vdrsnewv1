@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
+import {
   Briefcase, Wrench, User, FileText, ExternalLink, ChevronLeft, ChevronRight,
   Heart, Shield, DollarSign, Clock, MapPin, Users, Award, Star,
-  CheckCircle, ArrowRight, Globe, Zap, Coffee, Dumbbell, Mail
+  CheckCircle, ArrowRight, Globe, Zap
 } from 'lucide-react';
 
 const Careers = () => {
-  const [activeTab, setActiveTab] = useState('whoIsVanDyk');
+  const [activeRoleId, setActiveRoleId] = useState<string | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Slideshow images with facility information
@@ -45,9 +45,9 @@ const Careers = () => {
   };
 
   const jobRoles = [
-    { 
-      id: 'fieldService', 
-      name: 'Field Service Technician', 
+    {
+      id: 'fieldService',
+      name: 'Field Service Technician',
       icon: Wrench,
       location: 'North America',
       type: 'Full-time',
@@ -85,6 +85,24 @@ const Careers = () => {
       borderColor: 'border-green-200'
     },
   ];
+
+  const roleHighlights: Record<string, string[]> = {
+    fieldService: [
+      'Work with cutting-edge recycling equipment at customer facilities across North America',
+      'Collaborate with experienced technicians to deliver turnkey installations and maintenance',
+      'Develop deep expertise across mechanical, electrical, and hydraulic systems'
+    ],
+    mechanicalInstaller: [
+      'Assemble full recycling systems alongside a close-knit installation crew',
+      'Gain exposure to conveyors, screens, optical sorters, and retrofits',
+      'Build trusted relationships with customers through on-site collaboration'
+    ],
+    interns: [
+      'Rotate through engineering, data, and operations teams in Norwalk, CT',
+      'Receive mentorship on CAD, analytics, and equipment optimization projects',
+      'Contribute to real-world recycling initiatives from day one'
+    ]
+  };
 
   const benefits = [
     {
@@ -355,12 +373,26 @@ const Careers = () => {
 
                       <div className="space-y-3">
                         <button
-                          onClick={() => setActiveTab(role.id)}
+                          onClick={() => setActiveRoleId(prev => (prev === role.id ? null : role.id))}
                           className={`w-full bg-gradient-to-r ${role.gradient} hover:opacity-90 text-white font-bold px-6 py-4 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center`}
                         >
                           <ArrowRight className="h-5 w-5 mr-2" />
                           View Details
                         </button>
+
+                        {activeRoleId === role.id && roleHighlights[role.id]?.length ? (
+                          <div className="bg-white/80 rounded-xl p-4 border border-gray-100">
+                            <h4 className="text-sm font-semibold text-vd-blue mb-3">Role Highlights</h4>
+                            <ul className="space-y-2">
+                              {roleHighlights[role.id]?.map(highlight => (
+                                <li key={highlight} className="flex items-start text-sm text-gray-700">
+                                  <CheckCircle className="w-4 h-4 text-vd-orange mr-2 mt-0.5" />
+                                  <span>{highlight}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ) : null}
                         
                         <a
                           href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7YKQMSwus0K6eGyqSyijxbLJzBecdydNjMz8TRHTYd1UQVNMVFpNMFFGMFpGNVRFMEdVWlZNOVFIQi4u&embed=true"
@@ -445,7 +477,7 @@ const Careers = () => {
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </motion.a>
                 <motion.button
-                  onClick={() => setActiveTab('whoIsVanDyk')}
+                  onClick={() => setActiveRoleId(null)}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="border-2 border-white text-white hover:bg-white hover:text-vd-blue px-8 py-4 rounded-lg font-semibold text-lg transition-colors inline-flex items-center justify-center"

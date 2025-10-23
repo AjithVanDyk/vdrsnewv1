@@ -1,12 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
-import { 
-  ArrowRight, Briefcase, Wrench, User, MapPin, Phone, Mail, Clock, 
+import {
+  Briefcase, Wrench, User, MapPin, Phone, Mail, Clock,
   Send, Building2, MessageSquare, ChevronLeft, ChevronRight, X,
-  FileText, Upload, CheckCircle, DollarSign, Calendar, Globe,
+  FileText, CheckCircle, DollarSign, Globe,
   Award, Target, Heart, Zap
 } from 'lucide-react';
+
+interface JobRole {
+  id: string;
+  title: string;
+  icon: React.ComponentType<{ className?: string }>;
+  shortDescription: string;
+  fullDescription: string;
+  roleDetails: string[];
+  experienceNeeded: string[];
+  benefits: string[];
+  travel: string;
+  locations: string;
+  contact: string;
+  contactName: string;
+  image: string;
+  color: string;
+}
 
 const AboutCareersContact = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -89,7 +106,7 @@ const AboutCareersContact = () => {
     }
   ];
 
-  const jobRoles = [
+  const jobRoles: JobRole[] = [
     {
       id: 'fieldService',
       title: 'Field Service Technician',
@@ -210,7 +227,7 @@ const AboutCareersContact = () => {
     }
   ];
 
-  const JobDetailModal = ({ job, onClose, onApply }: { job: any, onClose: () => void, onApply: () => void }) => (
+  const JobDetailModal = ({ job, onClose, onApply }: { job: JobRole; onClose: () => void; onApply: (jobId: string) => void }) => (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -261,8 +278,8 @@ const AboutCareersContact = () => {
                 The Role
               </h3>
               <ul className="space-y-3">
-                {job.roleDetails.map((detail: string, index: number) => (
-                  <li key={index} className="flex items-start">
+                {job.roleDetails.map((detail) => (
+                  <li key={detail} className="flex items-start">
                     <CheckCircle className="w-5 h-5 text-vd-green mt-0.5 mr-3 flex-shrink-0" />
                     <span className="text-gray-700">{detail}</span>
                   </li>
@@ -294,8 +311,8 @@ const AboutCareersContact = () => {
                 Experience Needed
               </h3>
               <ul className="space-y-3">
-                {job.experienceNeeded.map((exp: string, index: number) => (
-                  <li key={index} className="flex items-start">
+                {job.experienceNeeded.map((exp) => (
+                  <li key={exp} className="flex items-start">
                     <Zap className="w-4 h-4 text-vd-orange mt-1 mr-3 flex-shrink-0" />
                     <span className="text-gray-700 text-sm">{exp}</span>
                   </li>
@@ -311,8 +328,8 @@ const AboutCareersContact = () => {
               Benefits & Compensation
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {job.benefits.map((benefit: string, index: number) => (
-                <div key={index} className="flex items-start">
+              {job.benefits.map((benefit) => (
+                <div key={benefit} className="flex items-start">
                   <DollarSign className="w-4 h-4 text-vd-orange mt-1 mr-3 flex-shrink-0" />
                   <span className="text-white text-sm">{benefit}</span>
                 </div>
@@ -328,7 +345,7 @@ const AboutCareersContact = () => {
             </p>
             <div className="flex justify-center">
               <button
-                onClick={onApply}
+                onClick={() => onApply(job.id)}
                 className="bg-vd-orange hover:bg-vd-orange-alt text-white font-semibold py-3 px-8 rounded-lg transition-colors flex items-center justify-center space-x-2"
               >
                 <Send className="w-5 h-5" />
@@ -341,7 +358,7 @@ const AboutCareersContact = () => {
     </motion.div>
   );
 
-  const ApplicationForm = ({ jobRole, onClose }: { jobRole: any, onClose: () => void }) => (
+  const ApplicationForm = ({ jobRole, onClose }: { jobRole: JobRole; onClose: () => void }) => (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -389,6 +406,9 @@ const AboutCareersContact = () => {
       </motion.div>
     </motion.div>
   );
+
+  const selectedJob = expandedJob ? jobRoles.find(job => job.id === expandedJob) : null;
+  const selectedApplicationJob = showApplicationForm ? jobRoles.find(job => job.id === showApplicationForm) : null;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
@@ -815,13 +835,13 @@ const AboutCareersContact = () => {
 
       {/* Job Detail Modal */}
       <AnimatePresence>
-        {expandedJob && (
-          <JobDetailModal 
-            job={jobRoles.find(job => job.id === expandedJob)!} 
+        {selectedJob && (
+          <JobDetailModal
+            job={selectedJob}
             onClose={() => setExpandedJob(null)}
-            onApply={() => {
+            onApply={(jobId) => {
               setExpandedJob(null);
-              setShowApplicationForm(expandedJob);
+              setShowApplicationForm(jobId);
             }}
           />
         )}
@@ -829,10 +849,10 @@ const AboutCareersContact = () => {
 
       {/* Application Form Modal */}
       <AnimatePresence>
-        {showApplicationForm && (
-          <ApplicationForm 
-            jobRole={jobRoles.find(job => job.id === showApplicationForm)!} 
-            onClose={() => setShowApplicationForm(null)} 
+        {selectedApplicationJob && (
+          <ApplicationForm
+            jobRole={selectedApplicationJob}
+            onClose={() => setShowApplicationForm(null)}
           />
         )}
       </AnimatePresence>

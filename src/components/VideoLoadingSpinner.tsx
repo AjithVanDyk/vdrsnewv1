@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 
 interface VideoLoadingSpinnerProps {
   message?: string;
@@ -12,11 +12,6 @@ const VideoLoadingSpinner: React.FC<VideoLoadingSpinnerProps> = ({
   size = 'medium',
   showMessage = true
 }) => {
-  const [videoLoaded, setVideoLoaded] = useState(false);
-  const [videoError, setVideoError] = useState(false);
-
-  console.log('VideoLoadingSpinner rendered, videoLoaded:', videoLoaded, 'videoError:', videoError);
-
   const sizeClasses = {
     small: 'w-16 h-16',
     medium: 'w-24 h-24',
@@ -29,72 +24,29 @@ const VideoLoadingSpinner: React.FC<VideoLoadingSpinnerProps> = ({
     large: 'min-h-[200px]'
   };
 
-  const handleVideoLoad = () => {
-    console.log('Video loaded successfully');
-    setVideoLoaded(true);
-  };
-
-  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    console.error('Video failed to load:', e);
-    setVideoError(true);
-  };
-
   return (
     <div className={`flex flex-col items-center justify-center ${containerSizeClasses[size]} p-4`}>
       <div className="relative">
-        {/* Video Spinner */}
-        <AnimatePresence>
-          {!videoError && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: videoLoaded ? 1 : 0.3, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.3 }}
-              className={`${sizeClasses[size]} rounded-full overflow-hidden bg-gray-100 flex items-center justify-center`}
-            >
-              <video
-                src="/Images/spinner-loading-video.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
-                className="w-full h-full object-cover"
-                onLoadedData={handleVideoLoad}
-                onCanPlay={handleVideoLoad}
-                onError={handleVideoError}
-                onLoadStart={() => console.log('Video load started')}
-                onLoadedMetadata={() => console.log('Video metadata loaded')}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Fallback Spinner */}
-        <AnimatePresence>
-          {videoError && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.3 }}
-              className={`${sizeClasses[size]} rounded-full border-4 border-vd-blue border-t-transparent animate-spin bg-gray-100 flex items-center justify-center`}
-            >
-              <div className="w-8 h-8 bg-vd-blue rounded-full animate-pulse"></div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Loading Overlay */}
-        {!videoLoaded && !videoError && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          className={`${sizeClasses[size]} rounded-full flex items-center justify-center bg-gradient-to-br from-vd-blue/20 to-vd-blue/10`}
+        >
           <motion.div
+            className="absolute inset-0 rounded-full border-[6px] border-vd-blue/30 border-t-vd-blue"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1.2, repeat: Infinity, ease: 'linear' }}
+          />
+          <motion.div
+            className="relative flex items-center justify-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-full"
+            transition={{ delay: 0.15, duration: 0.4 }}
           >
-            <div className="w-8 h-8 border-2 border-vd-blue border-t-transparent rounded-full animate-spin"></div>
+            <div className="w-6 h-6 rounded-full bg-vd-blue/80 blur-[1px]" />
           </motion.div>
-        )}
+        </motion.div>
       </div>
 
       {/* Loading Message */}

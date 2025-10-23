@@ -99,21 +99,16 @@ const Footer: React.FC = () => {
             role="region"
             aria-label="Company Information"
           >
-            <img 
-              src="/Images/van-dyk-logo-white.svg" 
-              alt="Van Dyk Recycling Solutions Logo" 
-              className="h-60 w-auto mb-3" 
+            <img
+              src="/Images/van-dyk-logo-new.jpg"
+              alt="Van Dyk Recycling Solutions Logo"
+              className="h-20 w-auto mb-3 rounded"
               loading="lazy"
               decoding="async"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                // Try fallback to PNG if SVG fails
-                if (target.src.includes('.svg')) {
-                  target.src = '/Images/van-dyk-logo-white.png';
-                } else {
-                  target.style.display = 'none';
-                }
-              }} 
+                target.style.display = 'none';
+              }}
             />
             <p className="text-white mb-3 text-sm leading-relaxed">
               Leading provider of recycling equipment and solutions since 1984. Innovative technology and expert support for sustainable operations.

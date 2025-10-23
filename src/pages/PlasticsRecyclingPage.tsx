@@ -43,9 +43,6 @@ const PlasticsRecyclingPage: React.FC = () => {
       'Distribution centers',
       'Industrial complexes'
     ],
-    localVideos: [
-      '/Images/plastics-recycling-white-bg.mp4'
-    ],
     gallery: [
       '/Images/plastics-recycling.jpg',
       '/Images/7-Plastics-Recycling-c.jpg'

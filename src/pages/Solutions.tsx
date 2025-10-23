@@ -15,12 +15,6 @@ interface Solution {
 	benefits?: string[];
 }
 
-interface SolutionModalProps {
-	solution: Solution | null;
-	isOpen: boolean;
-	onClose: () => void;
-}
-
 // Comprehensive solutions from original website
 const solutionItems = [
 	{
@@ -727,7 +721,7 @@ const Solutions = () => {
 						animate="animate"
 						className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
 					>
-						{solutionItems.map((solution, index) => (
+                                                {solutionItems.map((solution) => (
 							<motion.div
 								key={solution.id}
 								variants={fadeInUp}

@@ -1,22 +1,16 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Clock, 
-  Phone, 
-  Mail, 
-  Download, 
-  Book, 
-  Video, 
-  MessageCircle, 
-  AlertCircle,
+import {
+  Clock,
+  Phone,
+  Mail,
+  Download,
+  Book,
+  Video,
   CheckCircle,
   Search,
   FileText,
   Monitor,
-  Wrench,
-  Users,
-  Globe,
-  Eye,
   ThumbsUp,
   ArrowRight
 } from 'lucide-react';

@@ -9,6 +9,15 @@ interface ErrorInfo {
   userId?: string;
 }
 
+import type { ErrorInfo as ReactErrorInfo } from 'react';
+
+interface AnalyticsMetric {
+  name: string;
+  value: number;
+  timestamp: string;
+  url: string;
+}
+
 class ErrorMonitor {
   private static instance: ErrorMonitor;
   private errorQueue: ErrorInfo[] = [];
@@ -101,12 +110,7 @@ class ErrorMonitor {
   }
 
   // Performance monitoring
-  logPerformanceMetric(metric: {
-    name: string;
-    value: number;
-    timestamp: string;
-    url: string;
-  }): void {
+  logPerformanceMetric(metric: AnalyticsMetric): void {
     if (process.env.NODE_ENV === 'development') {
       console.log('Performance metric:', metric);
     }
@@ -118,7 +122,7 @@ class ErrorMonitor {
     }
   }
 
-  private async sendToAnalyticsService(metric: any): Promise<void> {
+  private async sendToAnalyticsService(metric: AnalyticsMetric): Promise<void> {
     try {
       // In a real application, integrate with analytics service
       console.log('Analytics metric:', metric);
@@ -132,7 +136,7 @@ class ErrorMonitor {
 export const errorMonitor = ErrorMonitor.getInstance();
 
 // Utility function for React error boundaries
-export const logReactError = (error: Error, errorInfo: any): void => {
+export const logReactError = (error: Error, errorInfo: ReactErrorInfo): void => {
   errorMonitor.logError({
     message: error.message,
     stack: error.stack,
@@ -148,7 +152,7 @@ export const measurePerformance = (name: string, fn: () => void): void => {
   const start = performance.now();
   fn();
   const end = performance.now();
-  
+
   errorMonitor.logPerformanceMetric({
     name,
     value: end - start,
@@ -157,17 +161,17 @@ export const measurePerformance = (name: string, fn: () => void): void => {
   });
 };
 
-export const measureAsyncPerformance = async (name: string, fn: () => Promise<any>): Promise<any> => {
+export const measureAsyncPerformance = async <T>(name: string, fn: () => Promise<T>): Promise<T> => {
   const start = performance.now();
   const result = await fn();
   const end = performance.now();
-  
+
   errorMonitor.logPerformanceMetric({
     name,
     value: end - start,
     timestamp: new Date().toISOString(),
     url: window.location.href
   });
-  
+
   return result;
 };

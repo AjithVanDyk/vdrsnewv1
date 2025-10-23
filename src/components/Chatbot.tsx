@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Bot, ChevronRight, ArrowRight, ExternalLink } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';

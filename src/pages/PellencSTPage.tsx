@@ -49,8 +49,7 @@ const PellencSTPage: React.FC = () => {
       'https://youtu.be/_mE3uamgIVk'
     ],
     gallery: [
-      '/Images/pellenc-optical-new.jpg',
-      '/Images/pellenc-optical-sorting.jpg'
+      '/Images/pellenc-optical-new.jpg'
     ],
     testimonials: [
       {

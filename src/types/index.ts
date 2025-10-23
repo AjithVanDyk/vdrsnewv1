@@ -132,4 +132,4 @@ export interface WithError extends BaseProps {
 // Utility types
 export type Nullable<T> = T | null;
 export type Optional<T> = T | undefined;
-export type AsyncFunction<T> = (...args: any[]) => Promise<T>; 
+export type AsyncFunction<T, Args extends unknown[] = unknown[]> = (...args: Args) => Promise<T>;

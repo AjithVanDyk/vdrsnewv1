@@ -9,8 +9,6 @@ export const preloadImage = (src: string): Promise<HTMLImageElement> => {
 };
 
 export const loadImageWithFallback = (img: HTMLImageElement, fallbackSrc?: string) => {
-  const originalSrc = img.src;
-  
   img.onload = () => {
     img.classList.add('loaded');
   };

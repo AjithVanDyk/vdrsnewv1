@@ -49,8 +49,14 @@ const Card: React.FC<CardProps> = ({
   const clickableClasses = onClick ? 'cursor-pointer' : '';
   
   const classes = `${baseClasses} ${paddingClasses[padding]} ${shadowClasses[shadow]} ${roundedClasses[rounded]} ${hoverClasses} ${clickableClasses} ${className}`;
-  
-  const MotionComponent = motion[Component] as any;
+
+  const motionElements: Record<CardProps['as'], typeof motion.div> = {
+    div: motion.div,
+    article: motion.article,
+    section: motion.section
+  };
+
+  const MotionComponent = motionElements[Component];
   
   return (
     <MotionComponent
