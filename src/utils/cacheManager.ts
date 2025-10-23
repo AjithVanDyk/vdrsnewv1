@@ -90,17 +90,6 @@ class CacheManager {
 // Create singleton instance
 const cacheManager = new CacheManager();
 
-declare global {
-  interface Window {
-    cacheManager?: CacheManager;
-  }
-}
-
-// Expose to window for debugging
-if (typeof window !== 'undefined') {
-  window.cacheManager = cacheManager;
-}
-
 export default cacheManager;
 
 
