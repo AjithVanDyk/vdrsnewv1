@@ -1,29 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 import {
-  Briefcase, Wrench, User, MapPin, Phone, Mail, Clock,
+  Briefcase, User, MapPin, Phone, Mail, Clock,
   Send, Building2, MessageSquare, ChevronLeft, ChevronRight, X,
   FileText, CheckCircle, DollarSign, Globe,
   Award, Target, Heart, Zap
 } from 'lucide-react';
-
-interface JobRole {
-  id: string;
-  title: string;
-  icon: React.ComponentType<{ className?: string }>;
-  shortDescription: string;
-  fullDescription: string;
-  roleDetails: string[];
-  experienceNeeded: string[];
-  benefits: string[];
-  travel: string;
-  locations: string;
-  contact: string;
-  contactName: string;
-  image: string;
-  color: string;
-}
+import { careerJobRoles, type JobRole } from '../data/careers';
 
 const AboutCareersContact = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -106,126 +90,7 @@ const AboutCareersContact = () => {
     }
   ];
 
-  const jobRoles: JobRole[] = [
-    {
-      id: 'fieldService',
-      title: 'Field Service Technician',
-      icon: Wrench,
-      shortDescription: 'Turn-key installation, service and maintenance of recycling machinery across North America',
-      fullDescription: 'Van Dyk Recycling Solutions has several vacancies across the United States, in Canada and in Mexico. Van Dyk is a rapidly growing company and we are constantly seeking additional service technicians for the installation and service of large industrial recycling equipment installations.',
-      roleDetails: [
-        'Handle turn-key installation, service and maintenance of all machinery sold by Van Dyk',
-        'Troubleshoot, repair and resolve issues with equipment (electrical, hydraulic, mechanical)',
-        'Maintain customer contact for installation, training, or service',
-        'Perform preventive maintenance inspections on machines',
-        'Train customers on safe operating procedures and preventative maintenance'
-      ],
-      experienceNeeded: [
-        'Knowledge of electrical, mechanical, and/or hydraulic systems and schematics',
-        'Ability to read electrical and hydraulic diagrams, connection drawings and mechanical drawings',
-        'Comfort working with 480 volt electrical systems',
-        'Large machinery troubleshooting experience (highly valued)',
-        'Solid verbal communication skills in English',
-        'Excellent customer relations skills - you are our company ambassador',
-        'Willingness to work outside normal hours and spend nights on location'
-      ],
-      benefits: [
-        'Salaried position with paid overtime for work beyond 8 hours per business day',
-        'Weekend work and travel considered overtime',
-        '20 paid vacation days and 8 paid holidays',
-        'Paid health insurance for you, spouse, and dependent children',
-        'Paid dental insurance for family',
-        'Paid $250,000 life insurance policy',
-        'Profit-sharing pension plan + 401K plan',
-        'High degree of independence in internationally active organization',
-        'Plenty of opportunities for personal development'
-      ],
-      travel: '90% of jobs require travel; 60% within designated territory near your home',
-      locations: 'United States, Canada, Mexico, Central America',
-      contact: 'achirca@vdrs.com',
-      contactName: 'Alin Chirca',
-      image: '/Images/image-1749759487003.png',
-      color: 'from-blue-500 to-blue-600'
-    },
-    {
-      id: 'mechanicalInstaller',
-      title: 'Mechanical Installer',
-      icon: Briefcase,
-      shortDescription: 'Mechanical installation of complete recycling systems and equipment',
-      fullDescription: 'Van Dyk Recycling Solutions has several vacancies across the United States, in Canada and in Mexico. Van Dyk is a family-owned, rapidly growing company, and we are constantly seeking additional mechanical installers for the installation of large industrial recycling equipment.',
-      roleDetails: [
-        'Responsible for mechanical installation of all machinery sold by Van Dyk',
-        'Install single pieces of equipment or complete sorting systems',
-        'Work with conveyors, screens, balers and optical sorters',
-        'Receive hands-on experiential learning training',
-        'Travel to sites and shadow veteran mechanics on installations',
-        'Maintain customer contact during installation process'
-      ],
-      experienceNeeded: [
-        'Experience erecting heavy equipment',
-        'Experience working with related large machinery (preferred)',
-        'Strong work ethic and willingness to heed advice',
-        'Ability to work diligently in unsupervised settings',
-        'Solid verbal communication skills in English',
-        'Additional languages (Spanish, French, Dutch, German, Polish) are an advantage'
-      ],
-      benefits: [
-        'Salaried position with paid overtime for work beyond 8 hours per business day',
-        'Weekend work and travel considered overtime',
-        '20 paid vacation days and 8 paid holidays',
-        'Fully funded health insurance for you, spouse, and dependent children',
-        'Company-funded HSA to fully cover deductibles',
-        'Paid dental insurance for family',
-        'Paid $250,000 life insurance policy',
-        'Profit-sharing pension plan (7-12% of salary)',
-        'Additional 401K plan offer',
-        'High degree of independence with strong growth opportunities'
-      ],
-      travel: '90% of jobs require travel within the United States',
-      locations: 'United States, Canada, Mexico',
-      contact: 'achirca@vdrs.com',
-      contactName: 'Alin Chirca',
-      image: '/Images/image-1749759490576.png',
-      color: 'from-green-500 to-green-600'
-    },
-    {
-      id: 'internships',
-      title: 'Internships',
-      icon: User,
-      shortDescription: 'Learn data engineering, drawing, and sorting machine operations in Norwalk',
-      fullDescription: 'Van Dyk Recycling Solutions offers challenging internship opportunities in our Norwalk, CT headquarters focusing on data engineering, technical drawing, and sorting machine operations.',
-      roleDetails: [
-        'Work on data engineering projects for recycling analytics',
-        'Learn technical drawing and CAD design for sorting systems',
-        'Understand sorting machine operations and optimization',
-        'Collaborate with engineering teams on real projects',
-        'Gain hands-on experience with recycling equipment',
-        'Participate in equipment testing and validation processes'
-      ],
-      experienceNeeded: [
-        'Students or recent graduates in engineering, computer science, or related fields',
-        'Interest in data analysis and engineering systems',
-        'Basic knowledge of technical drawing or CAD (preferred)',
-        'Eagerness to learn and strong work ethic',
-        'Ability to work independently and as part of a team',
-        'Good communication skills in English'
-      ],
-      benefits: [
-        'Valuable industry experience in recycling technology',
-        'Mentorship from industry experts',
-        'Professional network building',
-        'Potential for future full-time employment',
-        'Exposure to cutting-edge recycling technology',
-        'Skills development in data engineering and technical drawing'
-      ],
-      travel: 'Based in Norwalk, CT - no travel required',
-      locations: 'Norwalk, Connecticut headquarters',
-      contact: 'info@vdrs.com',
-      contactName: 'Van Dyk HR Team',
-      image: '/Images/image-1749759499434.png',
-      color: 'from-purple-500 to-purple-600'
-    }
-  ];
+  const jobRoles: JobRole[] = careerJobRoles;
 
   const JobDetailModal = ({ job, onClose, onApply }: { job: JobRole; onClose: () => void; onApply: (jobId: string) => void }) => (
     <motion.div
@@ -243,7 +108,7 @@ const AboutCareersContact = () => {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header with gradient */}
-        <div className={`bg-gradient-to-r ${job.color} text-white p-6 rounded-t-2xl`}>
+        <div className={`bg-gradient-to-r ${job.gradient} text-white p-6 rounded-t-2xl`}>
           <div className="flex justify-between items-start">
             <div className="flex items-center space-x-4">
               <job.icon className="w-12 h-12 text-white" />
@@ -407,8 +272,14 @@ const AboutCareersContact = () => {
     </motion.div>
   );
 
-  const selectedJob = expandedJob ? jobRoles.find(job => job.id === expandedJob) : null;
-  const selectedApplicationJob = showApplicationForm ? jobRoles.find(job => job.id === showApplicationForm) : null;
+  const selectedJob = useMemo(
+    () => (expandedJob ? jobRoles.find(job => job.id === expandedJob) ?? null : null),
+    [expandedJob, jobRoles]
+  );
+  const selectedApplicationJob = useMemo(
+    () => (showApplicationForm ? jobRoles.find(job => job.id === showApplicationForm) ?? null : null),
+    [showApplicationForm, jobRoles]
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
@@ -581,7 +452,7 @@ const AboutCareersContact = () => {
                           e.currentTarget.alt = 'Image not available';
                         }}
                       />
-                      <div className={`absolute inset-0 bg-gradient-to-t ${job.color} opacity-80`} />
+                      <div className={`absolute inset-0 bg-gradient-to-t ${job.gradient} opacity-80`} />
                       <div className="absolute top-4 left-4">
                         <job.icon className="w-8 h-8 text-white" />
                       </div>

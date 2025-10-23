@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Briefcase, Wrench, User, FileText, ExternalLink, ChevronLeft, ChevronRight,
+  FileText, ExternalLink, ChevronLeft, ChevronRight,
   Heart, Shield, DollarSign, Clock, MapPin, Users, Award, Star,
   CheckCircle, ArrowRight, Globe, Zap
 } from 'lucide-react';
+import { careerJobRoles } from '../data/careers';
 
 const Careers = () => {
   const [activeRoleId, setActiveRoleId] = useState<string | null>(null);
@@ -44,65 +45,7 @@ const Careers = () => {
     setCurrentSlide((prev) => (prev - 1 + slideImages.length) % slideImages.length);
   };
 
-  const jobRoles = [
-    {
-      id: 'fieldService',
-      name: 'Field Service Technician',
-      icon: Wrench,
-      location: 'North America',
-      type: 'Full-time',
-      experience: '2+ years',
-      travel: '90% travel required',
-      color: 'blue',
-      gradient: 'from-blue-500 to-blue-600',
-      bgColor: 'bg-blue-50',
-      borderColor: 'border-blue-200'
-    },
-    { 
-      id: 'mechanicalInstaller', 
-      name: 'Mechanical Installer', 
-      icon: Briefcase,
-      location: 'North America',
-      type: 'Full-time',
-      experience: '1+ years',
-      travel: '90% travel required',
-      color: 'orange',
-      gradient: 'from-orange-500 to-orange-600',
-      bgColor: 'bg-orange-50',
-      borderColor: 'border-orange-200'
-    },
-    { 
-      id: 'interns', 
-      name: 'Internships', 
-      icon: User,
-      location: 'Norwalk, CT',
-      type: 'Internship',
-      experience: 'Student/Recent Grad',
-      travel: 'Minimal travel',
-      color: 'green',
-      gradient: 'from-green-500 to-green-600',
-      bgColor: 'bg-green-50',
-      borderColor: 'border-green-200'
-    },
-  ];
-
-  const roleHighlights: Record<string, string[]> = {
-    fieldService: [
-      'Work with cutting-edge recycling equipment at customer facilities across North America',
-      'Collaborate with experienced technicians to deliver turnkey installations and maintenance',
-      'Develop deep expertise across mechanical, electrical, and hydraulic systems'
-    ],
-    mechanicalInstaller: [
-      'Assemble full recycling systems alongside a close-knit installation crew',
-      'Gain exposure to conveyors, screens, optical sorters, and retrofits',
-      'Build trusted relationships with customers through on-site collaboration'
-    ],
-    interns: [
-      'Rotate through engineering, data, and operations teams in Norwalk, CT',
-      'Receive mentorship on CAD, analytics, and equipment optimization projects',
-      'Contribute to real-world recycling initiatives from day one'
-    ]
-  };
+  const jobRoles = careerJobRoles;
 
   const benefits = [
     {
@@ -317,7 +260,7 @@ const Careers = () => {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.2 }}
-                    className={`${role.bgColor} ${role.borderColor} border-2 rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-105 group relative`}
+                    className={`${role.backgroundClass} ${role.borderClass} border-2 rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-105 group relative`}
                   >
                     {/* Gradient Header */}
                     <div className={`bg-gradient-to-r ${role.gradient} p-8 text-white relative overflow-hidden`}>
@@ -328,7 +271,7 @@ const Careers = () => {
                             <role.icon className="h-8 w-8 text-white" />
                           </div>
                           <div>
-                            <h3 className="text-2xl font-bold">{role.name}</h3>
+                            <h3 className="text-2xl font-bold">{role.title}</h3>
                             <div className="flex items-center text-white/80 mt-1">
                               <MapPin className="w-4 h-4 mr-1" />
                               <span className="text-sm">{role.location}</span>
@@ -343,48 +286,40 @@ const Careers = () => {
                       <div className="grid grid-cols-2 gap-4 mb-6">
                         <div className="bg-white rounded-xl p-4 text-center shadow-sm">
                           <div className="text-sm text-gray-500 mb-1">Type</div>
-                          <div className="font-bold text-vd-blue">{role.type}</div>
+                          <div className="font-bold text-vd-blue">{role.roleType}</div>
                         </div>
                         <div className="bg-white rounded-xl p-4 text-center shadow-sm">
                           <div className="text-sm text-gray-500 mb-1">Experience</div>
-                          <div className="font-bold text-vd-blue">{role.experience}</div>
+                          <div className="font-bold text-vd-blue">{role.experienceLevel}</div>
                         </div>
                       </div>
 
-                      <div className={`bg-gradient-to-r ${role.gradient}/10 border border-${role.color}-200 rounded-xl p-4 mb-6`}>
-                        <div className={`flex items-center text-sm font-semibold mb-2 text-${role.color}-600`}>
+                      <div className={`bg-gradient-to-r ${role.gradient}/10 border ${role.borderClass} rounded-xl p-4 mb-6`}>
+                        <div className={`flex items-center text-sm font-semibold mb-2 ${role.accentTextClass}`}>
                           <Globe className="w-4 h-4 mr-2" />
                           Travel Requirements
                         </div>
-                        <p className="text-sm text-gray-700">{role.travel}</p>
+                        <p className="text-sm text-gray-700">{role.travelSummary}</p>
                       </div>
-                    
+
                       <p className="text-gray-700 leading-relaxed mb-8">
-                        {role.id === 'fieldService' && 
-                          "Join our team as a Field Service Technician and work with cutting-edge recycling equipment across North America. Travel to customer sites, install and maintain machinery, and provide expert technical support."
-                        }
-                        {role.id === 'mechanicalInstaller' && 
-                          "Become a Mechanical Installer and help build the future of recycling. Work with conveyors, screens, balers, and optical sorters while gaining hands-on experience with industry-leading technology."
-                        }
-                        {role.id === 'interns' && 
-                          "Start your career with our internship program. Gain valuable hands-on experience in electrical, mechanical, and hydraulic systems while working alongside industry experts."
-                        }
+                        {role.shortDescription}
                       </p>
 
                       <div className="space-y-3">
                         <button
-                          onClick={() => setActiveRoleId(prev => (prev === role.id ? null : role.id))}
+                          onClick={() => setActiveRoleId(activeRoleId === role.id ? null : role.id)}
                           className={`w-full bg-gradient-to-r ${role.gradient} hover:opacity-90 text-white font-bold px-6 py-4 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center`}
                         >
                           <ArrowRight className="h-5 w-5 mr-2" />
                           View Details
                         </button>
 
-                        {activeRoleId === role.id && roleHighlights[role.id]?.length ? (
+                        {activeRoleId === role.id && role.highlights.length ? (
                           <div className="bg-white/80 rounded-xl p-4 border border-gray-100">
                             <h4 className="text-sm font-semibold text-vd-blue mb-3">Role Highlights</h4>
                             <ul className="space-y-2">
-                              {roleHighlights[role.id]?.map(highlight => (
+                              {role.highlights.map(highlight => (
                                 <li key={highlight} className="flex items-start text-sm text-gray-700">
                                   <CheckCircle className="w-4 h-4 text-vd-orange mr-2 mt-0.5" />
                                   <span>{highlight}</span>

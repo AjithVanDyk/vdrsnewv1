@@ -180,19 +180,17 @@ const NewsMedia = () => {
     const now = Date.now();
     const oneDay = 24 * 60 * 60 * 1000;
 
-    let timer: ReturnType<typeof setTimeout> | undefined;
-
     if (!hasSeenPopup || (lastSeen && now - parseInt(lastSeen, 10) > oneDay)) {
-      timer = setTimeout(() => {
+      const timer = setTimeout(() => {
         setShowNewsletterPopup(true);
       }, 3000);
+
+      return () => {
+        clearTimeout(timer);
+      };
     }
 
-    return () => {
-      if (timer) {
-        clearTimeout(timer);
-      }
-    };
+    return undefined;
   }, []);
 
   const validateEmail = (email: string): boolean => {
