@@ -69,6 +69,21 @@ The project expects Node.js 18+.
 
 ---
 
+## 🖼️ **Media Health Checklist**
+
+- ✅ All image and video references in `src/` now resolve to files inside `public/Images`. Hero modules that previously pointed at non-existent assets (e.g. the Equipment, Lubo Screening, and Pellenc ST pages) have been aligned with the shipped library to eliminate 404s during hydration.
+- ✅ The reusable loading spinners no longer depend on a missing MP4 asset. They now ship with CSS/Framer Motion driven animations and respect the user’s `prefers-reduced-motion` setting.
+- ✅ PWA metadata has been updated to use the bundled `vdrs-logo-icon.svg` and `van-dyk-logo-new.jpg`, ensuring install prompts on Vercel reference valid icons.
+- ➕ When adding new media, drop the file in `public/Images`, prefer lowercase kebab-case naming, and update components or data objects with the new path. Avoid spaces in filenames to keep URLs readable.
+
+Run `npm run lint` and `npm run type-check` after swapping assets to catch stale imports early.
+
+---
+
+## 🎨 **Design System**
+
+---
+
 ## 📦 Deployment Notes
 - Vercel deployment uses the default Vite static output in `dist/` with rewrites defined in `vercel.json` so that SPA routes resolve correctly.
 - Static assets under `/Images/` are cached aggressively (`Cache-Control: public, max-age=31536000, immutable`). Bust caches by renaming the asset or updating the referencing URL.

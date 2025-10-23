@@ -10,7 +10,8 @@ const STATIC_ASSETS = [
   '/index.html',
   '/manifest.json',
   '/Images/van-dyk-logo-new.jpg',
-  '/Images/image-1749759459073.png' // LCP image - critical for performance
+  '/Images/image-1749759459073.png', // LCP image - critical for performance
+  '/Images/vdrs-logo-icon.svg'
 ];
 
 // Install event - minimal caching

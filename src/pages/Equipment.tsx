@@ -559,16 +559,16 @@ const Equipment = () => {
                                 <img
                                         src="/Images/bollegraaf-new-1.jpg"
                                         alt="Advanced Recycling Equipment"
-					className="absolute inset-0 w-full h-full object-cover object-center scale-105"
-					width="1920"
-					height="1080"
-					loading="eager"
-					decoding="sync"
-					onError={(e) => {
-						if (process.env.NODE_ENV === 'development') {
-							console.log('Hero image failed to load, using fallback');
-						}
-                                                e.currentTarget.src = '/Images/bollegraaf-products.jpg';
+                                        className="absolute inset-0 w-full h-full object-cover object-center scale-105"
+                                        width="1920"
+                                        height="1080"
+                                        loading="eager"
+                                        decoding="sync"
+                                        onError={(e) => {
+                                                if (process.env.NODE_ENV === 'development') {
+                                                        console.log('Hero image failed to load, using fallback');
+                                                }
+                                                e.currentTarget.src = '/Images/bollegraaf-baler.jpg';
                                         }}
                                 />
 				<div className="absolute inset-0 bg-gradient-to-br from-black/20 to-black/40"></div>

@@ -102,7 +102,7 @@ const Footer: React.FC = () => {
             <img
               src="/Images/van-dyk-logo-new.jpg"
               alt="Van Dyk Recycling Solutions Logo"
-              className="h-20 w-auto mb-3 rounded"
+              className="h-40 w-auto mb-3 object-contain filter brightness-110 contrast-125 drop-shadow-lg"
               loading="lazy"
               decoding="async"
               onError={(e) => {

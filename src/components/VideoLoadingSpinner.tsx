@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 
 interface VideoLoadingSpinnerProps {
   message?: string;
@@ -12,6 +12,9 @@ const VideoLoadingSpinner: React.FC<VideoLoadingSpinnerProps> = ({
   size = 'medium',
   showMessage = true
 }) => {
+  const [progress, setProgress] = useState(18);
+  const prefersReducedMotion = useReducedMotion();
+
   const sizeClasses = {
     small: 'w-16 h-16',
     medium: 'w-24 h-24',
@@ -24,29 +27,63 @@ const VideoLoadingSpinner: React.FC<VideoLoadingSpinnerProps> = ({
     large: 'min-h-[200px]'
   };
 
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      setProgress(0);
+      return;
+    }
+
+    const interval = window.setInterval(() => {
+      setProgress((value) => {
+        if (value >= 96) {
+          return 34;
+        }
+        return value + Math.floor(Math.random() * 6) + 4;
+      });
+    }, 260);
+
+    return () => window.clearInterval(interval);
+  }, [prefersReducedMotion]);
+
   return (
     <div className={`flex flex-col items-center justify-center ${containerSizeClasses[size]} p-4`}>
       <div className="relative">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3 }}
-          className={`${sizeClasses[size]} rounded-full flex items-center justify-center bg-gradient-to-br from-vd-blue/20 to-vd-blue/10`}
-        >
+        {prefersReducedMotion ? (
+          <div className={`${sizeClasses[size]} rounded-full border-4 border-vd-blue/70 flex items-center justify-center`}>
+            <span className="w-3 h-3 rounded-full bg-vd-blue" />
+          </div>
+        ) : (
           <motion.div
-            className="absolute inset-0 rounded-full border-[6px] border-vd-blue/30 border-t-vd-blue"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1.2, repeat: Infinity, ease: 'linear' }}
-          />
-          <motion.div
-            className="relative flex items-center justify-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.15, duration: 0.4 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            className={`${sizeClasses[size]} relative flex items-center justify-center`}
           >
-            <div className="w-6 h-6 rounded-full bg-vd-blue/80 blur-[1px]" />
+            <motion.span
+              className="absolute inset-0 rounded-full border-[3px] border-vd-blue/30"
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 4.5, ease: 'linear' }}
+            />
+            <motion.span
+              className="absolute inset-1 rounded-full border-[3px] border-vd-blue/50 border-t-transparent"
+              animate={{ rotate: -360 }}
+              transition={{ repeat: Infinity, duration: 2.8, ease: 'linear' }}
+            />
+            <motion.span
+              className="absolute inset-3 rounded-full border-[3px] border-vd-orange/80 border-t-transparent"
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 1.4, ease: 'linear' }}
+            />
+            <motion.div
+              className="relative flex flex-col items-center justify-center"
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
+            >
+              <span className="w-3 h-3 rounded-full bg-vd-orange shadow shadow-vd-orange/40" />
+              <span className="mt-2 text-xs font-semibold text-vd-blue">{Math.min(progress, 99)}%</span>
+            </motion.div>
           </motion.div>
-        </motion.div>
+        )}
       </div>
 
       {/* Loading Message */}
@@ -60,21 +97,14 @@ const VideoLoadingSpinner: React.FC<VideoLoadingSpinnerProps> = ({
           <p className="text-gray-600 font-medium">{message}</p>
           <div className="flex justify-center mt-2">
             <div className="flex space-x-1">
-              <motion.div
-                animate={{ opacity: [0.4, 1, 0.4] }}
-                transition={{ duration: 1.5, repeat: Infinity, delay: 0 }}
-                className="w-2 h-2 bg-vd-blue rounded-full"
-              />
-              <motion.div
-                animate={{ opacity: [0.4, 1, 0.4] }}
-                transition={{ duration: 1.5, repeat: Infinity, delay: 0.2 }}
-                className="w-2 h-2 bg-vd-blue rounded-full"
-              />
-              <motion.div
-                animate={{ opacity: [0.4, 1, 0.4] }}
-                transition={{ duration: 1.5, repeat: Infinity, delay: 0.4 }}
-                className="w-2 h-2 bg-vd-blue rounded-full"
-              />
+              {[0, 0.2, 0.4].map((delay) => (
+                <motion.div
+                  key={`spinner-dot-${delay}`}
+                  animate={{ opacity: [0.3, 1, 0.3], y: [-2, 0, -2] }}
+                  transition={{ duration: 1.4, repeat: Infinity, delay }}
+                  className="w-2 h-2 bg-vd-blue rounded-full"
+                />
+              ))}
             </div>
           </div>
         </motion.div>

@@ -44,7 +44,8 @@ const LuboScreeningPage: React.FC = () => {
       'Agricultural waste processing'
     ],
     gallery: [
-      '/Images/lubo-screening-new.jpg'
+      '/Images/lubo-screening-new.jpg',
+      '/Images/msw-processing.jpg'
     ],
     testimonials: [
       {
