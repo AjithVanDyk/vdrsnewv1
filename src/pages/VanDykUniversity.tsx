@@ -165,6 +165,62 @@ const VanDykUniversity = () => {
       company: "WM Germantown",
       rating: 5,
       program: "TOMRA Training School - October 2025"
+    },
+    {
+      quote: "The instructor's knowledge was superior and his ability to relate it to most techs' knowledge level was outstanding. This was my first training on balers and I can't imagine a better structured course.",
+      author: "Brian Cuth",
+      company: "Salem Recycle Center",
+      rating: 5,
+      program: "VDRS Baler Training School - October 2025"
+    },
+    {
+      quote: "Excellent training program. Very helpful and you will learn a lot. The electrical and hydraulic hands-on training was most beneficial.",
+      author: "Vicente Blanco",
+      company: "Dence.co",
+      rating: 5,
+      program: "VDRS Baler Training School - October 2025"
+    },
+    {
+      quote: "Both hydraulic and electrical troubleshooting were beneficial. Extremely in-depth and valuable training. Everybody was extremely knowledgeable.",
+      author: "Kyle Barela",
+      company: "Denver",
+      rating: 5,
+      program: "VDRS Baler Training School - October 2025"
+    },
+    {
+      quote: "Very knowledgeable and detailed in explanation of all subject matter. The training was very meticulous. More hands-on than other training I have attended.",
+      author: "L.J. Fetters",
+      company: "Nashville",
+      rating: 5,
+      program: "VDRS Baler Training School - October 2025"
+    },
+    {
+      quote: "EXCELLENT training program. Good theory and practical was more fun. You have an excellent environment for learning.",
+      author: "Ismael Zonniga",
+      company: "Community Waste Disposal, Dallas",
+      rating: 5,
+      program: "VDRS Baler Training School - October 2025"
+    },
+    {
+      quote: "Wim did a great job. He presented the material in a very professional manner. Everything was above average. Very helpful training.",
+      author: "Erik Bu",
+      company: "Van Dyk",
+      rating: 5,
+      program: "VDRS Baler Training School - October 2025"
+    },
+    {
+      quote: "Information is very broken down and understandable. Direct, hands-on approach. Better understanding of the machine through thorough training.",
+      author: "Mij Van Dyk",
+      company: "Van Dyk",
+      rating: 5,
+      program: "VDRS Baler Training School - October 2025"
+    },
+    {
+      quote: "Wim is extremely knowledgeable and a great teacher. 10/10. The hydraulic troubleshooting was the most helpful. Extremely in-depth training.",
+      author: "Josh Turner",
+      company: "Salem, OR",
+      rating: 5,
+      program: "VDRS Baler Training School - October 2025"
     }
   ];
 

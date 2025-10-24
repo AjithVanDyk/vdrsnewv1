@@ -42,6 +42,24 @@ const ServicesSupport = () => {
       author: "An Kruan",
       company: "WM Germantown",
       rating: 5
+    },
+    {
+      quote: "The instructor's knowledge was superior and his ability to relate it to most techs' knowledge level was outstanding. This was my first training on balers and I can't imagine a better structured course.",
+      author: "Brian Cuth",
+      company: "Salem Recycle Center",
+      rating: 5
+    },
+    {
+      quote: "Wim is extremely knowledgeable and a great teacher. 10/10. The hydraulic troubleshooting was the most helpful. Extremely in-depth training.",
+      author: "Josh Turner",
+      company: "Salem, OR",
+      rating: 5
+    },
+    {
+      quote: "Both hydraulic and electrical troubleshooting were beneficial. Extremely in-depth and valuable training. Everybody was extremely knowledgeable.",
+      author: "Kyle Barela",
+      company: "Denver",
+      rating: 5
     }
   ];
 
