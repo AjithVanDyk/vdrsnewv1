@@ -40,8 +40,9 @@ const ReckelbergEnvironmentalPage: React.FC = () => {
       'https://youtu.be/xjqEJdePkS4'  // E-Waste Processing Tomra Autosort Optical Sorter Finder Mode
     ],
     gallery: [
-      '/Images/reckelberg-impact-reactor-new.jpg',
-      '/Images/reckelberg-impact-reactor.jpg'
+      '/Images/Equipment/Reckelberg Environmental Technologies/impactreactor.webp',
+      '/Images/Equipment/Reckelberg Environmental Technologies/Dryer.webp',
+      '/Images/Equipment/Reckelberg Environmental Technologies/Discharge.webp'
     ],
     testimonials: [
       {

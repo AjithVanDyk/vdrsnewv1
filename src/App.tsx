@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { HelmetProvider } from 'react-helmet-async';
 import ErrorBoundary from './components/ErrorBoundary';
 import NavigationErrorBoundary from './components/NavigationErrorBoundary';
@@ -72,7 +72,9 @@ const BollegraafBalersSolutionPage = React.lazy(() => import('./pages/Bollegraaf
 const createLazyComponent = (importFunc: () => Promise<any>) => {
   return React.lazy(() => 
     importFunc().catch((error) => {
-      console.error('Failed to load component:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to load component:', error);
+      }
       return {
         default: () => (
           <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -111,6 +113,11 @@ const SmoothScrollHandler = () => {
   const location = useLocation();
 
   useEffect(() => {
+    // Scroll to top on route change (except for hash changes)
+    if (!location.hash) {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+    
     if (location.hash) {
       // Wait for the page to load and then scroll to the element
       const timer = setTimeout(() => {
@@ -126,9 +133,89 @@ const SmoothScrollHandler = () => {
 
       return () => clearTimeout(timer);
     }
-  }, [location.hash]);
+  }, [location.pathname, location.hash]);
 
   return null;
+};
+
+const AppRoutes = () => {
+  const location = useLocation();
+
+  return (
+    <NavigationErrorBoundary>
+      <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-gray-100"><div className="text-gray-600">Loading page...</div></div>}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={location.pathname}
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -24, scale: 0.98 }}
+            transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+            className="will-change-transform"
+          >
+            <Routes location={location}>
+              <Route path="/" element={<Home />} />
+              <Route path="/support" element={<ServicesSupport />} />
+              <Route path="/equipment" element={<Equipment />} />
+              <Route path="/solutions" element={<Solutions />} />
+              <Route path="/news-media" element={<NewsMedia />} />
+              <Route path="/videos" element={<Videos />} />
+              <Route path="/expert-tips" element={<ExpertTips />} />
+              <Route path="/our-customers-in-the-news" element={<Navigate to="/news-media" replace />} />
+              <Route path="/contact" element={<ContactUs />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/careers" element={<Careers />} />
+              <Route path="/pmi" element={<PMI />} />
+              <Route path="/quote" element={<QuoteForm />} />
+              <Route path="/test-center" element={<TestCenter />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/van-dyk-university" element={<VanDykUniversity />} />
+              <Route path="/parts-in-stock" element={<PartsInStock />} />
+              <Route path="/remote-troubleshooting" element={<RemoteTroubleshooting />} />
+              <Route path="/sitemap" element={<Sitemap />} />
+              
+              {/* Individual Equipment Pages */}
+              <Route path="/equipment/bollegraaf" element={<BollegraafPage />} />
+              <Route path="/equipment/tomra" element={<TOMRAPage />} />
+              <Route path="/equipment/pellenc-st" element={<PellencSTPage />} />
+              <Route path="/equipment/smicon-depackager" element={<SmiconDepackagerPage />} />
+              <Route path="/equipment/lubo-screening" element={<LuboScreeningPage />} />
+              <Route path="/equipment/walair-density-separation" element={<WalairDensitySeparationPage />} />
+              <Route path="/equipment/gunther-screens" element={<GuntherScreensPage />} />
+              <Route path="/equipment/centriair-odor-control" element={<CentriairOdorControlPage />} />
+              <Route path="/equipment/greyparrot-ai" element={<GreyparrotAIPage />} />
+              <Route path="/equipment/densimetric-table" element={<DensimetricTablePage />} />
+              <Route path="/equipment/beefoam-dust-suppression" element={<BeeFoamDustSuppressionPage />} />
+              <Route path="/equipment/reckelberg-environmental" element={<ReckelbergEnvironmentalPage />} />
+              <Route path="/equipment/certified-pre-owned" element={<CertifiedPreOwnedPage />} />
+              <Route path="/equipment/glass-cleanup-systems" element={<GlassCleanupSystemsPage />} />
+              
+              {/* Individual Solution Pages */}
+              <Route path="/solutions/single-stream-recycling" element={<SingleStreamRecyclingPage />} />
+              <Route path="/solutions/plastics-recycling" element={<PlasticsRecyclingPage />} />
+              <Route path="/solutions/organics-processing" element={<OrganicsProcessingPage />} />
+              <Route path="/solutions/msw-processing" element={<MSWProcessingPage />} />
+              <Route path="/solutions/waste-to-energy" element={<WasteToEnergyPage />} />
+              <Route path="/solutions/glass-cleanup" element={<GlassCleanupPage />} />
+              <Route path="/solutions/electronics-waste-recycling" element={<ElectronicsWasteRecyclingPage />} />
+              <Route path="/solutions/battery-recycling-systems" element={<BatteryRecyclingSystemsPage />} />
+              <Route path="/solutions/composting-densimetric-tables" element={<CompostingDensimetricTablesPage />} />
+              <Route path="/solutions/ai-waste-analysis" element={<AIWasteAnalysisPage />} />
+              <Route path="/solutions/centriair-odor-control" element={<CentriairOdorControlSolutionPage />} />
+              <Route path="/solutions/food-waste-depackaging" element={<FoodWasteDepackagingPage />} />
+              <Route path="/solutions/commercial-waste" element={<CommercialWastePage />} />
+              <Route path="/solutions/cd-recycling" element={<CDRecyclingPage />} />
+              <Route path="/solutions/multi-mrf-systems" element={<MultiMRFSystemsPage />} />
+              <Route path="/solutions/bollegraaf-balers" element={<BollegraafBalersSolutionPage />} />
+              {/* Legacy route redirects */}
+              <Route path="/services" element={<Navigate to="/support" replace />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </motion.div>
+        </AnimatePresence>
+      </Suspense>
+    </NavigationErrorBoundary>
+  );
 };
 
 function App() {
@@ -170,70 +257,7 @@ function App() {
             <div className="min-h-screen bg-white">
               <Navbar />
               <SmoothScrollHandler />
-              <NavigationErrorBoundary>
-                <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-gray-100"><div className="text-gray-600">Loading page...</div></div>}>
-                  <AnimatePresence mode="wait">
-                    <Routes>
-                      <Route path="/" element={<Home />} />
-                      <Route path="/support" element={<ServicesSupport />} />
-                      <Route path="/equipment" element={<Equipment />} />
-                      <Route path="/solutions" element={<Solutions />} />
-                      <Route path="/news-media" element={<NewsMedia />} />
-                      <Route path="/videos" element={<Videos />} />
-                      <Route path="/expert-tips" element={<ExpertTips />} />
-                      <Route path="/our-customers-in-the-news" element={<OurCustomersInTheNews />} />
-                      <Route path="/contact" element={<ContactUs />} />
-                      <Route path="/about" element={<About />} />
-                      <Route path="/careers" element={<Careers />} />
-                      <Route path="/pmi" element={<PMI />} />
-                      <Route path="/quote" element={<QuoteForm />} />
-                      <Route path="/test-center" element={<TestCenter />} />
-                      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                      <Route path="/van-dyk-university" element={<VanDykUniversity />} />
-                  <Route path="/parts-in-stock" element={<PartsInStock />} />
-                  <Route path="/remote-troubleshooting" element={<RemoteTroubleshooting />} />
-                  <Route path="/sitemap" element={<Sitemap />} />
-                      
-                      {/* Individual Equipment Pages */}
-                      <Route path="/equipment/bollegraaf" element={<BollegraafPage />} />
-                      <Route path="/equipment/tomra" element={<TOMRAPage />} />
-                      <Route path="/equipment/pellenc-st" element={<PellencSTPage />} />
-                      <Route path="/equipment/smicon-depackager" element={<SmiconDepackagerPage />} />
-                      <Route path="/equipment/lubo-screening" element={<LuboScreeningPage />} />
-                      <Route path="/equipment/walair-density-separation" element={<WalairDensitySeparationPage />} />
-                      <Route path="/equipment/gunther-screens" element={<GuntherScreensPage />} />
-                      <Route path="/equipment/centriair-odor-control" element={<CentriairOdorControlPage />} />
-                      <Route path="/equipment/greyparrot-ai" element={<GreyparrotAIPage />} />
-                      <Route path="/equipment/densimetric-table" element={<DensimetricTablePage />} />
-                      <Route path="/equipment/beefoam-dust-suppression" element={<BeeFoamDustSuppressionPage />} />
-                      <Route path="/equipment/reckelberg-environmental" element={<ReckelbergEnvironmentalPage />} />
-                      <Route path="/equipment/certified-pre-owned" element={<CertifiedPreOwnedPage />} />
-                      <Route path="/equipment/glass-cleanup-systems" element={<GlassCleanupSystemsPage />} />
-                      
-                      {/* Individual Solution Pages */}
-                      <Route path="/solutions/single-stream-recycling" element={<SingleStreamRecyclingPage />} />
-                      <Route path="/solutions/plastics-recycling" element={<PlasticsRecyclingPage />} />
-                      <Route path="/solutions/organics-processing" element={<OrganicsProcessingPage />} />
-                      <Route path="/solutions/msw-processing" element={<MSWProcessingPage />} />
-                      <Route path="/solutions/waste-to-energy" element={<WasteToEnergyPage />} />
-                      <Route path="/solutions/glass-cleanup" element={<GlassCleanupPage />} />
-                      <Route path="/solutions/electronics-waste-recycling" element={<ElectronicsWasteRecyclingPage />} />
-                      <Route path="/solutions/battery-recycling-systems" element={<BatteryRecyclingSystemsPage />} />
-                      <Route path="/solutions/composting-densimetric-tables" element={<CompostingDensimetricTablesPage />} />
-                      <Route path="/solutions/ai-waste-analysis" element={<AIWasteAnalysisPage />} />
-                      <Route path="/solutions/centriair-odor-control" element={<CentriairOdorControlSolutionPage />} />
-                      <Route path="/solutions/food-waste-depackaging" element={<FoodWasteDepackagingPage />} />
-                      <Route path="/solutions/commercial-waste" element={<CommercialWastePage />} />
-                      <Route path="/solutions/cd-recycling" element={<CDRecyclingPage />} />
-                      <Route path="/solutions/multi-mrf-systems" element={<MultiMRFSystemsPage />} />
-                      <Route path="/solutions/bollegraaf-balers" element={<BollegraafBalersSolutionPage />} />
-                      {/* Legacy route redirects */}
-                      <Route path="/services" element={<Navigate to="/support" replace />} />
-                      <Route path="*" element={<NotFound />} />
-                    </Routes>
-                  </AnimatePresence>
-                </Suspense>
-              </NavigationErrorBoundary>
+          <AppRoutes />
               <Footer />
               <Chatbot />
             </div>

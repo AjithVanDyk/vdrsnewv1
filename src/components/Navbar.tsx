@@ -99,13 +99,14 @@ const Navbar = () => {
       dropdown: [
         { name: 'All Equipment', path: '/equipment' },
         { name: 'Bollegraaf Balers', path: '/equipment/bollegraaf' },
-        { name: 'TOMRA Optical Sorting', path: '/equipment/tomra' },
+        { name: 'Optical Sorters', path: '/equipment/tomra' },
         { name: 'Pellenc ST Optical', path: '/equipment/pellenc-st' },
-        { name: 'Lubo Screening', path: '/equipment/lubo-screening' },
+        { name: 'Lubo Screens', path: '/equipment/lubo-screening' },
         { name: 'Smicon Depackager', path: '/equipment/smicon-depackager' },
         { name: 'Greyparrot AI', path: '/equipment/greyparrot-ai' },
         { name: 'Centriair Odor Control', path: '/equipment/centriair-odor-control' },
-        { name: 'Certified Pre-Owned', path: '/equipment/certified-pre-owned' }
+        { name: 'Certified Pre-Owned', path: '/equipment/certified-pre-owned' },
+        { name: 'Get a Quote', path: '/quote' }
       ]
     },
     { 
@@ -121,37 +122,34 @@ const Navbar = () => {
         { name: 'Commercial Waste', path: '/solutions/commercial-waste' },
         { name: 'C&D Recycling', path: '/solutions/cd-recycling' },
         { name: 'Glass Cleanup', path: '/solutions/glass-cleanup' },
-        { name: 'Waste to Energy', path: '/solutions/waste-to-energy' }
+        { name: 'Waste to Energy', path: '/solutions/waste-to-energy' },
+        { name: 'Get a Quote', path: '/quote' }
       ]
     },
     { 
       name: 'Services', 
       path: '/support',
       dropdown: [
-        { name: 'All Services', path: '/support' },
-        { name: 'PMI Services', path: '/pmi' },
+        { name: 'Unmatched Customer Support', path: '/support' },
+        { name: 'Test Center', path: '/test-center' },
         { name: 'Van Dyk University', path: '/van-dyk-university' },
-        { name: 'Parts in Stock', path: '/parts-in-stock' },
-        { name: 'Remote Troubleshooting', path: '/remote-troubleshooting' },
-        { name: 'Get Quote', path: '/quote' },
-        { name: 'Test Center', path: '/test-center' }
+        { name: 'PMI Plans', path: '/pmi' }
       ]
     },
     { 
       name: 'News and Media', 
       path: '/news-media',
       dropdown: [
-        { name: 'All News', path: '/news-media' },
+        { name: 'Latest News', path: '/news-media' },
         { name: 'Videos', path: '/videos' },
-        { name: 'Expert Tips', path: '/expert-tips' },
-        { name: 'Our Customers in the News', path: '/our-customers-in-the-news' }
+        { name: 'Expert Tips', path: '/expert-tips' }
       ]
     },
     { 
       name: 'About Us', 
       path: '/about',
       dropdown: [
-        { name: 'Our Story', path: '/about' },
+        { name: 'Meet Our Team', path: '/about' },
         { name: 'Careers', path: '/careers' },
         { name: 'Contact Us', path: '/contact' }
       ]
@@ -238,8 +236,8 @@ const Navbar = () => {
                   to={item.path}
                   className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 hover:scale-105 ${
                     location.pathname === item.path
-                      ? 'text-vd-orange bg-white/20'
-                      : 'text-white hover:text-vd-orange hover:bg-white/10'
+                      ? 'text-vd-blue bg-white/20'
+                      : 'text-vd-blue hover:text-vd-orange hover:bg-white/10'
                   }`}
                 >
                   {item.name}

@@ -56,7 +56,7 @@ const equipmentItems = [
 	},
 	{
 		id: 2,
-		name: 'Lubo StarScreen® Technology',
+		name: 'Lubo Screens',
 		image: IMAGE_ASSIGNMENTS.equipment.categories.lubo,
 		description: 'Patented StarScreen® technology with non-wrapping ONP screens, elliptical separators, and high-capacity 880 screens. Lubo USA LLC, founded in 1996, is a sister company of Van Dyk Recycling Solutions and exclusive distributor.',
 		features: [
@@ -81,7 +81,7 @@ const equipmentItems = [
 	},
 	{
 		id: 3,
-		name: 'TOMRA Optical Sorting',
+		name: 'Optical Sorters',
 		image: IMAGE_ASSIGNMENTS.equipment.categories.tomra,
 		description: 'Worldwide leader in optical sorting with industry-highest NIR resolution BY FAR and patented FLYING BEAM® illumination. Scanner placement up to 5 feet above conveyors (5x distance of competitors) with 95%+ purity rates maintained over long periods.',
 		features: [
@@ -106,8 +106,8 @@ const equipmentItems = [
 	},
 	{
 		id: 4,
-		name: 'Pellenc ST Optical Sorting',
-		image: '/Images/pellenc-optical-new.jpg',
+		name: 'Optical Sorters',
+		image: IMAGE_ASSIGNMENTS.equipment.categories.pellenc,
 		description: 'AI-powered optical sorting with intelligent material recognition and high-speed processing. Advanced algorithms provide superior material identification and separation accuracy.',
 		features: [
 			'AI-powered material recognition',
@@ -468,12 +468,12 @@ const Equipment = () => {
 	const [showQuoteForm, setShowQuoteForm] = useState(false);
 
 	const handleLearnMore = (equipment: Equipment) => {
-		// Map equipment names to their individual page routes
+		// Map equipment IDs and names to their individual page routes
+		// Use ID for Optical Sorters since both TOMRA and Pellenc have the same name now
 		const equipmentRoutes: { [key: string]: string } = {
 			'Bollegraaf Balers': '/equipment/bollegraaf',
-			'Lubo StarScreen® Technology': '/equipment/lubo-screening',
-			'TOMRA Optical Sorting': '/equipment/tomra',
-			'Pellenc ST Optical Sorting': '/equipment/pellenc-st',
+			'Lubo Screens': '/equipment/lubo-screening',
+			'Optical Sorters': equipment.id === 3 ? '/equipment/tomra' : equipment.id === 4 ? '/equipment/pellenc-st' : '/equipment/tomra', // Use ID to distinguish
 			'Walair Density Separation': '/equipment/walair-density-separation',
 			'Smicon Food Waste Depackagers': '/equipment/smicon-depackager',
 			'GÜNTHER Screens': '/equipment/gunther-screens',
@@ -486,8 +486,17 @@ const Equipment = () => {
 			'Glass Cleanup Systems': '/equipment/glass-cleanup-systems'
 		};
 
-		const route = equipmentRoutes[equipment.name];
+		// For Optical Sorters, use ID to determine route
+		let route: string | undefined;
+		if (equipment.name === 'Optical Sorters') {
+			route = equipment.id === 3 ? '/equipment/tomra' : equipment.id === 4 ? '/equipment/pellenc-st' : undefined;
+		} else {
+			route = equipmentRoutes[equipment.name];
+		}
+
 		if (route) {
+			// Scroll to top before navigation
+			window.scrollTo(0, 0);
 			navigate(route);
 		} else {
 			// Fallback to modal for equipment without individual pages
@@ -556,35 +565,6 @@ const Equipment = () => {
 									<Quote className="w-5 h-5 mr-2" />
 									Get Quote
 								</button>
-							</div>
-						</motion.div>
-						
-						<motion.div
-							initial={{ opacity: 0, x: 20 }}
-							animate={{ opacity: 1, x: 0 }}
-							transition={{ duration: 0.8, delay: 0.2 }}
-							className="mt-8 md:mt-0"
-						>
-							<div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20">
-								<h3 className="text-xl font-semibold mb-4">Why Choose Van Dyk?</h3>
-								<ul className="space-y-3 text-blue-100">
-									<li className="flex items-center">
-										<div className="w-2 h-2 bg-vd-orange rounded-full mr-3"></div>
-										40+ years of industry experience
-									</li>
-									<li className="flex items-center">
-										<div className="w-2 h-2 bg-vd-orange rounded-full mr-3"></div>
-										500+ successful installations
-									</li>
-									<li className="flex items-center">
-										<div className="w-2 h-2 bg-vd-orange rounded-full mr-3"></div>
-										Comprehensive support & training
-									</li>
-									<li className="flex items-center">
-										<div className="w-2 h-2 bg-vd-orange rounded-full mr-3"></div>
-										Cutting-edge technology solutions
-									</li>
-								</ul>
 							</div>
 						</motion.div>
 					</div>

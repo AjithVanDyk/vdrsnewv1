@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { 
-  Camera, Headphones, Wrench, CheckCircle, ArrowRight, 
-  Phone, Mail, MapPin, Star, Users, Award, Zap, Eye, Smartphone
+  Camera, Headphones, Wrench, CheckCircle, 
+  Phone, Mail, Star, Users, Award, Zap, Eye, Smartphone
 } from 'lucide-react';
 import SEO from '../components/SEO';
 import { SEOData } from '../utils/seo';
@@ -327,6 +327,10 @@ const RemoteTroubleshooting = () => {
 };
 
 export default RemoteTroubleshooting;
+
+
+
+
 
 
 

@@ -5,7 +5,7 @@ const LuboScreeningPage: React.FC = () => {
   const equipment = {
     id: 2,
     name: 'Lubo StarScreen® Technology',
-    image: '/Images/lubo-screening-new.jpg',
+    image: '/Images/equipment-lubo-screens-product.jpg',
     description: 'Advanced screening technology with StarScreen® design for efficient material separation and sizing. Lubo screens deliver superior performance in waste processing operations.',
     features: [
       'StarScreen® patented design',
@@ -47,8 +47,18 @@ const LuboScreeningPage: React.FC = () => {
       'https://youtu.be/uz4r_gb1Wjs'  // Sizing Screen
     ],
     gallery: [
-      '/Images/lubo-screening-new.jpg',
-      '/Images/lubo-screening.jpg'
+      '/Images/Equipment/Lubo Screens/Gallery 1_onp.JPG',
+      '/Images/Equipment/Lubo Screens/Gallery 2_onp.jpg',
+      '/Images/Equipment/Lubo Screens/Gallery 3_sbc.jpg',
+      '/Images/Equipment/Lubo Screens/Gallery 4_880 stars.JPG',
+      '/Images/Equipment/Lubo Screens/Gallery 5_sbc.jpg',
+      '/Images/Equipment/Lubo Screens/Gallery 6_OCC.JPG',
+      '/Images/Equipment/Lubo Screens/Gallery 7_onp.jpg',
+      '/Images/Equipment/Lubo Screens/Gallery 8_elliptical.jpg',
+      '/Images/Equipment/Lubo Screens/Gallery 9_elliptical.jpg',
+      '/Images/Equipment/Lubo Screens/Gallery 10_op.jpg',
+      '/Images/Equipment/Lubo Screens/Gallery 11_onp.jpg',
+      '/Images/Equipment/Lubo Screens/Gallery 12_sizing screens.JPG'
     ],
     testimonials: [
       {

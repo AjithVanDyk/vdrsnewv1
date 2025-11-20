@@ -7,18 +7,18 @@ import {
   Download, 
   Book, 
   Video, 
-  MessageCircle, 
-  AlertCircle,
   CheckCircle,
   Search,
   FileText,
   Monitor,
-  Wrench,
-  Users,
-  Globe,
-  Eye,
   ThumbsUp,
-  ArrowRight
+  ArrowRight,
+  Package,
+  Truck,
+  Shield,
+  Camera,
+  Headphones,
+  Smartphone
 } from 'lucide-react';
 
 const Support = () => {
@@ -186,6 +186,63 @@ const Support = () => {
     { training: 'TITECH/TOMRA Autosort', dates: 'October 13-17', status: 'Open' },
   ];
 
+const partsStats = [
+  { number: '$35M+', label: 'Inventory Value' },
+  { number: '50K+', label: 'Parts Ready to Ship' },
+  { number: '24/7', label: 'Emergency Support' },
+  { number: '99%', label: 'Fill Rate' }
+];
+
+const partsBenefits = [
+  {
+    icon: Package,
+    title: 'Same-Day Shipping',
+    description: 'Critical parts leave our warehouse the same day for urgent repairs.'
+  },
+  {
+    icon: Truck,
+    title: 'Nationwide Delivery',
+    description: 'Dedicated logistics partners get inventory anywhere in North America quickly.'
+  },
+  {
+    icon: Shield,
+    title: 'OEM Guaranteed',
+    description: 'Every component meets or exceeds OEM specifications for Bollegraaf, TOMRA, and Lubo.'
+  }
+];
+
+const partsCategoriesSummary = [
+  'Bollegraaf Baler components and wear items',
+  'TOMRA Autosort sensors, lasers, and valve blocks',
+  'Screen & conveyor assemblies for Lubo and Smicon systems',
+  'General electrical, hydraulic, and safety stock for any system'
+];
+
+const remoteHighlights = [
+  {
+    icon: Camera,
+    title: 'Vision AR Guidance',
+    description: 'Augmented reality overlays provide step-by-step repair direction directly on your equipment.'
+  },
+  {
+    icon: Headphones,
+    title: 'Remote Diagnostics',
+    description: 'Our experts tap into your system for live monitoring, root-cause analysis, and quick fixes.'
+  },
+  {
+    icon: Smartphone,
+    title: 'Mobile Support',
+    description: 'Access troubleshooting tools on any mobile device with secure, cloud-based connectivity.'
+  }
+];
+
+const remoteSteps = [
+  'Connect with VAN DYK support through secure video or AR headset.',
+  'Share a live view of the equipment while our technician diagnoses the issue.',
+  'Receive on-screen annotations, wiring diagrams, and component callouts.',
+  'Validate the fix together and document the resolution for future reference.'
+];
+
   const testCenterContent = {
     title: 'VAN DYK Technology & Material Test Center',
     sections: [
@@ -218,7 +275,17 @@ const Support = () => {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Hero Section */}
       <div className="relative bg-gradient-to-r from-vd-blue-dark to-vd-blue text-white py-20 -mt-20 pt-20">
-        <div className="absolute inset-0 bg-[url('/Images/image-1749759459073.png')] bg-cover bg-center opacity-20 scale-110" />
+        <div className="absolute inset-0">
+          <img 
+            src="/Images/Services/Support/Header%20image_Support.jpeg"
+            alt="Unmatched Customer Support"
+            className="w-full h-full object-cover object-center"
+            onError={(e) => {
+              e.currentTarget.src = '/Images/image-1749759459073.png';
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-vd-blue-dark/80 to-vd-blue/80"></div>
+        </div>
         <div className="container mx-auto px-4 relative pt-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -226,10 +293,19 @@ const Support = () => {
             transition={{ duration: 0.8 }}
             className="max-w-3xl mx-auto text-center"
           >
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Dedicated Support</h1>
-            <p className="text-xl text-gray-100 mb-8">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">Unmatched Customer Support</h1>
+            <p className="text-xl text-gray-100 mb-6">
               Our team of experts is ready to provide the assistance you need, whenever you need it.
             </p>
+            <div className="flex flex-col items-center gap-2">
+              <p className="text-lg font-semibold text-vd-orange">24/7 Service Hotline</p>
+              <a 
+                href="tel:203-967-1100" 
+                className="text-2xl font-bold hover:text-vd-orange transition-colors"
+              >
+                (203) 967-1100
+              </a>
+            </div>
           </motion.div>
         </div>
       </div>
@@ -281,6 +357,26 @@ const Support = () => {
             }`}
           >
             Knowledge Base
+          </button>
+          <button
+            onClick={() => setActiveTab('parts')}
+            className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
+              activeTab === 'parts'
+                ? 'bg-vd-orange text-white shadow-md'
+                : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+            }`}
+          >
+            Parts in Stock
+          </button>
+          <button
+            onClick={() => setActiveTab('remote')}
+            className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
+              activeTab === 'remote'
+                ? 'bg-vd-orange text-white shadow-md'
+                : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+            }`}
+          >
+            Remote Troubleshooting
           </button>
           <button
             onClick={() => setActiveTab('classroomTraining')}
@@ -471,6 +567,111 @@ const Support = () => {
                   </div>
                 </motion.div>
               ))}
+            </div>
+          </motion.div>
+        )}
+
+        {activeTab === 'parts' && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="bg-white rounded-xl shadow-lg p-8 border border-gray-100 max-w-5xl mx-auto"
+          >
+            <h2 className="text-3xl font-bold text-vd-blue mb-4">Parts in Stock</h2>
+            <p className="text-gray-600 mb-10">
+              VAN DYK maintains one of the largest OEM parts inventories in the industry—over $35M in Bollegraaf, TOMRA, Lubo, and general system components. Same-day shipping and 24/7 emergency support keep your facility running.
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+              {partsStats.map((stat) => (
+                <div key={stat.label} className="text-center rounded-xl border border-gray-100 p-4 shadow-sm">
+                  <div className="text-2xl font-bold text-vd-blue">{stat.number}</div>
+                  <div className="text-sm text-gray-600">{stat.label}</div>
+                </div>
+              ))}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+              {partsBenefits.map((benefit) => (
+                <div key={benefit.title} className="bg-gray-50 border border-gray-100 rounded-xl p-6 text-center hover:shadow-lg transition-shadow">
+                  <benefit.icon className="w-8 h-8 text-vd-orange mx-auto mb-4" />
+                  <h3 className="text-lg font-semibold text-vd-blue mb-2">{benefit.title}</h3>
+                  <p className="text-sm text-gray-600">{benefit.description}</p>
+                </div>
+              ))}
+            </div>
+            <div className="bg-vd-blue/5 border border-vd-blue/15 rounded-xl p-6 mb-10">
+              <h3 className="text-xl font-semibold text-vd-blue mb-4">Inventory Highlights</h3>
+              <ul className="space-y-2">
+                {partsCategoriesSummary.map((item) => (
+                  <li key={item} className="flex items-start text-gray-700 text-sm">
+                    <CheckCircle className="w-4 h-4 text-vd-orange mr-2 mt-0.5 flex-shrink-0" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a
+                href="tel:203-967-1100"
+                className="bg-vd-orange hover:bg-vd-orange-alt text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
+              >
+                <Phone className="w-4 h-4" />
+                <span>Call Parts Hotline</span>
+              </a>
+              <a
+                href="mailto:parts@vdrs.com"
+                className="border-2 border-vd-orange text-vd-orange hover:bg-vd-orange hover:text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
+              >
+                <Mail className="w-4 h-4" />
+                <span>Email parts@vdrs.com</span>
+              </a>
+            </div>
+          </motion.div>
+        )}
+
+        {activeTab === 'remote' && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="bg-white rounded-xl shadow-lg p-8 border border-gray-100 max-w-5xl mx-auto"
+          >
+            <h2 className="text-3xl font-bold text-vd-blue mb-4">Remote Troubleshooting & Vision AR</h2>
+            <p className="text-gray-600 mb-10">
+              When travel isn’t practical, our remote team delivers live diagnostics, Vision AR overlays, and guided repairs to get you back online faster.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+              {remoteHighlights.map((item) => (
+                <div key={item.title} className="bg-gray-50 border border-gray-100 rounded-xl p-6 text-center">
+                  <item.icon className="w-8 h-8 text-vd-orange mx-auto mb-4" />
+                  <h3 className="text-lg font-semibold text-vd-blue mb-2">{item.title}</h3>
+                  <p className="text-sm text-gray-600">{item.description}</p>
+                </div>
+              ))}
+            </div>
+            <div className="bg-vd-blue/5 border border-vd-blue/15 rounded-xl p-6 mb-10">
+              <h3 className="text-xl font-semibold text-vd-blue mb-4">How It Works</h3>
+              <ol className="list-decimal list-inside space-y-2 text-gray-700 text-sm">
+                {remoteSteps.map((step) => (
+                  <li key={step}>{step}</li>
+                ))}
+              </ol>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a
+                href="tel:203-967-1100"
+                className="bg-vd-orange hover:bg-vd-orange-alt text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
+              >
+                <Phone className="w-4 h-4" />
+                <span>Request Remote Support</span>
+              </a>
+              <a
+                href="mailto:service@vdrs.com"
+                className="border-2 border-vd-orange text-vd-orange hover:bg-vd-orange hover:text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
+              >
+                <Mail className="w-4 h-4" />
+                <span>Email service@vdrs.com</span>
+              </a>
             </div>
           </motion.div>
         )}

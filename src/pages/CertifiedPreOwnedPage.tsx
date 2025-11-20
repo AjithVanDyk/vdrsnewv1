@@ -47,7 +47,7 @@ const CertifiedPreOwnedPage: React.FC = () => {
       'https://youtu.be/XyIYg0wBHC4'  // Magnet
     ],
     gallery: [
-      '/Images/certified-pre-owned.jpg'
+      '/Images/Equipment/Certified Pre-owned Equipment/rebuilt baler.png'
     ],
     testimonials: [
       {

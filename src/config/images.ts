@@ -12,7 +12,7 @@ export const IMAGE_ASSIGNMENTS = {
       expertConsulting: '/Images/van-dyk-direct-logo.png',
       globalSupport: '/Images/van-dyk-university.jpg'
     },
-    training: '/Images/van-dyk-university.jpg',
+    training: '/Images/Logos/Van%20Dyk%20University%20logo.png',
     orderParts: '/Images/van-dyk-direct.jpg',
     orderPartsFallback: '/Images/image-1749759453479.png'
   },
@@ -34,18 +34,19 @@ export const IMAGE_ASSIGNMENTS = {
       chrisBova: '/Images/leadership-chris-bova.jpg',
       evd: '/Images/leadership-evd.jpg',
       markNeitzey: '/Images/leadership-mark-neitzey.jpg',
-      pvd: '/Images/leadership-pvd.jpg'
+      pvd: '/Images/leadership-pvd.jpg',
+      maarten: '/Images/leadership-maarten.jpg'
     }
   },
 
   // EQUIPMENT PAGE IMAGES
   equipment: {
-    hero: '/Images/mrf-systems.jpg',
+    hero: '/Images/equipment-hero.jpg',
     categories: {
-      bollegraaf: '/Images/bollegraaf-products.jpg',
-      tomra: '/Images/tomra-optical-sorting.jpg',
-      pellenc: '/Images/pellenc-optical-new.jpg',
-      lubo: '/Images/lubo-screening.jpg',
+      bollegraaf: '/Images/equipment-bollegraaf-product.jpg',
+      tomra: '/Images/equipment-tomra-optical-sorters-product.jpg',
+      pellenc: '/Images/equipment-pellenc-optical-sorters-product.jpg',
+      lubo: '/Images/equipment-lubo-screens-product.jpg',
       gunther: '/Images/gunther-splitter.jpg',
       smicon: '/Images/smicon-depackager.jpg',
       centriair: '/Images/centriair-equipment.jpg',
@@ -82,17 +83,22 @@ export const IMAGE_ASSIGNMENTS = {
 
   // CAREERS PAGE IMAGES
   careers: {
-    hero: '/Images/careers-front-lobby.jpg',
+    hero: '/Images/careers-hero.jpg',
     slideshow: [
       '/Images/careers-front-lobby.jpg',
-      '/Images/careers-board-room.jpg',
+      '/Images/careers-new-york-board-room.jpg',
       '/Images/careers-cafe-1.jpg',
       '/Images/careers-exterior-2.jpg',
       '/Images/careers-gym.jpg',
       '/Images/careers-living-wall-2.jpg',
       '/Images/careers-lounge-1.jpg',
-      '/Images/8.jpg',
-      '/Images/9.jpg'
+      '/Images/careers-gallery-1_exterior-2.jpg',
+      '/Images/careers-gallery-2_front-lobby.jpg',
+      '/Images/careers-gallery-3_new-york-board-room.jpg',
+      '/Images/careers-gallery-4_living-wall-2.jpg',
+      '/Images/careers-gallery-5_lounge-1.jpg',
+      '/Images/careers-gallery-6_cafe-1.jpg',
+      '/Images/careers-gallery-7_gym.jpg'
     ]
   },
 
@@ -104,7 +110,7 @@ export const IMAGE_ASSIGNMENTS = {
       '/Images/contact-1-01725.jpg',
       '/Images/contact-1-01741.jpg',
       '/Images/contact-1-01749.jpg',
-      '/Images/contact-team-photo.jpg',
+      '/Images/contact-img-2299.jpg',
       '/Images/contact-wm-mesquite-10.jpg',
       '/Images/contact-wm-mesquite-19.jpg',
       '/Images/contact-wm-mesquite-5.jpg'
@@ -124,7 +130,7 @@ export const IMAGE_ASSIGNMENTS = {
 
   // NEWS & MEDIA PAGE IMAGES
   newsMedia: {
-    hero: '/Images/pollutec-trade-show.jpg',
+    hero: '/Images/Equipment/Header%20image%20for%20Equipment%20grid.jpg',
     featured: [
       '/Images/image-1749759487003.png',
       '/Images/image-1749759499434.png',

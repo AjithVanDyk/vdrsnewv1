@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { 
   Package, Truck, Clock, CheckCircle, ArrowRight, 
-  Phone, Mail, MapPin, Star, Users, Award, Zap
+  Phone, Mail
 } from 'lucide-react';
 import SEO from '../components/SEO';
 import { SEOData } from '../utils/seo';
@@ -279,6 +279,10 @@ const PartsInStock = () => {
 };
 
 export default PartsInStock;
+
+
+
+
 
 
 

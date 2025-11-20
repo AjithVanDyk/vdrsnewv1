@@ -44,9 +44,9 @@ const GreyparrotAIPage: React.FC = () => {
       'https://youtu.be/xjqEJdePkS4'  // E-Waste Processing Tomra Autosort Optical Sorter Finder Mode
     ],
     gallery: [
-      '/Images/greyparrot-ai-new.jpg',
-      '/Images/greyparrot-ai-recognition.jpg',
-      '/Images/greyparrot-ai.jpg'
+      '/Images/Equipment/Greyparrot AI/Greyparrot-GP5-on-belt.png',
+      '/Images/Equipment/Greyparrot AI/_DSF3561 copy.jpg',
+      '/Images/Equipment/Greyparrot AI/_DSF3580 copy.jpg'
     ],
     testimonials: [
       {

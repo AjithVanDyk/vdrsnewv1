@@ -13,20 +13,20 @@ interface QuickQuestion {
 
 const Chatbot = () => {
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
-  const [inputText, setInputText] = React.useState('');
-  const [showSuggestions, setShowSuggestions] = React.useState(false);
-  const [filteredSuggestions, setFilteredSuggestions] = React.useState<QuickQuestion[]>([]);
-  const messagesEndRef = React.useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [inputText, setInputText] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [filteredSuggestions, setFilteredSuggestions] = useState<QuickQuestion[]>([]);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Scroll to bottom of messages whenever messages change
-  React.useEffect(() => {
+  useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [selectedCategory]);
 
   // Close suggestions when clicking outside
-  React.useEffect(() => {
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Element;
       if (!target.closest('.suggestions-container')) {
@@ -41,7 +41,7 @@ const Chatbot = () => {
   }, [showSuggestions]);
 
   // Tree of questions organized by category
-  const questionTree = React.useMemo(() => ({
+  const questionTree = useMemo(() => ({
     equipment: {
       title: 'Equipment & Technology',
       icon: '🔧',
@@ -99,7 +99,7 @@ const Chatbot = () => {
   }), []);
 
   // Get all questions for autocomplete
-  const allQuestions: QuickQuestion[] = React.useMemo(() => 
+  const allQuestions: QuickQuestion[] = useMemo(() => 
     Object.values(questionTree).flatMap(category => 
       category.questions.map(q => ({
         id: q.id,

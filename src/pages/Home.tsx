@@ -5,14 +5,16 @@ import { useMemo } from 'react';
 import { IMAGE_ASSIGNMENTS } from '../config/images';
 import SEO from '../components/SEO';
 import { SEO_PAGES } from '../utils/seo';
-import TrustBadges, { CompanyTagline } from '../components/TrustBadges';
+import IndustryRecognition from '../components/IndustryRecognition';
+import NewsSlideshow from '../components/NewsSlideshow';
 
 const Home = () => {
   const stats = useMemo(() => [
-    { number: '500+', label: 'Installations Worldwide' },
-    { number: '25+', label: 'Years of Experience' },
-    { number: '98%', label: 'Client Satisfaction' },
-    { number: '50+', label: 'Countries Served' },
+    { number: '2400+', label: 'Installations' },
+    { number: '40+', label: 'Years of Experience' },
+    { number: '600', label: 'Bollegraaf Balers Installed' },
+    { number: '1160', label: 'Optical Sorters Installed' },
+    { number: '16', label: 'MRFs Processing 50+ TPH' },
   ], []);
 
   const services = useMemo(() => [
@@ -64,6 +66,7 @@ const Home = () => {
           width="8000"
           height="1080"
           loading="eager"
+          fetchPriority="high"
           decoding="sync"
           style={{
             filter: 'blur(2px)',
@@ -165,11 +168,11 @@ const Home = () => {
                   bottom: '0'
                 }}
               >
-                {/* Dark blue background */}
-                <div className="absolute inset-0 bg-vd-blue-dark"></div>
+                {/* Gradient background */}
+                <div className="absolute inset-0 bg-gradient-to-r from-vd-blue to-vd-blue-dark"></div>
                 {/* Content */}
                 <div className="relative z-10 flex justify-center items-center">
-                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 max-w-7xl px-4">
+                  <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 lg:gap-8 max-w-7xl px-4">
                     {stats.map((stat, index) => (
                       <motion.div
                         key={index}
@@ -226,7 +229,9 @@ const Home = () => {
                     height="192"
                     loading="lazy"
                     onError={(e) => {
-                      console.log('Service image failed to load:', service.title);
+                      if (process.env.NODE_ENV === 'development') {
+                        console.log('Service image failed to load:', service.title);
+                      }
                       e.currentTarget.src = '/Images/first.jpg';
                     }}
                   />
@@ -250,19 +255,11 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Trust Badges Section */}
-      <div className="bg-gray-50 py-16">
-        <div className="container mx-auto px-4">
-          <TrustBadges />
-        </div>
-      </div>
+      {/* Industry Recognition Section */}
+      <IndustryRecognition displayMode="organizations" />
 
-      {/* Company Tagline */}
-      <div className="bg-white py-16">
-        <div className="container mx-auto px-4">
-          <CompanyTagline />
-        </div>
-      </div>
+      {/* Recent News Slideshow */}
+      <NewsSlideshow />
 
       {/* Training and Parts Sections */}
       <div className="bg-gradient-to-b from-white to-gray-50 py-20">
@@ -278,7 +275,9 @@ const Home = () => {
               <img
                 src={IMAGE_ASSIGNMENTS.homepage.training}
                 alt="Van Dyk University"
-                className="w-48 h-auto mx-auto mb-6"
+                className="w-40 sm:w-48 h-auto mx-auto mb-6 drop-shadow-lg"
+                loading="lazy"
+                decoding="async"
               />
               <h2 className="text-2xl font-bold text-vd-blue mb-3">Train Like the Best</h2>
               <p className="text-gray-600 mb-6">Training on the installation and repair of our products.</p>

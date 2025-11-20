@@ -40,7 +40,10 @@ const DensimetricTablePage: React.FC = () => {
       'https://youtu.be/uyoDglUAzWw'  // New Densimetric Table
     ],
     gallery: [
-      '/Images/densimetric-table-new.jpg'
+      '/Images/Equipment/Densimetric table/Densimetric table_Zbest.jpeg',
+      '/Images/Equipment/Densimetric table/Dtable_Clean compost pic.JPG',
+      '/Images/Equipment/Densimetric table/Dtable_Dirty Compost Infeed.JPG',
+      '/Images/Equipment/Densimetric table/Dtable_Heavy contamination.JPG'
     ],
     testimonials: []
   };

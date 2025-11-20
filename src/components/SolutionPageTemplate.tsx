@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, CheckCircle, Star, Quote, X, Play } from 'lucide-react';
+import { ArrowRight, CheckCircle, Star, Quote, X, Play, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import QuoteForm from './QuoteForm';
 
@@ -40,6 +40,39 @@ interface SolutionPageProps {
 const SolutionPageTemplate: React.FC<SolutionPageProps> = ({ solution }) => {
   const [showQuoteForm, setShowQuoteForm] = React.useState(false);
   const [selectedVideo, setSelectedVideo] = React.useState<string | null>(null);
+  const [currentGallerySlide, setCurrentGallerySlide] = useState(0);
+  const [autoPlay, setAutoPlay] = useState(true);
+
+  // Combine gallery images into slideshow array
+  const galleryItems = solution.gallery || [];
+
+  // Auto-advance slideshow
+  useEffect(() => {
+    if (autoPlay && galleryItems.length > 1) {
+      const timer = setInterval(() => {
+        setCurrentGallerySlide((prev) => (prev + 1) % galleryItems.length);
+      }, 5000);
+      return () => clearInterval(timer);
+    }
+  }, [autoPlay, galleryItems.length]);
+
+  const goToNextSlide = () => {
+    setCurrentGallerySlide((prev) => (prev + 1) % galleryItems.length);
+    setAutoPlay(false);
+    setTimeout(() => setAutoPlay(true), 10000);
+  };
+
+  const goToPrevSlide = () => {
+    setCurrentGallerySlide((prev) => (prev - 1 + galleryItems.length) % galleryItems.length);
+    setAutoPlay(false);
+    setTimeout(() => setAutoPlay(true), 10000);
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentGallerySlide(index);
+    setAutoPlay(false);
+    setTimeout(() => setAutoPlay(true), 10000);
+  };
 
   const fadeInUp = {
     initial: { opacity: 0, y: 60 },
@@ -74,7 +107,9 @@ const SolutionPageTemplate: React.FC<SolutionPageProps> = ({ solution }) => {
           loading="eager"
           decoding="sync"
           onError={(e) => {
-            console.log('Hero image failed to load, using fallback');
+            if (process.env.NODE_ENV === 'development') {
+              console.log('Hero image failed to load, using fallback');
+            }
             e.currentTarget.src = '/Images/mrf-systems.jpg';
           }}
         />
@@ -394,8 +429,8 @@ const SolutionPageTemplate: React.FC<SolutionPageProps> = ({ solution }) => {
         </section>
       )}
 
-      {/* Gallery Section */}
-      {solution.gallery && solution.gallery.length > 0 && (
+      {/* Gallery Section - Slideshow */}
+      {galleryItems.length > 0 && (
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <motion.div
@@ -413,27 +448,66 @@ const SolutionPageTemplate: React.FC<SolutionPageProps> = ({ solution }) => {
               </p>
             </motion.div>
 
-            <motion.div
-              variants={staggerChildren}
-              initial="initial"
-              whileInView="animate"
-              viewport={{ once: true }}
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
-            >
-              {solution.gallery.map((image, index) => (
-                <motion.div
-                  key={index}
-                  variants={fadeInUp}
-                  className="overflow-hidden rounded-xl shadow-lg"
-                >
-                  <img
-                    src={image}
-                    alt={`${solution.name} - Image ${index + 1}`}
-                    className="w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
-                  />
-                </motion.div>
-              ))}
-            </motion.div>
+            <div className="max-w-5xl mx-auto">
+              <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentGallerySlide}
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.98 }}
+                    transition={{ duration: 0.5 }}
+                    className="relative"
+                  >
+                    <img
+                      src={galleryItems[currentGallerySlide]}
+                      alt={`${solution.name} - Image ${currentGallerySlide + 1}`}
+                      className="w-full h-[28rem] object-cover"
+                      loading="lazy"
+                      onError={(e) => {
+                        e.currentTarget.src = '/Images/image-1749759453479.png';
+                      }}
+                    />
+                  </motion.div>
+                </AnimatePresence>
+
+                {galleryItems.length > 1 && (
+                  <>
+                    <button
+                      onClick={goToPrevSlide}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-vd-blue rounded-full p-3 shadow-lg transition-colors"
+                      aria-label="Previous slide"
+                    >
+                      <ChevronLeft className="w-6 h-6" />
+                    </button>
+                    <button
+                      onClick={goToNextSlide}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-vd-blue rounded-full p-3 shadow-lg transition-colors"
+                      aria-label="Next slide"
+                    >
+                      <ChevronRight className="w-6 h-6" />
+                    </button>
+                  </>
+                )}
+              </div>
+
+              {galleryItems.length > 1 && (
+                <div className="flex justify-center gap-2 mt-6">
+                  {galleryItems.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => goToSlide(index)}
+                      className={`h-2 rounded-full transition-all duration-300 ${
+                        index === currentGallerySlide
+                          ? 'w-10 bg-vd-orange'
+                          : 'w-4 bg-gray-300 hover:bg-gray-400'
+                      }`}
+                      aria-label={`Go to slide ${index + 1}`}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </section>
       )}

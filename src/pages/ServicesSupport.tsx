@@ -3,15 +3,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { IMAGE_ASSIGNMENTS } from '../config/images';
 import { 
-  Search, Wrench, GraduationCap, Package, Phone, Mail, 
-  ArrowRight, ExternalLink, CheckCircle,
-  Calendar, MapPin, Clock, Users, X,
-  Settings, Eye, Star, TrendingUp, Shield, Award
+  GraduationCap, Package, Phone, 
+  ArrowRight, ExternalLink,
+  Clock, Users, Award, Settings, Eye, Star
 } from 'lucide-react';
 
 const ServicesSupport = () => {
   const [activeModal, setActiveModal] = useState<string | null>(null);
-  const [statsVisible, setStatsVisible] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -63,27 +61,6 @@ const ServicesSupport = () => {
     }
   ];
 
-  // Intersection Observer for stats animation
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setStatsVisible(true);
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    const statsElement = document.getElementById('stats-section');
-    if (statsElement) {
-      observer.observe(statsElement);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
   // Handle hash fragments to auto-expand cards
   useEffect(() => {
     const hash = location.hash.substring(1); // Remove the # symbol
@@ -129,7 +106,25 @@ const ServicesSupport = () => {
     }
   }, [location.hash]);
 
-  const supportCards = [
+  type SupportCard = {
+    id: number;
+    title: string;
+    description: string;
+    features?: string[];
+    contact?: string;
+    cta?: string;
+    ctaLink?: string;
+    ctaExternal?: boolean;
+    ctaAction?: () => void;
+    image: string;
+    imageAlt: string;
+    icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+    imageClass?: string;
+    secondaryCta?: string;
+    secondaryCtaLink?: string;
+  };
+
+  const supportCards: SupportCard[] = [
     {
       id: 1,
       title: '24×7 Technical Support',
@@ -141,9 +136,10 @@ const ServicesSupport = () => {
         'System Monitoring'
       ],
       contact: '203-967-1100 • service@vdrs.com',
-      image: '/Images/commercial-waste-processing.jpg',
+      image: '/Images/Services/Support/Header%20image_Support.jpeg',
       imageAlt: '24/7 technical support center',
-      icon: Phone
+      icon: Phone,
+      imageClass: 'object-cover'
     },
     {
       id: 2,
@@ -158,9 +154,10 @@ const ServicesSupport = () => {
       cta: 'Order Parts',
       ctaLink: 'https://www.shopvandykdirect.com/',
       ctaExternal: true,
-      image: IMAGE_ASSIGNMENTS.branding.directLogo,
+      image: '/Images/van-dyk-direct.jpg',
       imageAlt: 'Parts warehouse with $35 million inventory',
-      icon: Package
+      icon: Package,
+      imageClass: 'object-cover brightness-110'
     },
     {
       id: 3,
@@ -174,9 +171,10 @@ const ServicesSupport = () => {
       ],
       cta: 'Learn About PMI',
       ctaAction: () => navigate('/pmi'),
-      image: '/Images/electronics-recycling.jpg',
+      image: '/Images/contact-1-01725.jpg',
       imageAlt: 'Preventive maintenance inspection',
-      icon: Settings
+      icon: Settings,
+      imageClass: 'object-cover'
     },
     {
       id: 4,
@@ -189,9 +187,10 @@ const ServicesSupport = () => {
         'On-Call Support'
       ],
       contact: 'Available for emergency calls and scheduled service',
-      image: '/Images/plastics-recycling.jpg',
+      image: '/Images/contact-wm-mesquite-10.jpg',
       imageAlt: 'Field service technicians at work',
-      icon: Users
+      icon: Users,
+      imageClass: 'object-cover'
     },
     {
       id: 5,
@@ -205,10 +204,10 @@ const ServicesSupport = () => {
       ],
       cta: 'View Courses',
       ctaLink: '/van-dyk-university',
-      image: '/Images/Van%20Dyk%20University.jpg',
+      image: '/Images/van-dyk-university.jpg',
       imageAlt: 'Van Dyk University training facility',
       icon: GraduationCap,
-      imageClass: 'object-contain bg-gradient-to-br from-vd-blue to-vd-blue-dark'
+      imageClass: 'object-cover'
     },
     {
       id: 6,
@@ -222,14 +221,14 @@ const ServicesSupport = () => {
       ],
       cta: 'Visit Test Center',
       ctaLink: '/test-center',
-      image: '/Images/waste-to-energy.jpg',
+      image: '/Images/Services/Test%20Center/Test%20Center%202025%20best.JPG',
       imageAlt: 'Material Testing Center with recycling equipment',
       icon: Eye,
       imageClass: 'object-cover'
     }
   ];
 
-  const renderCard = (card: any, index: number) => (
+  const renderCard = (card: SupportCard, index: number) => (
     <motion.div
       key={card.id}
       id={card.id}
@@ -242,11 +241,11 @@ const ServicesSupport = () => {
       }}
       className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-300 group h-full flex flex-col"
     >
-      <div className="relative h-48 overflow-hidden">
+      <div className="relative aspect-video overflow-hidden">
         <img
           src={card.image}
           alt={card.imageAlt}
-          className={`w-full h-full ${card.imageClass || 'object-cover'} group-hover:scale-110 transition-transform duration-500`}
+          className={`w-full h-full ${card.imageClass || 'object-cover'} group-hover:scale-105 transition-transform duration-500`}
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
@@ -311,15 +310,15 @@ const ServicesSupport = () => {
               {card.cta}
               <ExternalLink className="w-4 h-4 ml-1" />
             </a>
-          ) : (
+          ) : card.ctaLink ? (
             <Link
-              to={card.ctaLink}
+              to={card.ctaLink || '#'}
               className="text-vd-orange font-semibold inline-flex items-center hover:text-vd-orange-alt transition-colors group/btn"
             >
               {card.cta}
               <ArrowRight className="w-4 h-4 ml-1" />
             </Link>
-          )
+          ) : null
         )}
 
         {card.secondaryCta && (

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, Clock, Eye, Search, Filter, Grid, List, X, BookOpen, Lightbulb, Settings, Wrench } from 'lucide-react';
+import { Calendar, Clock, Eye, Grid, List, X, BookOpen, Lightbulb } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 
 interface ExpertTip {
   id: number;
@@ -19,10 +20,16 @@ interface ExpertTip {
 
 const ExpertTips = () => {
   const [activeFilter, setActiveFilter] = useState('All');
-  const [searchTerm, setSearchTerm] = useState('');
   const [activeView, setActiveView] = useState<'grid' | 'list'>('grid');
   const [selectedTip, setSelectedTip] = useState<ExpertTip | null>(null);
   const [showTipModal, setShowTipModal] = useState(false);
+  const location = useLocation();
+
+  const sidebarItems = [
+    { name: 'Latest News', path: '/news-media', isActive: location.pathname === '/news-media' },
+    { name: 'Videos', path: '/videos', isActive: location.pathname === '/videos' },
+    { name: 'Expert Tips', path: '/expert-tips', isActive: location.pathname === '/expert-tips' }
+  ];
 
   const expertTips: ExpertTip[] = [
     {
@@ -165,16 +172,17 @@ const ExpertTips = () => {
     });
   };
 
-  const filteredTips = expertTips.filter(tip => {
-    const matchesFilter = activeFilter === 'All' || tip.category === activeFilter;
-    const matchesSearch = tip.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         tip.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         tip.category.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesFilter && matchesSearch;
+  // Sort tips by date (most recent first)
+  const sortedTips = [...expertTips].sort((a, b) => {
+    const dateA = new Date(a.date).getTime();
+    const dateB = new Date(b.date).getTime();
+    return dateB - dateA;
   });
 
-  const featuredTips = filteredTips.filter(tip => tip.featured);
-  const regularTips = filteredTips.filter(tip => !tip.featured);
+  const filteredTips = sortedTips.filter(tip => {
+    const matchesFilter = activeFilter === 'All' || tip.category === activeFilter;
+    return matchesFilter;
+  });
 
   return (
     <div className="min-h-screen bg-white">
@@ -210,106 +218,118 @@ const ExpertTips = () => {
         </div>
       </div>
 
-      {/* Search and Filters */}
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
-          <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
-            {/* Search */}
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input
-                type="text"
-                placeholder="Search expert tips..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-vd-orange focus:border-transparent transition-all"
-              />
-            </div>
-            
-            {/* Category Filters */}
-            <div className="flex flex-wrap gap-2">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setActiveFilter(category)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                    activeFilter === category
-                      ? 'bg-vd-orange text-white shadow-md'
-                      : 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200'
+      {/* Filters */}
+      <div className="container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
+        <aside className="lg:w-1/4">
+          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 sticky top-8">
+            <h2 className="text-xl font-bold text-vd-blue mb-4">News & Media</h2>
+            <nav className="space-y-2">
+              {sidebarItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`block px-4 py-3 rounded-lg transition-all duration-200 ${
+                    item.isActive
+                      ? 'bg-vd-blue text-white shadow-md'
+                      : 'text-gray-700 hover:bg-gray-50 hover:text-vd-blue'
                   }`}
                 >
-                  {category}
-                </button>
+                  {item.name}
+                </Link>
               ))}
-            </div>
+            </nav>
+          </div>
+        </aside>
 
-            {/* View Toggle */}
-            <div className="flex bg-gray-50 rounded-xl p-1 border border-gray-200">
-              <button 
-                onClick={() => setActiveView('grid')}
-                className={`p-2 rounded-lg transition-all ${
-                  activeView === 'grid' ? 'bg-white text-vd-orange shadow-sm' : 'text-gray-600 hover:text-gray-800'
-                }`}
-              >
-                <Grid className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => setActiveView('list')}
-                className={`p-2 rounded-lg transition-all ${
-                  activeView === 'list' ? 'bg-white text-vd-orange shadow-sm' : 'text-gray-600 hover:text-gray-800'
-                }`}
-              >
-                <List className="w-5 h-5" />
-              </button>
+        <div className="lg:w-3/4">
+          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
+            <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
+              {/* Category Filters */}
+              <div className="flex flex-wrap gap-2">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setActiveFilter(category)}
+                    className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                      activeFilter === category
+                        ? 'bg-vd-orange text-white shadow-md'
+                        : 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200'
+                    }`}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+
+              {/* View Toggle */}
+              <div className="flex bg-gray-50 rounded-xl p-1 border border-gray-200">
+                <button 
+                  onClick={() => setActiveView('grid')}
+                  className={`p-2 rounded-lg transition-all ${
+                    activeView === 'grid' ? 'bg-white text-vd-orange shadow-sm' : 'text-gray-600 hover:text-gray-800'
+                  }`}
+                >
+                  <Grid className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => setActiveView('list')}
+                  className={`p-2 rounded-lg transition-all ${
+                    activeView === 'list' ? 'bg-white text-vd-orange shadow-sm' : 'text-gray-600 hover:text-gray-800'
+                  }`}
+                >
+                  <List className="w-5 h-5" />
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Featured Tips */}
-        {featuredTips.length > 0 && (
-          <div className="mb-12">
-            <h2 className="text-3xl font-bold text-vd-blue mb-6">Featured Expert Tips</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {featuredTips.map((tip) => (
+          {/* All Tips Grid */}
+          <div className="mb-8">
+            <h2 className="text-3xl font-bold text-vd-blue mb-6">Expert Tips</h2>
+            <div className={`grid gap-6 ${
+              activeView === 'grid' 
+                ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' 
+                : 'grid-cols-1'
+            }`}>
+              {filteredTips.map((tip) => (
                 <motion.div
                   key={tip.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                  className={`bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer ${
+                    activeView === 'list' ? 'flex' : ''
+                  }`}
                   onClick={() => handleTipClick(tip)}
                 >
-                  <div className="relative h-64 overflow-hidden">
+                  <div className={`relative overflow-hidden ${
+                    activeView === 'list' ? 'w-1/3 h-48' : 'h-48'
+                  }`}>
                     <img
                       src={tip.image}
                       alt={tip.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      width="600"
-                      height="256"
+                      width={activeView === 'list' ? "300" : "400"}
+                      height="192"
                       loading="lazy"
                       onError={(e) => {
                         e.currentTarget.src = '/Images/first.jpg';
                       }}
                     />
-                    <div className="absolute top-4 left-4">
-                      <span className="bg-vd-orange text-white px-3 py-1 rounded-full text-sm font-medium">
-                        Featured
-                      </span>
-                    </div>
                     {tip.trending && (
                       <div className="absolute top-4 right-4">
-                        <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                        <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs font-medium">
                           Trending
                         </span>
                       </div>
                     )}
                     <div className="absolute bottom-4 left-4">
                       <div className="bg-white/90 rounded-full p-2">
-                        <Lightbulb className="w-6 h-6 text-vd-orange" />
+                        <Lightbulb className="w-5 h-5 text-vd-orange" />
                       </div>
                     </div>
                   </div>
-                  <div className="p-6">
+                  <div className={`p-6 ${activeView === 'list' ? 'flex-1' : ''}`}>
                     <div className="flex items-center text-sm text-gray-500 mb-3 space-x-4">
                       <span className="flex items-center">
                         <Calendar className="w-4 h-4 mr-1" />
@@ -324,7 +344,9 @@ const ExpertTips = () => {
                         {tip.views}
                       </span>
                     </div>
-                    <h3 className="text-xl font-bold text-vd-blue mb-3 leading-tight group-hover:text-vd-orange transition-colors">
+                    <h3 className={`font-bold text-vd-blue mb-3 leading-tight group-hover:text-vd-orange transition-colors ${
+                      activeView === 'list' ? 'text-lg' : 'text-xl'
+                    }`}>
                       {tip.title}
                     </h3>
                     <p className="text-gray-600 mb-4 leading-relaxed">
@@ -341,98 +363,14 @@ const ExpertTips = () => {
               ))}
             </div>
           </div>
-        )}
 
-        {/* Regular Tips */}
-        <div className="mb-8">
-          <h2 className="text-3xl font-bold text-vd-blue mb-6">All Expert Tips</h2>
-          <div className={`grid gap-6 ${
-            activeView === 'grid' 
-              ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' 
-              : 'grid-cols-1'
-          }`}>
-            {regularTips.map((tip) => (
-              <motion.div
-                key={tip.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className={`bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer ${
-                  activeView === 'list' ? 'flex' : ''
-                }`}
-                onClick={() => handleTipClick(tip)}
-              >
-                <div className={`relative overflow-hidden ${
-                  activeView === 'list' ? 'w-1/3 h-48' : 'h-48'
-                }`}>
-                  <img
-                    src={tip.image}
-                    alt={tip.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    width={activeView === 'list' ? "300" : "400"}
-                    height="192"
-                    loading="lazy"
-                    onError={(e) => {
-                      e.currentTarget.src = '/Images/first.jpg';
-                    }}
-                  />
-                  {tip.trending && (
-                    <div className="absolute top-4 right-4">
-                      <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs font-medium">
-                        Trending
-                      </span>
-                    </div>
-                  )}
-                  <div className="absolute bottom-4 left-4">
-                    <div className="bg-white/90 rounded-full p-2">
-                      <Lightbulb className="w-5 h-5 text-vd-orange" />
-                    </div>
-                  </div>
-                </div>
-                <div className={`p-6 ${activeView === 'list' ? 'flex-1' : ''}`}>
-                  <div className="flex items-center text-sm text-gray-500 mb-3 space-x-4">
-                    <span className="flex items-center">
-                      <Calendar className="w-4 h-4 mr-1" />
-                      {formatDate(tip.date)}
-                    </span>
-                    <span className="flex items-center">
-                      <Clock className="w-4 h-4 mr-1" />
-                      {tip.readTime}
-                    </span>
-                    <span className="flex items-center">
-                      <Eye className="w-4 h-4 mr-1" />
-                      {tip.views}
-                    </span>
-                  </div>
-                  <h3 className={`font-bold text-vd-blue mb-3 leading-tight group-hover:text-vd-orange transition-colors ${
-                    activeView === 'list' ? 'text-lg' : 'text-xl'
-                  }`}>
-                    {tip.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4 leading-relaxed">
-                    {tip.description}
-                  </p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-vd-orange bg-orange-50 px-3 py-1 rounded-full">
-                      {tip.category}
-                    </span>
-                    <BookOpen className="w-5 h-5 text-vd-orange group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {filteredTips.length === 0 && (
-          <div className="text-center py-12">
-            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Search className="w-12 h-12 text-gray-400" />
+          {filteredTips.length === 0 && (
+            <div className="text-center py-12">
+              <h3 className="text-xl font-semibold text-gray-700 mb-2">No expert tips found</h3>
+              <p className="text-gray-500">Try adjusting your filters.</p>
             </div>
-            <h3 className="text-xl font-semibold text-gray-700 mb-2">No expert tips found</h3>
-            <p className="text-gray-500">Try adjusting your search terms or filters.</p>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       {/* Tip Modal */}
@@ -523,6 +461,10 @@ const ExpertTips = () => {
 };
 
 export default ExpertTips;
+
+
+
+
 
 
 

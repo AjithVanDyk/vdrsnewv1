@@ -8,7 +8,9 @@ export const initSentry = () => {
   
   // Only initialize Sentry if we have a valid DSN
   if (dsn === 'YOUR_SENTRY_DSN_HERE' || !dsn) {
-    console.log('Sentry not initialized - no valid DSN provided');
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Sentry not initialized - no valid DSN provided');
+    }
     return;
   }
 

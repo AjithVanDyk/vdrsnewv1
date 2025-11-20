@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, CheckCircle, Star, Quote, X, Play } from 'lucide-react';
+import { ArrowRight, CheckCircle, Star, Quote, X, Play, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import QuoteForm from './QuoteForm';
 
@@ -27,21 +27,48 @@ interface EquipmentPageProps {
       quote: string;
       rating: number;
     }>;
-    equipmentNews?: Array<{
-      id: number;
-      title: string;
-      description: string;
-      date: string;
-      image: string;
-      link: string;
-      category: string;
-    }>;
   };
 }
 
 const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
   const [showQuoteForm, setShowQuoteForm] = React.useState(false);
   const [selectedVideo, setSelectedVideo] = React.useState<string | null>(null);
+  const [currentGallerySlide, setCurrentGallerySlide] = useState(0);
+  const [autoPlay, setAutoPlay] = useState(true);
+
+  // Combine gallery images and videos into one slideshow array
+  const galleryItems = [
+    ...(equipment.gallery || []).map(img => ({ type: 'image' as const, src: img })),
+    ...(equipment.videos || []).map(vid => ({ type: 'video' as const, src: vid }))
+  ];
+
+  // Auto-advance slideshow
+  useEffect(() => {
+    if (autoPlay && galleryItems.length > 1) {
+      const timer = setInterval(() => {
+        setCurrentGallerySlide((prev) => (prev + 1) % galleryItems.length);
+      }, 5000);
+      return () => clearInterval(timer);
+    }
+  }, [autoPlay, galleryItems.length]);
+
+  const goToNextSlide = () => {
+    setCurrentGallerySlide((prev) => (prev + 1) % galleryItems.length);
+    setAutoPlay(false);
+    setTimeout(() => setAutoPlay(true), 10000);
+  };
+
+  const goToPrevSlide = () => {
+    setCurrentGallerySlide((prev) => (prev - 1 + galleryItems.length) % galleryItems.length);
+    setAutoPlay(false);
+    setTimeout(() => setAutoPlay(true), 10000);
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentGallerySlide(index);
+    setAutoPlay(false);
+    setTimeout(() => setAutoPlay(true), 10000);
+  };
 
   const fadeInUp = {
     initial: { opacity: 0, y: 60 },
@@ -64,52 +91,21 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <section className="relative text-white py-20 -mt-20 pt-20 overflow-hidden">
-        {/* HD Background Image */}
-        <img 
-          src={equipment.image}
-          alt={equipment.name}
-          className="absolute inset-0 w-full h-full object-cover object-center scale-105"
-          width="1920"
-          height="1080"
-          loading="eager"
-          decoding="sync"
-          onError={(e) => {
-            console.log('Hero image failed to load, using fallback');
-            e.currentTarget.src = '/Images/bollegraaf-new-1.jpg';
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-black/40"></div>
-        <div className="container mx-auto px-4 relative z-10">
+      {/* Hero Section with Color Band */}
+      <section className="relative text-white py-24 -mt-20 pt-24 overflow-hidden">
+        {/* Color Band Background */}
+        <div className="absolute inset-0 bg-gradient-to-r from-vd-blue-dark via-vd-blue to-vd-blue-dark"></div>
+        <div className="container mx-auto px-4 relative z-10 pt-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            <h1 className="text-3xl md:text-4xl font-bold mb-6">{equipment.name}</h1>
+            <h1 className="text-3xl md:text-4xl font-bold mb-6 pt-8">{equipment.name}</h1>
             <p className="text-lg md:text-xl text-blue-100 max-w-4xl mx-auto leading-relaxed">
               {equipment.description}
             </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Main Image */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-6xl mx-auto"
-          >
-            <img
-              src={equipment.image}
-              alt={equipment.name}
-              className="w-full h-96 md:h-[500px] object-cover rounded-2xl shadow-2xl"
-            />
           </motion.div>
         </div>
       </section>
@@ -201,72 +197,6 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
         </div>
       </section>
 
-      {/* Videos Section */}
-      {equipment.videos && equipment.videos.length > 0 && (
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-vd-blue-dark mb-4">
-                See {equipment.name} in Action
-              </h2>
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                Watch our videos to see the equipment in operation
-              </p>
-            </motion.div>
-
-            <motion.div
-              variants={staggerChildren}
-              initial="initial"
-              whileInView="animate"
-              viewport={{ once: true }}
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
-              {equipment.videos.map((video, index) => (
-                <motion.div
-                  key={index}
-                  variants={fadeInUp}
-                  className="relative group cursor-pointer"
-                  onClick={() => setSelectedVideo(video)}
-                >
-                  <div className="relative overflow-hidden rounded-xl shadow-lg">
-                    <img
-                      src={`https://img.youtube.com/vi/${video.split('v=')[1]?.split('&')[0] || video.split('/').pop()}/maxresdefault.jpg`}
-                      alt={`${equipment.name} Video ${index + 1}`}
-                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                      onError={(e) => {
-                        // Fallback to hqdefault if maxresdefault fails
-                        const currentSrc = e.currentTarget.src;
-                        if (currentSrc.includes('maxresdefault')) {
-                          e.currentTarget.src = currentSrc.replace('maxresdefault', 'hqdefault');
-                        } else if (currentSrc.includes('hqdefault')) {
-                          // Final fallback to default thumbnail
-                          e.currentTarget.src = currentSrc.replace('hqdefault', 'default');
-                        } else {
-                          // Ultimate fallback to a placeholder image
-                          e.currentTarget.src = '/Images/image-1749759453479.png';
-                        }
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center group-hover:bg-black/60 transition-colors">
-                      <Play className="w-16 h-16 text-white" />
-                    </div>
-                  </div>
-                  <h3 className="mt-4 text-lg font-semibold text-vd-blue-dark">
-                    {equipment.name} Demo {index + 1}
-                  </h3>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
-      )}
-
       {/* Applications Section */}
       {equipment.applications && equipment.applications.length > 0 && (
         <section className="py-16 bg-gray-50">
@@ -319,8 +249,8 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
         </section>
       )}
 
-      {/* Gallery Section */}
-      {equipment.gallery && equipment.gallery.length > 0 && (
+      {/* Unified Gallery Section (Photos and Videos) - Slideshow */}
+      {galleryItems.length > 0 && (
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <motion.div
@@ -334,106 +264,96 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
                 Gallery
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                See {equipment.name} in action
+                See {equipment.name} in action through photos and videos
               </p>
             </motion.div>
 
-            <motion.div
-              variants={staggerChildren}
-              initial="initial"
-              whileInView="animate"
-              viewport={{ once: true }}
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
-            >
-              {equipment.gallery.map((image, index) => (
-                <motion.div
-                  key={index}
-                  variants={fadeInUp}
-                  className="overflow-hidden rounded-xl shadow-lg"
-                >
-                  <img
-                    src={image}
-                    alt={`${equipment.name} - Image ${index + 1}`}
-                    className="w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
-                  />
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
-      )}
+            <div className="max-w-5xl mx-auto">
+              <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentGallerySlide}
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.98 }}
+                    transition={{ duration: 0.5 }}
+                    className="relative"
+                  >
+                    {galleryItems[currentGallerySlide].type === 'image' ? (
+                      <img
+                        src={galleryItems[currentGallerySlide].src}
+                        alt={`${equipment.name} - Image ${currentGallerySlide + 1}`}
+                        className="w-full h-[28rem] object-cover"
+                        loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.src = '/Images/image-1749759453479.png';
+                        }}
+                      />
+                    ) : (
+                      <div
+                        className="relative cursor-pointer"
+                        onClick={() => setSelectedVideo(galleryItems[currentGallerySlide].src)}
+                      >
+                        <img
+                          src={`https://img.youtube.com/vi/${galleryItems[currentGallerySlide].src.split('v=')[1]?.split('&')[0] || galleryItems[currentGallerySlide].src.split('/').pop()}/maxresdefault.jpg`}
+                          alt={`${equipment.name} Video ${currentGallerySlide + 1}`}
+                          className="w-full h-[28rem] object-cover"
+                          onError={(e) => {
+                            const currentSrc = e.currentTarget.src;
+                            if (currentSrc.includes('maxresdefault')) {
+                              e.currentTarget.src = currentSrc.replace('maxresdefault', 'hqdefault');
+                            } else if (currentSrc.includes('hqdefault')) {
+                              e.currentTarget.src = currentSrc.replace('hqdefault', 'default');
+                            } else {
+                              e.currentTarget.src = '/Images/image-1749759453479.png';
+                            }
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center hover:bg-black/60 transition-colors">
+                          <Play className="w-16 h-16 text-white" />
+                        </div>
+                      </div>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
 
-      {/* Equipment News Section */}
-      {equipment.equipmentNews && equipment.equipmentNews.length > 0 && (
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-vd-blue-dark mb-4">
-                {equipment.name} in the News
-              </h2>
-              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                Latest news, success stories, and expert insights about {equipment.name}
-              </p>
-            </motion.div>
+                {galleryItems.length > 1 && (
+                  <>
+                    <button
+                      onClick={goToPrevSlide}
+                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-vd-blue rounded-full p-3 shadow-lg transition-colors"
+                      aria-label="Previous slide"
+                    >
+                      <ChevronLeft className="w-6 h-6" />
+                    </button>
+                    <button
+                      onClick={goToNextSlide}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-vd-blue rounded-full p-3 shadow-lg transition-colors"
+                      aria-label="Next slide"
+                    >
+                      <ChevronRight className="w-6 h-6" />
+                    </button>
+                  </>
+                )}
+              </div>
 
-            <motion.div
-              variants={staggerChildren}
-              initial="initial"
-              whileInView="animate"
-              viewport={{ once: true }}
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
-              {equipment.equipmentNews.map((news, index) => (
-                <motion.div
-                  key={news.id}
-                  variants={fadeInUp}
-                  className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer"
-                  onClick={() => window.open(news.link, '_blank')}
-                >
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={news.image}
-                      alt={news.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      onError={(e) => {
-                        e.currentTarget.src = '/Images/first.jpg';
-                      }}
+              {galleryItems.length > 1 && (
+                <div className="flex justify-center gap-2 mt-6">
+                  {galleryItems.map((item, index) => (
+                    <button
+                      key={`${item.type}-${index}`}
+                      onClick={() => goToSlide(index)}
+                      className={`h-2 rounded-full transition-all duration-300 ${
+                        index === currentGallerySlide
+                          ? 'w-10 bg-vd-orange'
+                          : 'w-4 bg-gray-300 hover:bg-gray-400'
+                      }`}
+                      aria-label={`Go to slide ${index + 1}`}
                     />
-                    <div className="absolute top-4 left-4">
-                      <span className="bg-vd-orange text-white px-3 py-1 rounded-full text-sm font-medium">
-                        {news.category}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <div className="text-sm text-gray-500 mb-3">
-                      {new Date(news.date).toLocaleDateString('en-US', { 
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric' 
-                      })}
-                    </div>
-                    <h3 className="text-lg font-bold text-vd-blue-dark mb-3 leading-tight group-hover:text-vd-orange transition-colors">
-                      {news.title}
-                    </h3>
-                    <p className="text-gray-600 mb-4 leading-relaxed">
-                      {news.description}
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-vd-orange">
-                        Read More →
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </section>
       )}

@@ -5,9 +5,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { 
-  ArrowRight, Briefcase, Wrench, User, MapPin, Phone, Mail, Clock, 
+  Briefcase, Wrench, User, MapPin, Phone, Mail, Clock, 
   Send, Building2, MessageSquare, ChevronLeft, ChevronRight, X,
-  FileText, Upload, CheckCircle, DollarSign, Calendar, Globe,
+  FileText, CheckCircle, DollarSign, Globe,
   Award, Target, Heart, Zap, AlertCircle
 } from 'lucide-react';
 import { IMAGE_ASSIGNMENTS } from '../config/images';
@@ -277,8 +277,9 @@ const AboutCareersContact = () => {
       color: 'from-purple-500 to-purple-600'
     }
   ];
+  type JobRole = (typeof jobRoles)[number];
 
-  const JobDetailModal = ({ job, onClose, onApply }: { job: any, onClose: () => void, onApply: () => void }) => (
+  const JobDetailModal = ({ job, onClose, onApply }: { job: JobRole; onClose: () => void; onApply: () => void }) => (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -409,7 +410,7 @@ const AboutCareersContact = () => {
     </motion.div>
   );
 
-  const ApplicationForm = ({ jobRole, onClose }: { jobRole: any, onClose: () => void }) => (
+  const ApplicationForm = ({ jobRole, onClose }: { jobRole: JobRole; onClose: () => void }) => (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -984,3 +985,4 @@ const AboutCareersContact = () => {
 };
 
 export default AboutCareersContact;
+export { AboutCareersContact as ContactUs };

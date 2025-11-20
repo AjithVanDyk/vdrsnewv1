@@ -1,46 +1,91 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import { Phone, Mail, Users, Target, Cog, Building } from 'lucide-react';
+
+const brandPartners = [
+	{ name: 'WM', description: 'North America’s leading recycling partner' },
+	{ name: 'Republic Services', description: 'Cutting-edge single stream systems' },
+	{ name: 'GFL Environmental', description: 'Advanced optical sorting deployments' },
+	{ name: 'Casella', description: 'Organics and MSW innovation' }
+];
 
 const TestCenter: React.FC = () => {
 	return (
 		<div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
 			{/* Hero Section */}
-			<div className="relative bg-gradient-to-r from-vd-blue-dark to-vd-blue text-white py-20">
-				<div className="absolute inset-0 bg-[url('/Images/test-center-hero.jpg')] bg-cover bg-center opacity-20" />
-				<div className="container mx-auto px-4 relative">
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.8 }}
-						className="max-w-4xl mx-auto text-center"
-					>
-						<h1 className="text-4xl md:text-5xl font-bold mb-6">Material Testing Center</h1>
-						<p className="text-xl text-gray-100 mb-8">
-							The largest material test center in the recycling industry, fully capable of replicating in-plant operations with 36,000 square feet of testing space.
-						</p>
-						<div className="flex flex-col sm:flex-row gap-4 justify-center">
-							<a
-								href="tel:203-967-1100"
-								className="bg-vd-orange hover:bg-vd-orange-alt text-white px-8 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
+			<div className="relative -mt-20 pt-20">
+				<div className="relative">
+					<img
+						src="/Images/test-center-hero.jpg"
+						alt="Van Dyk Test Center"
+						className="w-full h-auto object-contain"
+						loading="eager"
+					/>
+					<div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/30 to-black/20"></div>
+					<div className="absolute inset-0 flex items-center">
+						<div className="container mx-auto px-4">
+							<motion.div
+								initial={{ opacity: 0, y: 20 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ duration: 0.8 }}
+								className="max-w-4xl mx-auto text-center text-white py-12 sm:py-20"
 							>
-								<Phone className="w-5 h-5" />
-								<span>Call 203-967-1100</span>
-							</a>
-							<a
-								href="mailto:info@vdrs.com"
-								className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white border border-white/20 px-8 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
-							>
-								<Mail className="w-5 h-5" />
-								<span>Email info@vdrs.com</span>
-							</a>
+								<h1 className="text-4xl md:text-5xl font-bold mb-6">Material Testing Center</h1>
+								<p className="text-xl text-gray-100 mb-8">
+									The largest material test center in the recycling industry, fully capable of replicating in-plant operations with 36,000 square feet of testing space.
+								</p>
+								<div className="flex flex-col sm:flex-row gap-4 justify-center">
+									<a
+										href="tel:203-967-1100"
+										className="bg-vd-orange hover:bg-vd-orange-alt text-white px-8 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
+									>
+										<Phone className="w-5 h-5" />
+										<span>Call 203-967-1100</span>
+									</a>
+									<a
+										href="mailto:info@vdrs.com"
+										className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white border border-white/20 px-8 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
+									>
+										<Mail className="w-5 h-5" />
+										<span>Email info@vdrs.com</span>
+									</a>
+								</div>
+							</motion.div>
 						</div>
-					</motion.div>
+					</div>
 				</div>
 			</div>
 
 			<div className="container mx-auto px-4 py-16">
+				{/* Brands Section */}
+				<motion.section
+					initial={{ opacity: 0, y: 20 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.6 }}
+					className="mb-16"
+				>
+					<div className="max-w-6xl mx-auto">
+						<h2 className="text-3xl font-bold text-vd-blue mb-6 text-center">Brands</h2>
+						<p className="text-gray-700 text-lg mb-10 text-center max-w-3xl mx-auto">
+							Leading brands rely on our Test Center to validate new technology, refine material recovery, and de-risk capital projects before full-scale deployment.
+						</p>
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+							{brandPartners.map((brand) => (
+								<motion.div
+									key={brand.name}
+									initial={{ opacity: 0, y: 15 }}
+									whileInView={{ opacity: 1, y: 0 }}
+									transition={{ duration: 0.4 }}
+									className="bg-white rounded-xl p-6 shadow-md text-center border border-gray-100"
+								>
+									<div className="text-2xl font-bold text-vd-blue mb-2">{brand.name}</div>
+									<p className="text-gray-600 text-sm">{brand.description}</p>
+								</motion.div>
+							))}
+						</div>
+					</div>
+				</motion.section>
+
 				{/* Why a Test Center Section */}
 				<motion.section
 					initial={{ opacity: 0, y: 20 }}
@@ -111,7 +156,7 @@ const TestCenter: React.FC = () => {
 								<div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
 									<Users className="w-8 h-8 text-green-600" />
 								</div>
-								<h3 className="text-xl font-semibold text-vd-blue mb-3">Sustainability Reps</h3>
+								<h3 className="text-xl font-semibold text-vd-blue mb-3">Brands</h3>
 								<p className="text-gray-600">
 									Test sortability of new types of consumer packaging for sustainability initiatives.
 								</p>
@@ -167,11 +212,11 @@ const TestCenter: React.FC = () => {
 										</li>
 										<li className="flex items-center space-x-2">
 											<div className="w-2 h-2 bg-vd-orange rounded-full"></div>
-											<span>4 different optical sorters</span>
+											<span>5 different optical sorters</span>
 										</li>
 										<li className="flex items-center space-x-2">
 											<div className="w-2 h-2 bg-vd-orange rounded-full"></div>
-											<span>Various screens & separators</span>
+											<span>3 Greyparrot analyzers for live data</span>
 										</li>
 										<li className="flex items-center space-x-2">
 											<div className="w-2 h-2 bg-vd-orange rounded-full"></div>

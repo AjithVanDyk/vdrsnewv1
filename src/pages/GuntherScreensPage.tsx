@@ -47,8 +47,10 @@ const GuntherScreensPage: React.FC = () => {
       'https://youtu.be/uz4r_gb1Wjs'  // Sizing Screen
     ],
     gallery: [
-      '/Images/gunther-screens-new.jpg',
-      '/Images/gunther-splitter.jpg'
+      '/Images/Equipment/Gunther screens/IMG_6160.JPG',
+      '/Images/Equipment/Gunther screens/IMG_8615.jpg',
+      '/Images/Equipment/Gunther screens/IMG_8616.jpg',
+      '/Images/Equipment/Gunther screens/IMG_8617.jpg'
     ],
     testimonials: [
       {

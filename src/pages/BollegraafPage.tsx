@@ -5,7 +5,7 @@ const BollegraafPage: React.FC = () => {
   const equipment = {
     id: 1,
     name: 'Bollegraaf Balers',
-    image: '/Images/bollegraaf-new-1.jpg',
+    image: '/Images/equipment-bollegraaf-product.jpg',
     description: 'Industry-leading single ram balers with no-shear design for maximum efficiency and density. Single ram uses 1/3 power of two-ram balers and operates automatically without dedicated operator.',
     features: [
       'Single ram uses 1/3 power of two-ram balers',
@@ -45,38 +45,18 @@ const BollegraafPage: React.FC = () => {
       'https://youtu.be/m4VQvwWW9yU'  // Single Ram Baler
     ],
     gallery: [
-      '/Images/bollegraaf-new-1.jpg',
-      '/Images/bollegraaf-products.jpg',
-      '/Images/bollegraaf-baler.jpg'
-    ],
-    equipmentNews: [
-      {
-        id: 1,
-        title: 'Yes Recycling Newark NJ Achieves 95% Recovery Rate with Bollegraaf Baler',
-        description: 'Municipal recycling facility in New Jersey reports exceptional performance improvements after installing Van Dyk\'s Bollegraaf HBC 140 baler system.',
-        date: '2024-12-20',
-        image: '/Images/bollegraaf-products.jpg',
-        link: 'https://vdrs.com/customers/yes-recycling-newark-success/',
-        category: 'Success Story'
-      },
-      {
-        id: 2,
-        title: 'Bollegraaf Baler Technology Increases Efficiency by 35%',
-        description: 'Latest generation balers feature advanced automation and improved material handling capabilities for enhanced productivity.',
-        date: '2024-12-18',
-        image: '/Images/bollegraaf-new-1.jpg',
-        link: 'https://vdrs.com/news/bollegraaf-efficiency/',
-        category: 'Product Updates'
-      },
-      {
-        id: 3,
-        title: 'Maximizing Baler Efficiency: 10 Essential Maintenance Tips',
-        description: 'Learn the critical maintenance practices that keep your Bollegraaf balers running at peak performance and extend their operational life.',
-        date: '2024-12-15',
-        image: '/Images/bollegraaf-baler.jpg',
-        link: 'https://vdrs.com/expert-tips/maximizing-baler-efficiency/',
-        category: 'Expert Tips'
-      }
+      '/Images/Equipment/Bollegraaf/Gallery 1_WM Mesquite Creek-6.jpg',
+      '/Images/Equipment/Bollegraaf/Gallery 2_WM Mesquite Creek-7.jpg',
+      '/Images/Equipment/Bollegraaf/Gallery 4_VanDyk_jp mascaro.jpg',
+      '/Images/Equipment/Bollegraaf/Gallery 5_Mazza hbc120.png',
+      '/Images/Equipment/Bollegraaf/Gallery 6_vandyk_plano229.jpg',
+      '/Images/Equipment/Bollegraaf/Gallery 7_p2-van-sanco-144.jpg',
+      '/Images/Equipment/Bollegraaf/Gallery 8_USA Berlin 2023 HBC140.png',
+      '/Images/Equipment/Bollegraaf/Gallery 9_Plainfield.JPG',
+      '/Images/Equipment/Bollegraaf/Gallery 10_Yes hbc140.jpg',
+      '/Images/Equipment/Bollegraaf/WM Mesquite Creek-3.jpg',
+      '/Images/Equipment/Bollegraaf/WM Mesquite Creek-6.jpg',
+      '/Images/Equipment/Bollegraaf/WM Mesquite Creek-7.jpg'
     ]
   };
 

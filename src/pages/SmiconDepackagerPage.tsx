@@ -46,9 +46,10 @@ const SmiconDepackagerPage: React.FC = () => {
       'https://youtu.be/ircipzTwJRM' // VDRS Smimo Depackager
     ],
     gallery: [
-      '/Images/smicon-depackager-new.jpg',
-      '/Images/smicon-depackager.jpg',
-      '/Images/smicon-food-depackaging.jpg'
+      '/Images/Equipment/Smicon Food Waste Depackagers/VDRS Smicon system Sunnyvale.jpeg',
+      '/Images/Equipment/Smicon Food Waste Depackagers/Sunnyvale input material.jpg',
+      '/Images/Equipment/Smicon Food Waste Depackagers/Sunnyvale expelled packaging.png',
+      '/Images/Equipment/Smicon Food Waste Depackagers/Sunnyvale slurry.png'
     ],
     testimonials: [
       {

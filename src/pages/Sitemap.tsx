@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { 
-  Map, ArrowRight, ExternalLink, Search, Filter,
+  Map, ArrowRight, ExternalLink, Search,
   Calendar, Tag, Globe, FileText, Link as LinkIcon
 } from 'lucide-react';
 import SEO from '../components/SEO';
@@ -284,6 +284,10 @@ const Sitemap = () => {
 };
 
 export default Sitemap;
+
+
+
+
 
 
 

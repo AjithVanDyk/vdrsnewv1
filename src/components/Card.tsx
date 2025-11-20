@@ -50,7 +50,7 @@ const Card: React.FC<CardProps> = ({
   
   const classes = `${baseClasses} ${paddingClasses[padding]} ${shadowClasses[shadow]} ${roundedClasses[rounded]} ${hoverClasses} ${clickableClasses} ${className}`;
   
-  const MotionComponent = motion[Component] as any;
+  const MotionComponent = motion(Component as React.ElementType);
   
   return (
     <MotionComponent

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, Clock, Eye, Search, Filter, Grid, List, X, ExternalLink, Award, Users, TrendingUp } from 'lucide-react';
+import { Calendar, Clock, Eye, Search, Grid, List, X, ExternalLink, Award, Users } from 'lucide-react';
 
 interface CustomerNews {
   id: number;
@@ -570,6 +570,10 @@ const OurCustomersInTheNews = () => {
 };
 
 export default OurCustomersInTheNews;
+
+
+
+
 
 
 

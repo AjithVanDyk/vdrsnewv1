@@ -1,44 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Briefcase, Wrench, User, FileText, ExternalLink, ChevronLeft, ChevronRight,
-  Heart, Shield, DollarSign, Clock, MapPin, Users, Award, Star,
-  CheckCircle, ArrowRight, Globe, Zap, Coffee, Dumbbell, Mail, X
+  Briefcase, Wrench, User, FileText, ExternalLink,
+  MapPin, Users, Award, Star,
+  CheckCircle, ArrowRight, Globe, Zap, X, ChevronLeft, ChevronRight
 } from 'lucide-react';
 import { IMAGE_ASSIGNMENTS } from '../config/images';
 
 const Careers = () => {
-  const [activeTab, setActiveTab] = useState('whoIsVanDyk');
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedJob, setSelectedJob] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [currentGallerySlide, setCurrentGallerySlide] = useState(0);
 
-  // Slideshow images with facility information
-  const slideImages = [
+  // Gallery images (using gallery versions from slideshow array)
+  const galleryImages = [
     { src: IMAGE_ASSIGNMENTS.careers.slideshow[0], title: 'Front Lobby', description: 'Welcoming reception area' },
-    { src: IMAGE_ASSIGNMENTS.careers.slideshow[1], title: 'Employee Cafe', description: 'Comfortable dining and break space' },
-    { src: IMAGE_ASSIGNMENTS.careers.slideshow[2], title: 'Fitness Center', description: 'Employee gym and wellness center' },
-    { src: IMAGE_ASSIGNMENTS.careers.slideshow[3], title: 'Board Room', description: 'Executive meeting and conference space' },
-    { src: IMAGE_ASSIGNMENTS.careers.slideshow[4], title: 'Building Exterior', description: 'Modern facility exterior view' },
+    { src: IMAGE_ASSIGNMENTS.careers.slideshow[1], title: 'Board Room', description: 'Executive meeting and conference space' },
+    { src: IMAGE_ASSIGNMENTS.careers.slideshow[2], title: 'Employee Cafe', description: 'Comfortable dining and break space' },
+    { src: IMAGE_ASSIGNMENTS.careers.slideshow[3], title: 'Building Exterior', description: 'Modern facility exterior view' },
+    { src: IMAGE_ASSIGNMENTS.careers.slideshow[4], title: 'Fitness Center', description: 'Employee gym and wellness center' },
     { src: IMAGE_ASSIGNMENTS.careers.slideshow[5], title: 'Living Wall', description: 'Green living wall for natural ambiance' },
     { src: IMAGE_ASSIGNMENTS.careers.slideshow[6], title: 'Employee Lounge', description: 'Relaxing lounge area for employees' },
-    { src: IMAGE_ASSIGNMENTS.careers.slideshow[7], title: 'Norwalk Headquarters', description: 'Our main office and administrative center' },
-    { src: IMAGE_ASSIGNMENTS.careers.slideshow[8], title: 'Rebuilt Shop', description: 'Equipment refurbishment and repair center' }
+    { src: IMAGE_ASSIGNMENTS.careers.slideshow[7], title: 'Exterior View Gallery', description: 'Building exterior gallery view' },
+    { src: IMAGE_ASSIGNMENTS.careers.slideshow[8], title: 'Front Lobby Gallery', description: 'Reception area gallery view' },
+    { src: IMAGE_ASSIGNMENTS.careers.slideshow[9], title: 'Board Room Gallery', description: 'Executive meeting space gallery view' },
+    { src: IMAGE_ASSIGNMENTS.careers.slideshow[10], title: 'Living Wall Gallery', description: 'Green living wall gallery view' },
+    { src: IMAGE_ASSIGNMENTS.careers.slideshow[11], title: 'Lounge Gallery', description: 'Employee lounge gallery view' },
+    { src: IMAGE_ASSIGNMENTS.careers.slideshow[12], title: 'Cafe Gallery', description: 'Employee cafe gallery view' }
   ];
 
-  // Auto-advance slideshow
   useEffect(() => {
+    if (galleryImages.length <= 1) return;
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slideImages.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, [slideImages.length]);
+      setCurrentGallerySlide((prev) => (prev + 1) % galleryImages.length);
+    }, 5000);
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slideImages.length);
+    return () => clearInterval(timer);
+  }, [galleryImages.length]);
+
+  const goToNextSlide = () => {
+    setCurrentGallerySlide((prev) => (prev + 1) % galleryImages.length);
   };
 
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slideImages.length) % slideImages.length);
+  const goToPrevSlide = () => {
+    setCurrentGallerySlide((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
   };
 
   const jobRoles = [
@@ -83,38 +88,6 @@ const Careers = () => {
     },
   ];
 
-  const benefits = [
-    {
-      icon: DollarSign,
-      title: 'Competitive Compensation',
-      description: 'Salaried position with paid overtime for travel and work beyond 8 hours per business day'
-    },
-    {
-      icon: Heart,
-      title: 'Comprehensive Health Coverage',
-      description: 'Fully funded health insurance for you, spouse, and dependent children with company-funded HSA'
-    },
-    {
-      icon: Shield,
-      title: 'Life Insurance',
-      description: 'Paid $250,000 life insurance policy for peace of mind'
-    },
-    {
-      icon: Clock,
-      title: 'Generous Time Off',
-      description: '20 paid vacation days and 8 paid holidays annually'
-    },
-    {
-      icon: DollarSign,
-      title: 'Retirement Planning',
-      description: 'Profit-sharing pension plan (7-12% of salary) plus additional 401K options'
-    },
-    {
-      icon: Globe,
-      title: 'Global Opportunities',
-      description: 'Work with international teams across North America, Canada, and Mexico'
-    }
-  ];
 
   const companyValues = [
     {
@@ -141,60 +114,22 @@ const Careers = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      {/* Hero Section with Slideshow */}
+      {/* Hero Section with Static Image */}
       <section className="relative text-white py-20 overflow-hidden -mt-20 pt-20">
-        {/* Slideshow Background */}
         <div className="absolute inset-0">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentSlide}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-              className="absolute inset-0"
-            >
-              <img
-                src={slideImages[currentSlide].src}
-                alt={slideImages[currentSlide].title}
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.currentTarget.src = '/Images/image-1749759453479.png';
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-black/40"></div>
-            </motion.div>
-          </AnimatePresence>
-          
-          {/* Navigation Arrows */}
-          <button
-            onClick={prevSlide}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-20"
-            aria-label="Previous image"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-          <button
-            onClick={nextSlide}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-20"
-            aria-label="Next image"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
-
-          {/* Dots Indicator */}
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-2 z-20">
-            {slideImages.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentSlide ? 'bg-vd-orange' : 'bg-white/70 hover:bg-white/90'
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
+          <img
+            src={IMAGE_ASSIGNMENTS.careers.hero}
+            alt="Van Dyk Careers"
+            className="w-full h-full object-cover object-center scale-105"
+            width="1920"
+            height="1080"
+            loading="eager"
+            decoding="sync"
+            onError={(e) => {
+              e.currentTarget.src = '/Images/image-1749759453479.png';
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-black/40"></div>
         </div>
         
         <div className="container mx-auto px-4 relative z-10 pt-20">
@@ -208,7 +143,7 @@ const Careers = () => {
               Join Our Team
             </h1>
             <p className="text-lg md:text-xl mb-8 text-gray-100">
-              Experience the Van Dyk difference. {slideImages[currentSlide].title} - {slideImages[currentSlide].description}
+              Experience the Van Dyk difference. Build your career with industry-leading recycling technology.
             </p>
             <motion.div
               initial={{ scale: 0.9 }}
@@ -218,7 +153,7 @@ const Careers = () => {
             >
               <button
                 onClick={() => {
-                  document.getElementById('careers-content')?.scrollIntoView({ 
+                  document.getElementById('open-positions')?.scrollIntoView({ 
                     behavior: 'smooth',
                     block: 'start'
                   });
@@ -235,45 +170,8 @@ const Careers = () => {
 
       {/* Main Content */}
       <div id="careers-content">
-        {/* Benefits Section */}
-        <section className="py-20 bg-gradient-to-b from-white to-gray-50">
-          <div className="container mx-auto px-4">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="max-w-6xl mx-auto"
-            >
-              <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-4xl font-bold text-vd-blue mb-4">Why Work With Us?</h2>
-                <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                  We offer comprehensive benefits and a supportive work environment that values your growth and well-being.
-                </p>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {benefits.map((benefit, index) => (
-                  <motion.div
-                    key={benefit.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition-all duration-300 hover:scale-105 group"
-                  >
-                    <div className="bg-vd-orange/10 p-4 rounded-xl w-fit mb-6 group-hover:bg-vd-orange/20 transition-colors">
-                      <benefit.icon className="h-8 w-8 text-vd-orange" />
-                    </div>
-                    <h3 className="text-xl font-bold text-vd-blue mb-4">{benefit.title}</h3>
-                    <p className="text-gray-600 leading-relaxed">{benefit.description}</p>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Open Positions Section */}
-        <section className="py-20 bg-white">
+        {/* Open Positions Section - Moved to Top */}
+        <section id="open-positions" className="py-20 bg-white">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -378,7 +276,7 @@ const Careers = () => {
           </div>
         </section>
 
-        {/* Company Values Section */}
+        {/* Why Work With Us Section (formerly Our Values) */}
         <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
           <div className="container mx-auto px-4">
             <motion.div
@@ -388,7 +286,7 @@ const Careers = () => {
               className="max-w-6xl mx-auto"
             >
               <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-4xl font-bold text-vd-blue mb-4">Our Values</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-vd-blue mb-4">Why Work With Us?</h2>
                 <p className="text-lg text-gray-600 max-w-3xl mx-auto">
                   Discover what makes Van Dyk Recycling Solutions a unique place to work and grow your career.
                 </p>
@@ -410,6 +308,105 @@ const Careers = () => {
                     <p className="text-gray-600 leading-relaxed">{value.description}</p>
                   </motion.div>
                 ))}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Gallery Section */}
+        <section className="py-20 bg-white">
+          <div className="container mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="max-w-6xl mx-auto"
+            >
+              <div className="text-center mb-16">
+                <h2 className="text-3xl md:text-4xl font-bold text-vd-blue mb-4">Gallery</h2>
+                <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                  Take a virtual tour of our facilities and see where you could be working.
+                </p>
+              </div>
+              
+              <div className="max-w-5xl mx-auto">
+                <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={galleryImages[currentGallerySlide].src}
+                      initial={{ opacity: 0, scale: 0.98 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.98 }}
+                      transition={{ duration: 0.5 }}
+                      className="relative cursor-pointer"
+                      onClick={() => setSelectedImage(galleryImages[currentGallerySlide])}
+                    >
+                      <img
+                        src={galleryImages[currentGallerySlide].src}
+                        alt={galleryImages[currentGallerySlide].title}
+                        className="w-full h-[28rem] object-cover"
+                        loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.src = '/Images/image-1749759453479.png';
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/0 to-black/0 flex flex-col justify-end p-6 text-white">
+                        <h3 className="text-2xl font-bold mb-2">
+                          {galleryImages[currentGallerySlide].title}
+                        </h3>
+                        <p className="text-sm text-blue-100">
+                          {galleryImages[currentGallerySlide].description}
+                        </p>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+
+                  {galleryImages.length > 1 && (
+                    <>
+                      <button
+                        onClick={goToPrevSlide}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-vd-blue rounded-full p-3 shadow-lg transition-colors"
+                        aria-label="Previous photo"
+                      >
+                        <ChevronLeft className="w-6 h-6" />
+                      </button>
+                      <button
+                        onClick={goToNextSlide}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-vd-blue rounded-full p-3 shadow-lg transition-colors"
+                        aria-label="Next photo"
+                      >
+                        <ChevronRight className="w-6 h-6" />
+                      </button>
+                    </>
+                  )}
+                </div>
+
+                {galleryImages.length > 1 && (
+                  <div className="flex justify-center flex-wrap gap-3 mt-8">
+                    {galleryImages.map((image, index) => (
+                      <button
+                        key={image.src}
+                        onClick={() => setCurrentGallerySlide(index)}
+                        className={`w-16 h-16 rounded-xl overflow-hidden border-2 transition-all duration-300 ${
+                          index === currentGallerySlide
+                            ? 'border-vd-orange shadow-lg'
+                            : 'border-transparent opacity-60 hover:opacity-100'
+                        }`}
+                        aria-label={`View ${image.title}`}
+                      >
+                        <img
+                          src={image.src}
+                          alt={image.title}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                          onError={(e) => {
+                            e.currentTarget.src = '/Images/image-1749759453479.png';
+                          }}
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </motion.div>
           </div>
@@ -442,18 +439,55 @@ const Careers = () => {
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </motion.a>
                 <motion.button
-                  onClick={() => setActiveTab('whoIsVanDyk')}
+                  onClick={() => {
+                    document.getElementById('open-positions')?.scrollIntoView({ 
+                      behavior: 'smooth',
+                      block: 'start'
+                    });
+                  }}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="border-2 border-white text-white hover:bg-white hover:text-vd-blue px-8 py-4 rounded-lg font-semibold text-lg transition-colors inline-flex items-center justify-center"
                 >
-                  Learn More About Us
+                  View Open Positions
                 </motion.button>
               </div>
             </motion.div>
           </div>
         </section>
       </div>
+
+      {/* Image Modal */}
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 bg-black/90 flex items-center justify-center p-4 z-50"
+          onClick={() => setSelectedImage(null)}
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            className="relative max-w-6xl w-full max-h-[90vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-4 right-4 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-colors z-10"
+            >
+              <X className="h-6 w-6" />
+            </button>
+            <img
+              src={selectedImage.src}
+              alt={selectedImage.title}
+              className="w-full h-full object-contain rounded-lg"
+            />
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white rounded-b-lg">
+              <h3 className="text-2xl font-bold mb-2">{selectedImage.title}</h3>
+              <p className="text-lg text-gray-200">{selectedImage.description}</p>
+            </div>
+          </motion.div>
+        </div>
+      )}
 
       {/* Job Details Modal */}
       {selectedJob && (

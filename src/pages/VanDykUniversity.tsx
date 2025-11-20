@@ -1,15 +1,81 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   GraduationCap, BookOpen, Users, Award, Clock, MapPin, 
-  Calendar, CheckCircle, Star, ArrowRight, ExternalLink,
-  Wrench, Settings, Zap, Target, Heart, Globe
+  Calendar, CheckCircle, Star, ExternalLink,
+  Wrench, Target, Globe, ChevronLeft, ChevronRight
 } from 'lucide-react';
 import SEO from '../components/SEO';
 import { SEOData } from '../utils/seo';
+import { submitContactForm } from '../utils/formSubmission';
+
+// Training School photos - moved outside component to prevent recreation on each render
+const trainingSchoolPhotos = [
+  {
+    image: '/Images/Training School/FullSizeRender.jpg',
+    title: 'Professional Learning Environment',
+    description: 'State-of-the-art classrooms designed for interactive, hands-on training'
+  },
+  {
+    image: '/Images/Training School/FullSizeRender[1].jpg',
+    title: 'Hands-On Equipment Training',
+    description: 'Learn on real production equipment with expert guidance'
+  },
+  {
+    image: '/Images/Training School/FullSizeRender[2].jpg',
+    title: 'Expert Instruction',
+    description: 'Learn from industry veterans with decades of real-world experience'
+  },
+  {
+    image: '/Images/Training School/FullSizeRender[3].jpg',
+    title: 'Collaborative Learning',
+    description: 'Network with peers and build lasting professional relationships'
+  }
+];
 
 const VanDykUniversity = () => {
   const [activeTab, setActiveTab] = useState('overview');
+  const [trainingRequest, setTrainingRequest] = useState({
+    name: '',
+    company: '',
+    email: '',
+    phone: '',
+    className: 'Bollegraaf Baler',
+    notes: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formStatus, setFormStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [autoPlay, setAutoPlay] = useState(true);
+
+  // Auto-play slideshow
+  useEffect(() => {
+    if (autoPlay && trainingSchoolPhotos.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % trainingSchoolPhotos.length);
+      }, 5000); // Change every 5 seconds
+
+      return () => clearInterval(interval);
+    }
+  }, [autoPlay]);
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % trainingSchoolPhotos.length);
+    setAutoPlay(false);
+    setTimeout(() => setAutoPlay(true), 10000);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + trainingSchoolPhotos.length) % trainingSchoolPhotos.length);
+    setAutoPlay(false);
+    setTimeout(() => setAutoPlay(true), 10000);
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index);
+    setAutoPlay(false);
+    setTimeout(() => setAutoPlay(true), 10000);
+  };
 
   const fadeInUp = {
     initial: { opacity: 0, y: 30 },
@@ -36,7 +102,7 @@ const VanDykUniversity = () => {
   const trainingPrograms = [
     {
       id: 'bollegraaf-training',
-      title: 'Bollegraaf Baler Training',
+      title: 'Bollegraaf Baler',
       duration: '3 Days',
       level: 'Intermediate',
       description: 'Comprehensive training on Bollegraaf baler operation, maintenance, and troubleshooting.',
@@ -52,10 +118,10 @@ const VanDykUniversity = () => {
     },
     {
       id: 'tomra-training',
-      title: 'TOMRA Optical Sorting Technology',
+      title: 'Tomra Autosort',
       duration: '2 Days',
       level: 'Beginner to Advanced',
-      description: 'Advanced training on TOMRA optical sorting systems and AI-powered material recognition.',
+      description: 'Advanced training on TOMRA Autosort systems with AI-powered material recognition.',
       topics: [
         'Optical sorting principles',
         'AI and machine learning applications',
@@ -67,75 +133,93 @@ const VanDykUniversity = () => {
       certification: 'TOMRA Optical Sorting Specialist Certificate'
     },
     {
-      id: 'mrf-operations',
-      title: 'MRF Operations & Management',
-      duration: '5 Days',
-      level: 'Advanced',
-      description: 'Complete MRF operations training covering all aspects of material recovery facility management.',
-      topics: [
-        'MRF design and layout optimization',
-        'Material flow management',
-        'Quality control and contamination reduction',
-        'Safety and environmental compliance',
-        'Performance metrics and KPIs',
-        'Staff training and management'
-      ],
-      prerequisites: '2+ years recycling industry experience',
-      certification: 'MRF Operations Manager Certificate'
-    },
-    {
-      id: 'maintenance-technician',
-      title: 'Equipment Maintenance Technician',
-      duration: '4 Days',
+      id: 'pellenc-training',
+      title: 'Pellenc Mistral+',
+      duration: '3 Days',
       level: 'Intermediate',
-      description: 'Specialized training for maintenance technicians on recycling equipment repair and maintenance.',
+      description: 'In-depth training on Pellenc Mistral+ optical sorters, calibration, and maintenance best practices.',
       topics: [
-        'Mechanical systems troubleshooting',
-        'Hydraulic and pneumatic systems',
-        'Electrical systems and controls',
-        'Preventive maintenance scheduling',
-        'Parts identification and ordering',
-        'Safety procedures and lockout/tagout'
+        'Mistral+ system architecture',
+        'Profile Detection configuration',
+        'Material recipe optimization',
+        'Preventive maintenance routines',
+        'Hands-on troubleshooting labs'
       ],
-      prerequisites: 'Mechanical or electrical background',
-      certification: 'Recycling Equipment Maintenance Technician Certificate'
+      prerequisites: 'Experience with optical sorters recommended',
+      certification: 'Pellenc Mistral+ Specialist Certificate'
     }
   ];
 
   const upcomingSessions = [
     {
       id: 1,
-      program: 'Bollegraaf Baler Training',
-      date: 'March 15-17, 2024',
+      program: 'Bollegraaf Baler',
+      date: 'March 18-20, 2024',
       location: 'Norwalk, CT',
-      instructor: 'Mike Johnson',
-      seatsAvailable: 8
+      isOpen: false
     },
     {
       id: 2,
-      program: 'TOMRA Optical Sorting Technology',
-      date: 'March 22-23, 2024',
+      program: 'Tomra Autosort',
+      date: 'April 8-9, 2024',
       location: 'Norwalk, CT',
-      instructor: 'Sarah Chen',
-      seatsAvailable: 12
+      isOpen: true
     },
     {
       id: 3,
-      program: 'MRF Operations & Management',
-      date: 'April 8-12, 2024',
+      program: 'Pellenc Mistral+',
+      date: 'April 22-24, 2024',
       location: 'Norwalk, CT',
-      instructor: 'Robert Martinez',
-      seatsAvailable: 6
-    },
-    {
-      id: 4,
-      program: 'Equipment Maintenance Technician',
-      date: 'April 15-18, 2024',
-      location: 'Norwalk, CT',
-      instructor: 'David Wilson',
-      seatsAvailable: 10
+      isOpen: true
     }
   ];
+  const trainingClasses = [
+    'Bollegraaf Baler',
+    'Tomra Autosort',
+    'Pellenc Mistral+'
+  ];
+
+  const handleTrainingRequestSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setFormStatus(null);
+
+    const result = await submitContactForm({
+      name: trainingRequest.name,
+      company: trainingRequest.company,
+      email: trainingRequest.email,
+      phone: trainingRequest.phone,
+      message: `Training request for ${trainingRequest.className}\nNotes: ${trainingRequest.notes || 'N/A'}`,
+      applicationType: 'training_request'
+    });
+
+    if (result.success) {
+      setFormStatus({
+        type: 'success',
+        message: 'Request submitted successfully. Our team monitoring training@vdrs.com will get back to you shortly.'
+      });
+      setTrainingRequest({
+        name: '',
+        company: '',
+        email: '',
+        phone: '',
+        className: trainingRequest.className,
+        notes: ''
+      });
+    } else {
+      setFormStatus({
+        type: 'error',
+        message: result.message || 'Unable to submit your request. Please try again.'
+      });
+    }
+
+    setIsSubmitting(false);
+  };
+
+  const scrollToRequestForm = (className: string) => {
+    setTrainingRequest((prev) => ({ ...prev, className }));
+    document.getElementById('training-request-form')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const testimonials = [
     {
@@ -272,8 +356,12 @@ const VanDykUniversity = () => {
         {/* Navigation Tabs */}
         <div className="bg-white shadow-sm border-b">
           <div className="container mx-auto px-4">
-            <div className="flex flex-wrap justify-center">
-              {[
+            <div className="flex flex-col items-center py-4">
+              <span className="uppercase text-xs font-semibold tracking-widest text-gray-500 mb-3">
+                Explore
+              </span>
+              <div className="flex flex-wrap justify-center gap-3">
+                {[
                 { id: 'overview', label: 'Overview', icon: BookOpen },
                 { id: 'programs', label: 'Training Programs', icon: GraduationCap },
                 { id: 'schedule', label: 'Upcoming Sessions', icon: Calendar },
@@ -282,16 +370,17 @@ const VanDykUniversity = () => {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center px-6 py-4 text-sm font-medium border-b-2 transition-colors ${
+                  className={`flex items-center px-5 py-3 text-sm font-semibold rounded-full border transition-all duration-200 shadow-sm ${
                     activeTab === tab.id
-                      ? 'border-vd-orange text-vd-orange'
-                      : 'border-transparent text-gray-500 hover:text-gray-700'
+                      ? 'bg-vd-blue text-white border-vd-blue shadow-lg'
+                      : 'bg-white text-gray-500 border-gray-200 hover:text-vd-blue hover:border-vd-blue/40'
                   }`}
                 >
                   <tab.icon className="w-4 h-4 mr-2" />
                   {tab.label}
                 </button>
               ))}
+              </div>
             </div>
           </div>
         </div>
@@ -358,6 +447,97 @@ const VanDykUniversity = () => {
                 </div>
               </motion.section>
 
+              {/* Training School Photo Slideshow */}
+              <motion.section variants={fadeInUp} className="mb-16">
+                <div className="text-center mb-8">
+                  <h2 className="text-3xl md:text-4xl font-bold text-vd-blue-dark mb-4">
+                    Experience Our Training School
+                  </h2>
+                  <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                    Step inside our world-class training facility where professionals from across the industry come to master the latest recycling technology.
+                  </p>
+                </div>
+                <div className="max-w-5xl mx-auto">
+                  <div className="relative overflow-hidden rounded-3xl shadow-2xl">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={currentSlide}
+                        initial={{ opacity: 0, x: 100 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -100 }}
+                        transition={{ duration: 0.6, ease: "easeInOut" }}
+                        className="relative"
+                      >
+                        <div className="relative h-[500px] md:h-[600px] overflow-hidden">
+                          <img
+                            src={trainingSchoolPhotos[currentSlide].image}
+                            alt={`Van Dyk Training School - ${trainingSchoolPhotos[currentSlide].title}`}
+                            className="w-full h-full object-cover"
+                            loading="lazy"
+                            onError={(e) => {
+                              e.currentTarget.src = '/Images/image-1749759453479.png';
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                          <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
+                            <motion.div
+                              initial={{ opacity: 0, y: 20 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.3 }}
+                            >
+                              <h3 className="text-3xl md:text-4xl font-bold text-white mb-3">
+                                {trainingSchoolPhotos[currentSlide].title}
+                              </h3>
+                              <p className="text-lg md:text-xl text-white/90 max-w-2xl">
+                                {trainingSchoolPhotos[currentSlide].description}
+                              </p>
+                            </motion.div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    </AnimatePresence>
+
+                    {/* Navigation Buttons */}
+                    {trainingSchoolPhotos.length > 1 && (
+                      <>
+                        <button
+                          onClick={prevSlide}
+                          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-vd-blue rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110 z-10"
+                          aria-label="Previous slide"
+                        >
+                          <ChevronLeft className="w-6 h-6" />
+                        </button>
+                        <button
+                          onClick={nextSlide}
+                          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-vd-blue rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110 z-10"
+                          aria-label="Next slide"
+                        >
+                          <ChevronRight className="w-6 h-6" />
+                        </button>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Dot Indicators */}
+                  {trainingSchoolPhotos.length > 1 && (
+                    <div className="flex justify-center gap-2 mt-6">
+                      {trainingSchoolPhotos.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => goToSlide(index)}
+                          className={`h-2 rounded-full transition-all duration-300 ${
+                            index === currentSlide
+                              ? 'w-8 bg-vd-orange'
+                              : 'w-2 bg-gray-300 hover:bg-gray-400'
+                          }`}
+                          aria-label={`Go to slide ${index + 1}`}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </motion.section>
+
               {/* Training Facility */}
               <motion.section variants={fadeInUp} className="mb-16">
                 <div className="bg-white rounded-2xl shadow-lg p-8">
@@ -395,9 +575,10 @@ const VanDykUniversity = () => {
                     </div>
                     <div className="relative">
                       <img
-                        src="/Images/training-facility.jpg"
+                        src="/Images/Training School/FullSizeRender.jpg"
                         alt="Van Dyk Training Facility"
-                        className="w-full h-64 object-cover rounded-lg"
+                        className="w-full h-64 object-cover rounded-lg shadow-lg"
+                        loading="lazy"
                         onError={(e) => {
                           e.currentTarget.src = '/Images/image-1749759453479.png';
                         }}
@@ -426,7 +607,7 @@ const VanDykUniversity = () => {
               </div>
 
               <div className="grid lg:grid-cols-2 gap-8">
-                {trainingPrograms.map((program, index) => (
+                {trainingPrograms.map((program) => (
                   <motion.div
                     key={program.id}
                     variants={fadeInUp}
@@ -503,12 +684,12 @@ const VanDykUniversity = () => {
                   Upcoming Training Sessions
                 </h2>
                 <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                  Register for upcoming training sessions. Limited seats available for hands-on learning experience.
+                  Request a seat in our hands-on training sessions. Each request is reviewed by our training coordinators.
                 </p>
               </div>
 
               <div className="space-y-6">
-                {upcomingSessions.map((session, index) => (
+                {upcomingSessions.map((session) => (
                   <motion.div
                     key={session.id}
                     variants={fadeInUp}
@@ -531,22 +712,122 @@ const VanDykUniversity = () => {
                       </div>
 
                       <div className="flex items-center justify-between">
-                        <div className="text-sm text-gray-600">
-                          <div className="font-medium">Instructor:</div>
-                          {session.instructor}
+                        <div className={`text-sm font-semibold ${session.isOpen ? 'text-green-600' : 'text-red-600'}`}>
+                          {session.isOpen ? 'Open' : 'Closed'}
                         </div>
-                        <div className="text-sm">
-                          <div className="text-gray-600">Seats Available:</div>
-                          <div className="font-semibold text-vd-orange">{session.seatsAvailable}</div>
-                        </div>
-                        <button className="bg-vd-orange hover:bg-vd-orange-alt text-white px-4 py-2 rounded transition-colors">
-                          Register
+                        <button
+                          className="bg-vd-orange hover:bg-vd-orange-alt text-white px-4 py-2 rounded transition-colors"
+                          onClick={() => scrollToRequestForm(session.program)}
+                        >
+                          Request a Seat
                         </button>
                       </div>
                     </div>
                   </motion.div>
                 ))}
               </div>
+
+              <section
+                id="training-request-form"
+                className="mt-12"
+              >
+                <div className="bg-white rounded-2xl shadow-lg p-8">
+                  <h3 className="text-2xl font-bold text-vd-blue-dark mb-4">Request a Seat</h3>
+                  <p className="text-gray-600 mb-6">
+                    Complete the form below to request a seat. Requests are routed directly to <span className="font-semibold">training@vdrs.com</span> (monitored by Victoria).
+                  </p>
+                  {formStatus && (
+                    <div
+                      className={`mb-6 rounded-lg border px-4 py-3 text-sm ${
+                        formStatus.type === 'success'
+                          ? 'border-green-200 bg-green-50 text-green-700'
+                          : 'border-red-200 bg-red-50 text-red-700'
+                      }`}
+                    >
+                      {formStatus.message}
+                    </div>
+                  )}
+                  <form onSubmit={handleTrainingRequestSubmit} className="space-y-6">
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">First & Last Name</label>
+                        <input
+                          type="text"
+                          value={trainingRequest.name}
+                          onChange={(e) => setTrainingRequest((prev) => ({ ...prev, name: e.target.value }))}
+                          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-vd-orange focus:ring-2 focus:ring-vd-orange/30"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Company</label>
+                        <input
+                          type="text"
+                          value={trainingRequest.company}
+                          onChange={(e) => setTrainingRequest((prev) => ({ ...prev, company: e.target.value }))}
+                          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-vd-orange focus:ring-2 focus:ring-vd-orange/30"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <input
+                          type="email"
+                          value={trainingRequest.email}
+                          onChange={(e) => setTrainingRequest((prev) => ({ ...prev, email: e.target.value }))}
+                          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-vd-orange focus:ring-2 focus:ring-vd-orange/30"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                        <input
+                          type="tel"
+                          value={trainingRequest.phone}
+                          onChange={(e) => setTrainingRequest((prev) => ({ ...prev, phone: e.target.value }))}
+                          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-vd-orange focus:ring-2 focus:ring-vd-orange/30"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Training Class</label>
+                        <select
+                          value={trainingRequest.className}
+                          onChange={(e) => setTrainingRequest((prev) => ({ ...prev, className: e.target.value }))}
+                          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-vd-orange focus:ring-2 focus:ring-vd-orange/30"
+                        >
+                          {trainingClasses.map((trainingClass) => (
+                            <option key={trainingClass} value={trainingClass}>
+                              {trainingClass}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Additional Notes (Optional)</label>
+                        <input
+                          type="text"
+                          value={trainingRequest.notes}
+                          onChange={(e) => setTrainingRequest((prev) => ({ ...prev, notes: e.target.value }))}
+                          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-vd-orange focus:ring-2 focus:ring-vd-orange/30"
+                          placeholder="Preferred dates, team size, etc."
+                        />
+                      </div>
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full md:w-auto bg-vd-orange hover:bg-vd-orange-alt text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-200 flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                      {isSubmitting ? 'Sending...' : 'Request a Seat'}
+                    </button>
+                  </form>
+                </div>
+              </section>
 
               <div className="mt-12 text-center">
                 <div className="bg-vd-blue text-white rounded-xl p-8">

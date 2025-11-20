@@ -16,12 +16,6 @@ interface Solution {
 	benefits?: string[];
 }
 
-interface SolutionModalProps {
-	solution: Solution | null;
-	isOpen: boolean;
-	onClose: () => void;
-}
-
 // Comprehensive solutions from original website
 const solutionItems = [
 	{
@@ -686,38 +680,57 @@ const Solutions = () => {
 
 	return (
 		<div className="min-h-screen bg-gray-50">
-			{/* Hero Section */}
-			<section className="relative text-white py-20 -mt-20 pt-20 overflow-hidden">
-				{/* HD Background Image */}
-				<img 
-					src="/Images/mrf-systems.jpg"
-					alt="Recycling Solutions"
-					className="absolute inset-0 w-full h-full object-cover object-center scale-105"
-					width="1920"
-					height="1080"
+		{/* Hero Section with Background Image */}
+		<section className="relative text-white py-24 -mt-20 pt-24 overflow-hidden">
+			<div className="absolute inset-0">
+				<img
+					src={IMAGE_ASSIGNMENTS.solutions.hero}
+					alt="Recycling solutions hero"
+					className="w-full h-full object-cover object-center scale-105"
 					loading="eager"
-					decoding="sync"
+					fetchPriority="high"
 					onError={(e) => {
-						console.log('Hero image failed to load, using fallback');
-						e.currentTarget.src = '/Images/single-stream-recycling.jpg';
+						e.currentTarget.src = IMAGE_ASSIGNMENTS.homepage.heroFallback;
 					}}
 				/>
-				<div className="absolute inset-0 bg-gradient-to-br from-black/20 to-black/40"></div>
-				<div className="container mx-auto px-4 relative z-10">
+				<div className="absolute inset-0 bg-gradient-to-r from-vd-blue-dark/95 via-vd-blue/90 to-vd-blue-dark/95" />
+				<div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-vd-blue-dark/60" />
+			</div>
+			<div className="container mx-auto px-4 relative z-10 pt-8">
+				<div className="flex flex-col md:flex-row justify-between items-center">
 					<motion.div
-						initial={{ opacity: 0, y: 30 }}
+						initial={{ opacity: 0, y: 20 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.8 }}
-						className="text-center"
+						className="max-w-3xl"
 					>
-						<h1 className="text-3xl md:text-4xl font-bold mb-6">Recycling Solutions</h1>
-						<p className="text-lg md:text-xl text-blue-100 max-w-4xl mx-auto leading-relaxed">
+						<h1 className="text-3xl md:text-4xl font-bold mb-6 leading-tight pt-8">
+							Recycling Solutions
+						</h1>
+						<p className="text-xl text-blue-100 mb-8 leading-relaxed">
 							Comprehensive recycling solutions for every waste stream. From single stream recycling to waste-to-energy, 
 							we provide complete solutions for efficient material recovery and environmental compliance.
 						</p>
+						<div className="flex flex-col sm:flex-row gap-4">
+							<Link
+								to="/equipment"
+								className="bg-vd-orange hover:bg-vd-orange-alt text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5 hover:scale-105 flex items-center justify-center"
+							>
+								Explore Equipment
+								<ArrowRight className="w-5 h-5 ml-2" />
+							</Link>
+							<button
+								onClick={() => setShowQuoteForm(true)}
+								className="bg-white/20 hover:bg-white/30 text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 backdrop-blur-md border border-white/30 hover:border-white/50 flex items-center justify-center"
+							>
+								<Quote className="w-5 h-5 mr-2" />
+								Get Quote
+							</button>
+						</div>
 					</motion.div>
 				</div>
-			</section>
+			</div>
+		</section>
 
 			{/* Solutions Grid */}
 			<section className="py-20">
@@ -728,7 +741,7 @@ const Solutions = () => {
 						animate="animate"
 						className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
 					>
-						{solutionItems.map((solution, index) => (
+						{solutionItems.map((solution) => (
 							<motion.div
 								key={solution.id}
 								variants={fadeInUp}

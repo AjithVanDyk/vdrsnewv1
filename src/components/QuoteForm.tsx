@@ -196,7 +196,7 @@ const quoteFormSchema = z.object({
   firstName: z.string().min(2, 'First name must be at least 2 characters').max(50, 'First name must be less than 50 characters'),
   lastName: z.string().min(2, 'Last name must be at least 2 characters').max(50, 'Last name must be less than 50 characters'),
   email: z.string().email('Please enter a valid email address'),
-  phone: z.string().min(10, 'Phone number must be at least 10 digits').regex(/^[\+]?[1-9][\d]{0,15}$/, 'Please enter a valid phone number'),
+  phone: z.string().min(10, 'Phone number must be at least 10 digits').regex(/^[+]?[\d]{10,16}$/, 'Please enter a valid phone number'),
   company: z.string().min(2, 'Company name must be at least 2 characters').max(100, 'Company name must be less than 100 characters'),
   city: z.string().min(2, 'City must be at least 2 characters').max(50, 'City must be less than 50 characters'),
   state: z.string().min(2, 'State must be at least 2 characters').max(50, 'State must be less than 50 characters'),
