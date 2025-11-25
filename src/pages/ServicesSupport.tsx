@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { IMAGE_ASSIGNMENTS } from '../config/images';
+import { useTranslation } from '../hooks/useTranslation';
 import { 
   GraduationCap, Package, Phone, 
   ArrowRight, ExternalLink,
@@ -9,6 +10,7 @@ import {
 } from 'lucide-react';
 
 const ServicesSupport = () => {
+  const { t } = useTranslation();
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
@@ -127,31 +129,31 @@ const ServicesSupport = () => {
   const supportCards: SupportCard[] = [
     {
       id: 1,
-      title: '24×7 Technical Support',
-      description: 'Round-the-clock assistance for critical issues and emergency support. Our exceptional Van Dyk service technicians are always available.',
+      title: t('servicesSupport.technicalSupport'),
+      description: t('servicesSupport.roundTheClock'),
       features: [
-        'Immediate Response',
-        'Remote Diagnostics',
-        'Emergency Dispatch',
-        'System Monitoring'
+        t('servicesSupport.immediateResponse'),
+        t('servicesSupport.remoteDiagnostics'),
+        t('servicesSupport.emergencyDispatch'),
+        t('servicesSupport.systemMonitoring')
       ],
       contact: '203-967-1100 • service@vdrs.com',
-      image: '/Images/Services/Support/Header%20image_Support.jpeg',
+      image: '/Images/Services/Support/Header image_Support.jpeg',
       imageAlt: '24/7 technical support center',
       icon: Phone,
       imageClass: 'object-cover'
     },
     {
       id: 2,
-      title: 'Spare Parts – $35M Inventory',
-      description: 'Multi-quantity stock for most components; same-day ship on weekday orders before 5:30 PM.',
+      title: t('servicesSupport.spareParts'),
+      description: t('servicesSupport.multiQuantity'),
       features: [
-        'Multi-quantity Stock',
-        'Same-day Shipping',
-        '98% Parts Availability',
-        'Express Delivery'
+        t('servicesSupport.multiQuantityStock'),
+        t('servicesSupport.sameDayShipping'),
+        t('servicesSupport.partsAvailability'),
+        t('servicesSupport.expressDelivery')
       ],
-      cta: 'Order Parts',
+      cta: t('servicesSupport.orderParts'),
       ctaLink: 'https://www.shopvandykdirect.com/',
       ctaExternal: true,
       image: '/Images/van-dyk-direct.jpg',
@@ -161,15 +163,15 @@ const ServicesSupport = () => {
     },
     {
       id: 3,
-      title: 'Preventive Maintenance (PMI)',
-      description: 'Two expert checkups per year with full inspection, report, and small fixes within the visit window.',
+      title: t('servicesSupport.preventiveMaintenance'),
+      description: t('servicesSupport.twoCheckups'),
       features: [
-        'Asset Life Extension',
-        'Reduced Emergency Calls',
-        'Performance Optimization',
-        'Detailed Reporting'
+        t('servicesSupport.assetLifeExtension'),
+        t('servicesSupport.reducedEmergencyCalls'),
+        t('servicesSupport.performanceOptimization'),
+        t('servicesSupport.detailedReporting')
       ],
-      cta: 'Learn About PMI',
+      cta: t('servicesSupport.learnAboutPMI'),
       ctaAction: () => navigate('/pmi'),
       image: '/Images/contact-1-01725.jpg',
       imageAlt: 'Preventive maintenance inspection',
@@ -178,15 +180,15 @@ const ServicesSupport = () => {
     },
     {
       id: 4,
-      title: '50+ Field Service Technicians',
-      description: 'Nationwide coverage for repairs, retrofits, and upgrades. Factory-trained technicians available 24-48 hours response time.',
+      title: t('servicesSupport.fieldServiceTechnicians'),
+      description: t('servicesSupport.nationwideCoverage'),
       features: [
-        'Nationwide Coverage',
-        'Factory-Trained Staff',
-        '24-48 Hour Response',
-        'On-Call Support'
+        t('servicesSupport.nationwideCoverageFeature'),
+        t('servicesSupport.factoryTrainedStaff'),
+        t('servicesSupport.hourResponse'),
+        t('servicesSupport.onCallSupport')
       ],
-      contact: 'Available for emergency calls and scheduled service',
+      contact: t('servicesSupport.availableForEmergency'),
       image: '/Images/contact-wm-mesquite-10.jpg',
       imageAlt: 'Field service technicians at work',
       icon: Users,
@@ -194,15 +196,15 @@ const ServicesSupport = () => {
     },
     {
       id: 5,
-      title: 'Van Dyk University',
-      description: 'Hands-on classroom and line-side training for operators and maintenance teams with certification programs.',
+      title: t('servicesSupport.vanDykUniversity'),
+      description: t('servicesSupport.handsOnTraining'),
       features: [
-        'Classroom Training',
-        'Hands-on Experience',
-        'Certification Programs',
-        'Ongoing Education'
+        t('servicesSupport.classroomTraining'),
+        t('servicesSupport.handsOnExperience'),
+        t('servicesSupport.certificationPrograms'),
+        t('servicesSupport.ongoingEducation')
       ],
-      cta: 'View Courses',
+      cta: t('servicesSupport.viewCourses'),
       ctaLink: '/van-dyk-university',
       image: '/Images/van-dyk-university.jpg',
       imageAlt: 'Van Dyk University training facility',
@@ -211,22 +213,55 @@ const ServicesSupport = () => {
     },
     {
       id: 6,
-      title: 'Material Testing Center',
-      description: 'The largest material test center in the recycling industry with 36,000 square feet of testing space and full-scale equipment replication.',
+      title: t('servicesSupport.materialTestingCenter'),
+      description: t('servicesSupport.largestTestCenter'),
       features: [
-        '4 Optical Sorters',
-        'Various Screens',
-        'Elliptical Separator',
-        'Air Systems'
+        t('servicesSupport.opticalSorters'),
+        t('servicesSupport.variousScreens'),
+        t('servicesSupport.ellipticalSeparator'),
+        t('servicesSupport.airSystems')
       ],
-      cta: 'Visit Test Center',
+      cta: t('servicesSupport.visitTestCenter'),
       ctaLink: '/test-center',
-      image: '/Images/Services/Test%20Center/Test%20Center%202025%20best.JPG',
+      image: '/Images/Services/Test Center/Test Center 2025 best.JPG',
       imageAlt: 'Material Testing Center with recycling equipment',
       icon: Eye,
       imageClass: 'object-cover'
     }
   ];
+
+  const handleCardClick = (card: SupportCard) => {
+    // 24x7 Technical Support - Call to action
+    if (card.id === 1) {
+      window.location.href = 'tel:203-967-1100';
+      return;
+    }
+    // Spare Parts - External link
+    if (card.id === 2 && card.ctaExternal && card.ctaLink) {
+      window.open(card.ctaLink, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    // PMI - Navigate to PMI page
+    if (card.id === 3 && card.ctaAction) {
+      card.ctaAction();
+      return;
+    }
+    // Van Dyk University - Navigate to university page
+    if (card.id === 5 && card.ctaLink) {
+      navigate(card.ctaLink);
+      return;
+    }
+    // Material Testing Center - Navigate to test center page
+    if (card.id === 6 && card.ctaLink) {
+      navigate(card.ctaLink);
+      return;
+    }
+    // 50+ Field Service Technicians - Navigate to careers
+    if (card.id === 4) {
+      navigate('/careers');
+      return;
+    }
+  };
 
   const renderCard = (card: SupportCard, index: number) => (
     <motion.div
@@ -239,7 +274,8 @@ const ServicesSupport = () => {
         y: -8,
         transition: { duration: 0.3 }
       }}
-      className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-300 group h-full flex flex-col"
+      onClick={() => handleCardClick(card)}
+      className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-300 group h-full flex flex-col cursor-pointer"
     >
       <div className="relative aspect-video overflow-hidden">
         <img
@@ -285,10 +321,11 @@ const ServicesSupport = () => {
 
         {card.cta && (
           card.ctaAction ? (
-            <motion.button
-              onClick={card.ctaAction}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                card.ctaAction?.();
+              }}
               className="text-vd-orange font-semibold inline-flex items-center hover:text-vd-orange-alt transition-colors group/btn"
             >
               {card.cta}
@@ -299,25 +336,29 @@ const ServicesSupport = () => {
               >
                 <ArrowRight className="w-4 h-4" />
               </motion.div>
-            </motion.button>
+            </div>
           ) : card.ctaExternal ? (
-            <a
-              href={card.ctaLink}
-              target="_blank"
-              rel="noopener noreferrer"
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                window.open(card.ctaLink, '_blank', 'noopener,noreferrer');
+              }}
               className="text-vd-orange font-semibold inline-flex items-center hover:text-vd-orange-alt transition-colors group/btn"
             >
               {card.cta}
               <ExternalLink className="w-4 h-4 ml-1" />
-            </a>
+            </div>
           ) : card.ctaLink ? (
-            <Link
-              to={card.ctaLink || '#'}
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(card.ctaLink || '#');
+              }}
               className="text-vd-orange font-semibold inline-flex items-center hover:text-vd-orange-alt transition-colors group/btn"
             >
               {card.cta}
               <ArrowRight className="w-4 h-4 ml-1" />
-            </Link>
+            </div>
           ) : null
         )}
 
@@ -360,7 +401,7 @@ const ServicesSupport = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-3xl md:text-4xl font-bold mb-6"
             >
-              Services & Support
+              {t('servicesSupport.servicesSupport')}
             </motion.h1>
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
@@ -368,7 +409,7 @@ const ServicesSupport = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="text-lg text-gray-100 mb-8 leading-relaxed"
             >
-              Comprehensive recycling solutions from design and startup to training and 24×7 after-sales support
+              {t('servicesSupport.comprehensive')}
             </motion.p>
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -384,7 +425,7 @@ const ServicesSupport = () => {
                   to="/contact"
                   className="bg-vd-orange hover:bg-vd-orange-alt text-white px-8 py-3 rounded-lg font-semibold transition-colors inline-flex items-center justify-center shadow-lg hover:shadow-xl"
                 >
-                  Get Started Today
+                  {t('servicesSupport.getStartedToday')}
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Link>
               </motion.div>
@@ -397,7 +438,7 @@ const ServicesSupport = () => {
                   className="bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm px-8 py-3 rounded-lg font-semibold transition-colors inline-flex items-center justify-center border border-white/20 hover:border-white/40"
                 >
                   <Phone className="w-5 h-5 mr-2" />
-                  Call: 203-967-1100
+                  {t('servicesSupport.call')}
                 </a>
               </motion.div>
             </motion.div>
@@ -433,10 +474,10 @@ const ServicesSupport = () => {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-white to-vd-orange bg-clip-text text-transparent">
-              Why Choose Van Dyk?
+              {t('servicesSupport.whyChoose')}
             </h2>
             <p className="text-xl text-gray-200 max-w-2xl mx-auto">
-              Numbers that speak for our commitment to excellence and innovation in waste processing
+              {t('servicesSupport.numbers')}
             </p>
           </motion.div>
           
@@ -512,9 +553,9 @@ const ServicesSupport = () => {
         }}></div>
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-vd-blue mb-4">Support</h2>
+            <h2 className="text-3xl font-bold text-vd-blue mb-4">{t('servicesSupport.support')}</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Everything you need to keep running—on call, online, and on site
+              {t('servicesSupport.everythingYouNeed')}
             </p>
           </div>
           
@@ -533,9 +574,9 @@ const ServicesSupport = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl font-bold text-vd-blue mb-4">Industry Leadership</h2>
+            <h2 className="text-3xl font-bold text-vd-blue mb-4">{t('servicesSupport.industryLeadership')}</h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Trusted by leading recycling facilities across North America
+              {t('servicesSupport.trustedByLeaders')}
             </p>
           </motion.div>
 
@@ -582,10 +623,10 @@ const ServicesSupport = () => {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-vd-blue mb-4">
-              What Our Customers Say
+              {t('servicesSupport.whatCustomersSay')}
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Real feedback from satisfied customers who trust Van Dyk for their recycling needs
+              {t('servicesSupport.realFeedback')}
             </p>
           </motion.div>
 

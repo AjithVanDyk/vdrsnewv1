@@ -69,7 +69,7 @@ export async function submitContactForm(formData: ContactFormData): Promise<Form
     // 3. Return success/error response
     
     // For now, we'll simulate a successful submission
-    console.log('Form submission data:', formData);
+    // Form submission logged
     
     // Track form submission in analytics
     if (typeof window !== 'undefined' && window.gtag) {
@@ -129,7 +129,7 @@ export async function submitQuoteForm(formData: ContactFormData & {
 
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    console.log('Quote form submission data:', formData);
+    // Quote form submission logged
     
     // Track quote request in analytics
     if (typeof window !== 'undefined' && window.gtag) {
@@ -176,7 +176,7 @@ export async function submitApplicationForm(formData: ContactFormData & {
 
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    console.log('Application form submission data:', formData);
+    // Application form submission logged
     
     // Track job application in analytics
     if (typeof window !== 'undefined' && window.gtag) {

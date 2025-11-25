@@ -32,32 +32,35 @@ const Sitemap = () => {
 
   const siteStructure = [
     {
-      category: 'Main Pages',
+      category: 'Home',
       pages: [
-        { name: 'Home', path: '/', description: 'Main landing page' },
-        { name: 'About Us', path: '/about', description: 'Company information and history' },
-        { name: 'Contact Us', path: '/contact', description: 'Contact information and forms' },
-        { name: 'Careers', path: '/careers', description: 'Job opportunities and applications' },
-        { name: 'Privacy Policy', path: '/privacy-policy', description: 'Privacy policy and data protection' }
+        { name: 'Home', path: '/', description: 'Main landing page' }
+      ]
+    },
+    {
+      category: 'About Us',
+      pages: [
+        { name: 'About Van Dyk', path: '/about', description: 'Company information and team' },
+        { name: 'Careers', path: '/careers', description: 'Job opportunities and applications' }
       ]
     },
     {
       category: 'Equipment',
       pages: [
         { name: 'All Equipment', path: '/equipment', description: 'Complete equipment overview' },
-        { name: 'Bollegraaf Balers', path: '/equipment/bollegraaf', description: 'High production balers' },
+        { name: 'Bollegraaf Recycling Solutions', path: '/equipment/bollegraaf', description: 'High production balers' },
         { name: 'TOMRA Optical Sorting', path: '/equipment/tomra', description: 'Advanced optical sorting technology' },
         { name: 'Pellenc ST Optical Sorting', path: '/equipment/pellenc-st', description: 'Precision optical sorting systems' },
         { name: 'Lubo Screening', path: '/equipment/lubo-screening', description: 'Advanced screening technology' },
-        { name: 'Smicon Depackager', path: '/equipment/smicon-depackager', description: 'Food waste depackaging systems' },
-        { name: 'Walair Density Separation', path: '/equipment/walair-density-separation', description: 'Density-based separation technology' },
-        { name: 'Gunther Screens', path: '/equipment/gunther-screens', description: 'High-performance screening equipment' },
+        { name: 'Günther Screens', path: '/equipment/gunther-screens', description: 'High-performance screening equipment' },
+        { name: 'Smicon Food Waste Depackagers', path: '/equipment/smicon-depackager', description: 'Food waste depackaging systems' },
+        { name: 'Walair Density Separation Technology', path: '/equipment/walair-density-separation', description: 'Density-based separation technology' },
         { name: 'Centriair Odor Control', path: '/equipment/centriair-odor-control', description: 'Industrial odor control systems' },
         { name: 'Greyparrot AI', path: '/equipment/greyparrot-ai', description: 'AI-powered waste analysis' },
         { name: 'Densimetric Table', path: '/equipment/densimetric-table', description: 'Density separation technology' },
-        { name: 'BeeFoam Dust Suppression', path: '/equipment/beefoam-dust-suppression', description: 'Dust suppression systems' },
-        { name: 'Reckelberg Environmental', path: '/equipment/reckelberg-environmental', description: 'Environmental technology solutions' },
-        { name: 'Certified Pre-Owned', path: '/equipment/certified-pre-owned', description: 'Certified pre-owned equipment' },
+        { name: 'BeeFoam Dust Suppression System', path: '/equipment/beefoam-dust-suppression', description: 'Dust suppression systems' },
+        { name: 'Reckelberg Environmental Technologies', path: '/equipment/reckelberg-environmental', description: 'Environmental technology solutions' },
+        { name: 'Certified Pre-Owned Equipment', path: '/equipment/certified-pre-owned', description: 'Certified pre-owned equipment' },
         { name: 'Glass Cleanup Systems', path: '/equipment/glass-cleanup-systems', description: 'Glass processing and cleanup' }
       ]
     },
@@ -66,44 +69,57 @@ const Sitemap = () => {
       pages: [
         { name: 'All Solutions', path: '/solutions', description: 'Complete solutions overview' },
         { name: 'Single Stream Recycling', path: '/solutions/single-stream-recycling', description: 'Single stream processing solutions' },
-        { name: 'Electronics Waste Recycling', path: '/solutions/electronics-waste-recycling', description: 'E-waste processing solutions' },
-        { name: 'Battery Recycling Systems', path: '/solutions/battery-recycling-systems', description: 'Battery processing technology' },
-        { name: 'Glass Cleanup', path: '/solutions/glass-cleanup', description: 'Glass processing solutions' },
-        { name: 'Composting Densimetric Tables', path: '/solutions/composting-densimetric-tables', description: 'Compost processing technology' },
-        { name: 'Food Waste Depackaging', path: '/solutions/food-waste-depackaging', description: 'Food waste processing solutions' },
-        { name: 'MSW Processing', path: '/solutions/msw-processing', description: 'Municipal solid waste processing' },
-        { name: 'Commercial Waste', path: '/solutions/commercial-waste', description: 'Commercial waste solutions' },
-        { name: 'C&D Recycling', path: '/solutions/cd-recycling', description: 'Construction and demolition recycling' },
-        { name: 'Multi-MRF Systems', path: '/solutions/multi-mrf-systems', description: 'Multi-material recovery facilities' },
-        { name: 'Waste to Energy', path: '/solutions/waste-to-energy', description: 'Waste-to-energy solutions' },
-        { name: 'Plastics Recycling', path: '/solutions/plastics-recycling', description: 'Plastic processing solutions' },
-        { name: 'Organics Processing', path: '/solutions/organics-processing', description: 'Organic waste processing' },
         { name: 'Bollegraaf Balers', path: '/solutions/bollegraaf-balers', description: 'Balers for various applications' },
+        { name: 'Commercial Waste Recycling', path: '/solutions/commercial-waste', description: 'Commercial waste solutions' },
+        { name: 'Construction & Demolition Recycling', path: '/solutions/cd-recycling', description: 'C&D recycling solutions' },
+        { name: 'Multi-MRF Systems', path: '/solutions/multi-mrf-systems', description: 'Multi-material recovery facilities' },
+        { name: 'MSW Processing', path: '/solutions/msw-processing', description: 'Municipal solid waste processing' },
+        { name: 'Waste-to-Energy Recycling', path: '/solutions/waste-to-energy', description: 'Waste-to-energy solutions' },
+        { name: 'Plastics Recycling & Sorting Systems', path: '/solutions/plastics-recycling', description: 'Plastic processing solutions' },
+        { name: 'Electronics Recycling', path: '/solutions/electronics-waste-recycling', description: 'E-waste processing solutions' },
+        { name: 'Glass Clean-Up', path: '/solutions/glass-cleanup', description: 'Glass processing solutions' },
+        { name: 'Composting', path: '/solutions/composting-densimetric-tables', description: 'Compost processing technology' },
+        { name: 'SMICON Depackaging Machines – Food Waste Recycling', path: '/solutions/food-waste-depackaging', description: 'Food waste processing solutions' },
+        { name: 'Organics Processing', path: '/solutions/organics-processing', description: 'Organic waste processing' },
         { name: 'AI Waste Analysis', path: '/solutions/ai-waste-analysis', description: 'AI-powered waste analysis' },
-        { name: 'Odor Control', path: '/solutions/centriair-odor-control', description: 'Industrial odor control' },
-        { name: 'EV Battery Recycling', path: '/solutions/ev-battery-recycling', description: 'Electric vehicle battery recycling' }
+        { name: 'Centriair Odor Control', path: '/solutions/centriair-odor-control', description: 'Industrial odor control' }
       ]
     },
     {
       category: 'Services',
       pages: [
-        { name: 'All Services', path: '/support', description: 'Complete services overview' },
-        { name: 'PMI Services', path: '/pmi', description: 'Preventive maintenance inspections' },
-        { name: 'Van Dyk University', path: '/van-dyk-university', description: 'Professional training programs' },
-        { name: 'Parts in Stock', path: '/parts-in-stock', description: 'Immediate parts delivery' },
+        { name: 'Services', path: '/support', description: 'Complete services overview' },
+        { name: 'Support', path: '/support', description: 'Lifetime customer support' },
+        { name: 'Parts', path: '/parts-in-stock', description: 'Parts in stock for immediate delivery' },
+        { name: 'Preventive Maintenance', path: '/pmi', description: 'PMI plans and services' },
+        { name: 'Training', path: '/van-dyk-university', description: 'Professional training programs' },
+        { name: 'Classroom Training', path: '/van-dyk-university', description: 'Hands-on classroom training' },
+        { name: 'Technology & Material Test Center', path: '/test-center', description: 'Material testing facility' },
         { name: 'Remote Troubleshooting', path: '/remote-troubleshooting', description: 'Vision AR remote support' },
-        { name: 'Get Quote', path: '/quote', description: 'Request equipment quote' },
-        { name: 'Test Center', path: '/test-center', description: 'Material testing facility' },
-        { name: 'Training Schedule', path: '/training-schedule', description: 'Training program schedules' }
+        { name: 'Get Quote', path: '/quote', description: 'Request equipment quote' }
       ]
     },
     {
-      category: 'News & Media',
+      category: 'News and Media',
       pages: [
-        { name: 'All News', path: '/news-media', description: 'Latest news and updates' },
+        { name: 'News & Media', path: '/news-media', description: 'Latest news and updates' },
         { name: 'Videos', path: '/videos', description: 'Equipment and process videos' },
-        { name: 'Expert Tips', path: '/expert-tips', description: 'Industry insights and tips' },
-        { name: 'Our Customers in the News', path: '/our-customers-in-the-news', description: 'Customer success stories' }
+        { name: 'Expert Tips', path: '/expert-tips', description: 'Industry insights and tips' }
+      ]
+    },
+    {
+      category: 'Contact',
+      pages: [
+        { name: 'Contact', path: '/contact', description: 'Contact information and forms' },
+        { name: 'Get Quote', path: '/quote', description: 'Request equipment quote' },
+        { name: 'Test Your Recyclable Material', path: '/test-center', description: 'Schedule material testing' }
+      ]
+    },
+    {
+      category: 'Legal & Policies',
+      pages: [
+        { name: 'Privacy Policy', path: '/privacy-policy', description: 'Privacy policy and data protection' },
+        { name: 'Cookie Policy', path: '/cookie-policy', description: 'Cookie usage and preferences' }
       ]
     }
   ];

@@ -4,6 +4,8 @@ import { ArrowRight, X, CheckCircle, Quote } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import QuoteForm from '../components/QuoteForm';
 import { IMAGE_ASSIGNMENTS } from '../config/images';
+import { useTranslation } from '../hooks/useTranslation';
+import { animationConfig } from '../utils/animations';
 
 interface Solution {
 	id?: number;
@@ -629,6 +631,7 @@ const solutionItems = [
 ];
 
 const Solutions = () => {
+	const { t } = useTranslation();
 	const navigate = useNavigate();
 	const [selectedSolution, setSelectedSolution] = useState<Solution | null>(null);
 	const [showSolutionModal, setShowSolutionModal] = useState(false);
@@ -664,19 +667,8 @@ const Solutions = () => {
 		}
 	};
 
-	const fadeInUp = {
-		initial: { opacity: 0, y: 60 },
-		animate: { opacity: 1, y: 0 },
-		transition: { duration: 0.6 }
-	};
-
-	const staggerChildren = {
-		animate: {
-			transition: {
-				staggerChildren: 0.1
-			}
-		}
-	};
+	const fadeInUp = animationConfig.fadeInUp;
+	const staggerChildren = animationConfig.staggerContainer;
 
 	return (
 		<div className="min-h-screen bg-gray-50">
@@ -696,27 +688,26 @@ const Solutions = () => {
 				<div className="absolute inset-0 bg-gradient-to-r from-vd-blue-dark/95 via-vd-blue/90 to-vd-blue-dark/95" />
 				<div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-vd-blue-dark/60" />
 			</div>
-			<div className="container mx-auto px-4 relative z-10 pt-8">
+			<div className="container mx-auto px-4 relative z-10 pt-20">
 				<div className="flex flex-col md:flex-row justify-between items-center">
 					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						transition={{ duration: 0.8 }}
-						className="max-w-3xl"
+						initial={fadeInUp.initial}
+						animate={fadeInUp.animate}
+						transition={fadeInUp.transition}
+						className="max-w-3xl w-full"
 					>
-						<h1 className="text-3xl md:text-4xl font-bold mb-6 leading-tight pt-8">
-							Recycling Solutions
+						<h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+							{t('common.recyclingSolutions')}
 						</h1>
 						<p className="text-xl text-blue-100 mb-8 leading-relaxed">
-							Comprehensive recycling solutions for every waste stream. From single stream recycling to waste-to-energy, 
-							we provide complete solutions for efficient material recovery and environmental compliance.
+							{t('common.recyclingSolutionsDesc')}
 						</p>
 						<div className="flex flex-col sm:flex-row gap-4">
 							<Link
 								to="/equipment"
 								className="bg-vd-orange hover:bg-vd-orange-alt text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5 hover:scale-105 flex items-center justify-center"
 							>
-								Explore Equipment
+								{t('common.exploreEquipment')}
 								<ArrowRight className="w-5 h-5 ml-2" />
 							</Link>
 							<button
@@ -724,7 +715,7 @@ const Solutions = () => {
 								className="bg-white/20 hover:bg-white/30 text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 backdrop-blur-md border border-white/30 hover:border-white/50 flex items-center justify-center"
 							>
 								<Quote className="w-5 h-5 mr-2" />
-								Get Quote
+								{t('common.getQuote')}
 							</button>
 						</div>
 					</motion.div>
@@ -745,14 +736,20 @@ const Solutions = () => {
 							<motion.div
 								key={solution.id}
 								variants={fadeInUp}
-								whileHover={{ y: -5 }}
-								className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300"
+								whileHover={{ 
+									scale: 1.03,
+									y: -8,
+									transition: { duration: 0.3, ease: "easeOut" }
+								}}
+								whileTap={{ scale: 0.98 }}
+								onClick={() => handleLearnMore(solution)}
+								className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer group"
 							>
-								<div className="relative h-48 overflow-hidden">
+									<div className="relative h-48 overflow-hidden">
 									<img
 										src={solution.image}
 										alt={solution.name}
-										className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+										className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
 									/>
 									<div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
 								</div>
@@ -773,11 +770,14 @@ const Solutions = () => {
 									</div>
 									
 									<button
-										onClick={() => handleLearnMore(solution)}
-										className="w-full bg-vd-blue text-white py-3 px-4 rounded-lg font-semibold hover:bg-vd-blue-dark transition-colors duration-300 flex items-center justify-center gap-2"
+										onClick={(e) => {
+											e.stopPropagation();
+											handleLearnMore(solution);
+										}}
+										className="w-full bg-vd-blue text-white py-3 px-4 rounded-lg font-semibold hover:bg-vd-blue-dark transition-all duration-300 flex items-center justify-center gap-2 group-hover:shadow-lg"
 									>
-										Learn More
-										<ArrowRight className="w-4 h-4" />
+										{t('common.learnMore')}
+										<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
 									</button>
 								</div>
 							</motion.div>
@@ -803,7 +803,7 @@ const Solutions = () => {
 						>
 							<div className="p-6">
 								<div className="flex justify-between items-center mb-6">
-									<h2 className="text-2xl font-bold text-vd-blue-dark">Get a Quote</h2>
+									<h2 className="text-2xl font-bold text-vd-blue-dark">{t('common.getAQuote')}</h2>
 									<button
 										onClick={() => setShowQuoteForm(false)}
 										className="p-2 hover:bg-gray-100 rounded-full transition-colors"
@@ -857,7 +857,7 @@ const Solutions = () => {
 									<div className="space-y-6">
 										{selectedSolution.features && (
 											<div>
-												<h3 className="text-lg font-semibold text-vd-blue-dark mb-3">Key Features</h3>
+												<h3 className="text-lg font-semibold text-vd-blue-dark mb-3">{t('common.keyFeatures')}</h3>
 												<ul className="space-y-2">
 													{selectedSolution.features.map((feature, index) => (
 														<li key={index} className="flex items-start gap-2">
@@ -871,7 +871,7 @@ const Solutions = () => {
 										
 										{selectedSolution.specifications && (
 											<div>
-												<h3 className="text-lg font-semibold text-vd-blue-dark mb-3">Specifications</h3>
+												<h3 className="text-lg font-semibold text-vd-blue-dark mb-3">{t('common.specifications')}</h3>
 												<div className="space-y-2">
 													{Object.entries(selectedSolution.specifications).map(([key, value]) => (
 														<div key={key} className="flex justify-between">
@@ -891,13 +891,13 @@ const Solutions = () => {
 										className="bg-vd-blue text-white px-6 py-3 rounded-lg font-semibold hover:bg-vd-blue-dark transition-colors duration-300 flex items-center gap-2"
 									>
 										<Quote className="w-5 h-5" />
-										Get a Quote
+										{t('common.getAQuote')}
 									</button>
 									<Link
 										to="/contact"
 										className="bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 transition-colors duration-300"
 									>
-										Contact Us
+										{t('common.contactUs')}
 									</Link>
 								</div>
 							</div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Building2, Newspaper, Award, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+import { useTranslation } from '../hooks/useTranslation';
 
 interface Organization {
   name: string;
@@ -28,6 +29,7 @@ const IndustryRecognition: React.FC<IndustryRecognitionProps> = ({
   className = '',
   displayMode = 'hybrid'
 }) => {
+  const { t } = useTranslation();
   const [currentNewsIndex, setCurrentNewsIndex] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
   const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
@@ -116,10 +118,10 @@ const IndustryRecognition: React.FC<IndustryRecognitionProps> = ({
           <Building2 className="w-6 h-6 text-vd-orange" />
         </div>
         <h2 className="text-2xl md:text-3xl font-bold text-vd-blue-dark mb-3">
-          Proud Members
+          {t('industryRecognition.proudMembers')}
         </h2>
         <p className="text-gray-600 max-w-2xl mx-auto">
-          Active members of leading recycling and waste management associations, shaping the future of our industry.
+          {t('industryRecognition.membersDescription')}
         </p>
       </div>
       
@@ -180,10 +182,10 @@ const IndustryRecognition: React.FC<IndustryRecognitionProps> = ({
           <Newspaper className="w-6 h-6 text-vd-orange" />
         </div>
         <h2 className="text-2xl md:text-3xl font-bold text-vd-blue-dark mb-3">
-          Featured in the News
+          {t('industryRecognition.featuredInNews')}
         </h2>
         <p className="text-gray-600 max-w-2xl mx-auto">
-          Recent coverage, trade show appearances, and industry recognition.
+          {t('industryRecognition.newsDescription')}
         </p>
       </div>
 
@@ -204,8 +206,8 @@ const IndustryRecognition: React.FC<IndustryRecognitionProps> = ({
                     <Award className="w-5 h-5 text-vd-orange" />
                   )}
                   <span className="text-sm text-vd-orange font-semibold uppercase tracking-wide">
-                    {newsItems[currentNewsIndex].type === 'featured' ? 'Featured' : 
-                     newsItems[currentNewsIndex].type === 'trade-show' ? 'Trade Show' : 'News'}
+                    {newsItems[currentNewsIndex].type === 'featured' ? t('industryRecognition.featured') : 
+                     newsItems[currentNewsIndex].type === 'trade-show' ? t('industryRecognition.tradeShow') : t('industryRecognition.news')}
                   </span>
                   <span className="text-sm text-gray-500">
                     {new Date(newsItems[currentNewsIndex].date).toLocaleDateString('en-US', { 
@@ -226,7 +228,7 @@ const IndustryRecognition: React.FC<IndustryRecognitionProps> = ({
                     to={newsItems[currentNewsIndex].link!}
                     className="inline-flex items-center text-vd-orange hover:text-vd-orange-alt font-semibold transition-colors"
                   >
-                    Learn More
+                    {t('industryRecognition.learnMore')}
                     <ExternalLink className="w-4 h-4 ml-2" />
                   </Link>
                 )}
@@ -291,10 +293,10 @@ const IndustryRecognition: React.FC<IndustryRecognitionProps> = ({
           <Building2 className="w-6 h-6 text-vd-orange" />
         </div>
         <h2 className="text-xl md:text-2xl font-bold text-vd-blue-dark mb-3">
-          Industry Organizations
+          {t('industryRecognition.industryOrganizations')}
         </h2>
         <p className="text-gray-600 text-sm">
-          Active members of leading recycling associations
+          {t('industryRecognition.organizationsDescription')}
         </p>
       </div>
       

@@ -108,7 +108,7 @@ class ErrorMonitor {
     url: string;
   }): void {
     if (process.env.NODE_ENV === 'development') {
-      console.log('Performance metric:', metric);
+      // Performance metric logged
     }
 
     // In production, send to analytics service
@@ -121,7 +121,7 @@ class ErrorMonitor {
   private async sendToAnalyticsService(metric: any): Promise<void> {
     try {
       // In a real application, integrate with analytics service
-      console.log('Analytics metric:', metric);
+      // Analytics metric logged
     } catch (error) {
       console.error('Failed to send analytics metric:', error);
     }

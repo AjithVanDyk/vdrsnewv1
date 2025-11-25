@@ -5,7 +5,7 @@ const BollegraafPage: React.FC = () => {
   const equipment = {
     id: 1,
     name: 'Bollegraaf Balers',
-    image: '/Images/equipment-bollegraaf-product.jpg',
+    image: '/Images/Equipment/Bollegraaf/Product image_baler.jpg',
     description: 'Industry-leading single ram balers with no-shear design for maximum efficiency and density. Single ram uses 1/3 power of two-ram balers and operates automatically without dedicated operator.',
     features: [
       'Single ram uses 1/3 power of two-ram balers',

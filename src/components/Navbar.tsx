@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Phone, ChevronDown } from 'lucide-react';
+import { Menu, X, Phone, ChevronDown, Globe } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
+import { useTranslation } from '../hooks/useTranslation';
+import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
+import { getMotionConfig } from '../utils/animations';
 
 interface NavItem {
   name: string;
@@ -20,7 +24,11 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [hasHeroImage, setHasHeroImage] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [languageDropdownOpen, setLanguageDropdownOpen] = useState(false);
   const location = useLocation();
+  const { language, setLanguage } = useLanguage();
+  const { t } = useTranslation();
+  const prefersReducedMotion = usePrefersReducedMotion();
   
   useEffect(() => {
     // Check if current page has hero image - more comprehensive detection
@@ -36,18 +44,7 @@ const Navbar = () => {
     } else {
       setHasHeroImage(isHeroPage);
     }
-    
-    // Debug logging (development only)
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-      console.log('Navbar Debug:', { 
-        currentPath, 
-        isHeroPage, 
-        isDarkHeroPage,
-        isScrolled, 
-        hasHeroImage: isDarkHeroPage ? false : isHeroPage 
-      });
-    }
-  }, [location.pathname, isScrolled]);
+  }, [location.pathname]);
 
   const toggleDropdown = (itemName: string) => {
     setActiveDropdown(activeDropdown === itemName ? null : itemName);
@@ -76,6 +73,9 @@ const Navbar = () => {
       if (activeDropdown && !(e.target as Element).closest('.dropdown-container')) {
         setActiveDropdown(null);
       }
+      if (languageDropdownOpen && !(e.target as Element).closest('.dropdown-container')) {
+        setLanguageDropdownOpen(false);
+      }
     };
     
     window.addEventListener('scroll', handleScroll);
@@ -85,73 +85,73 @@ const Navbar = () => {
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('click', handleClickOutside);
     };
-  }, [activeDropdown]);
+  }, [activeDropdown, languageDropdownOpen]);
 
 
   const navItems: NavItem[] = [
     { 
-      name: 'Home', 
+      name: t('nav.home'), 
       path: '/'
     },
     { 
-      name: 'Equipment', 
+      name: t('nav.equipment'), 
       path: '/equipment',
       dropdown: [
-        { name: 'All Equipment', path: '/equipment' },
-        { name: 'Bollegraaf Balers', path: '/equipment/bollegraaf' },
-        { name: 'Optical Sorters', path: '/equipment/tomra' },
-        { name: 'Pellenc ST Optical', path: '/equipment/pellenc-st' },
-        { name: 'Lubo Screens', path: '/equipment/lubo-screening' },
-        { name: 'Smicon Depackager', path: '/equipment/smicon-depackager' },
-        { name: 'Greyparrot AI', path: '/equipment/greyparrot-ai' },
-        { name: 'Centriair Odor Control', path: '/equipment/centriair-odor-control' },
-        { name: 'Certified Pre-Owned', path: '/equipment/certified-pre-owned' },
-        { name: 'Get a Quote', path: '/quote' }
+        { name: t('equipment.allEquipment'), path: '/equipment' },
+        { name: t('equipment.bollegraafBalers'), path: '/equipment/bollegraaf' },
+        { name: t('equipment.opticalSorters'), path: '/equipment/tomra' },
+        { name: t('equipment.pellencST'), path: '/equipment/pellenc-st' },
+        { name: t('equipment.luboScreens'), path: '/equipment/lubo-screening' },
+        { name: t('equipment.smiconDepackager'), path: '/equipment/smicon-depackager' },
+        { name: t('equipment.greyparrotAI'), path: '/equipment/greyparrot-ai' },
+        { name: t('equipment.centriairOdorControl'), path: '/equipment/centriair-odor-control' },
+        { name: t('equipment.certifiedPreOwned'), path: '/equipment/certified-pre-owned' },
+        { name: t('equipment.getQuote'), path: '/quote' }
       ]
     },
     { 
-      name: 'Solutions', 
+      name: t('nav.solutions'), 
       path: '/solutions',
       dropdown: [
-        { name: 'All Solutions', path: '/solutions' },
-        { name: 'Single Stream Recycling', path: '/solutions/single-stream-recycling' },
-        { name: 'Plastics Recycling', path: '/solutions/plastics-recycling' },
-        { name: 'Organics Processing', path: '/solutions/organics-processing' },
-        { name: 'Food Waste Depackaging', path: '/solutions/food-waste-depackaging' },
-        { name: 'MSW Processing', path: '/solutions/msw-processing' },
-        { name: 'Commercial Waste', path: '/solutions/commercial-waste' },
-        { name: 'C&D Recycling', path: '/solutions/cd-recycling' },
-        { name: 'Glass Cleanup', path: '/solutions/glass-cleanup' },
-        { name: 'Waste to Energy', path: '/solutions/waste-to-energy' },
-        { name: 'Get a Quote', path: '/quote' }
+        { name: t('solutions.allSolutions'), path: '/solutions' },
+        { name: t('solutions.singleStreamRecycling'), path: '/solutions/single-stream-recycling' },
+        { name: t('solutions.plasticsRecycling'), path: '/solutions/plastics-recycling' },
+        { name: t('solutions.organicsProcessing'), path: '/solutions/organics-processing' },
+        { name: t('solutions.foodWasteDepackaging'), path: '/solutions/food-waste-depackaging' },
+        { name: t('solutions.mswProcessing'), path: '/solutions/msw-processing' },
+        { name: t('solutions.commercialWaste'), path: '/solutions/commercial-waste' },
+        { name: t('solutions.cdRecycling'), path: '/solutions/cd-recycling' },
+        { name: t('solutions.glassCleanup'), path: '/solutions/glass-cleanup' },
+        { name: t('solutions.wasteToEnergy'), path: '/solutions/waste-to-energy' }
       ]
     },
     { 
-      name: 'Services', 
+      name: t('nav.services'), 
       path: '/support',
       dropdown: [
-        { name: 'Unmatched Customer Support', path: '/support' },
-        { name: 'Test Center', path: '/test-center' },
-        { name: 'Van Dyk University', path: '/van-dyk-university' },
-        { name: 'PMI Plans', path: '/pmi' }
+        { name: t('services.unmatchedSupport'), path: '/support' },
+        { name: t('services.spareParts'), path: '/parts-in-stock' },
+        { name: t('services.pmiPlans'), path: '/pmi' },
+        { name: t('services.vanDykUniversity'), path: '/van-dyk-university' },
+        { name: t('services.testCenter'), path: '/test-center' }
       ]
     },
     { 
-      name: 'News and Media', 
+      name: t('nav.newsMedia'), 
       path: '/news-media',
       dropdown: [
-        { name: 'Latest News', path: '/news-media' },
-        { name: 'Videos', path: '/videos' },
-        { name: 'Expert Tips', path: '/expert-tips' }
+        { name: t('newsMedia.latestNews'), path: '/news-media' },
+        { name: t('newsMedia.videos'), path: '/videos' },
+        { name: t('newsMedia.expertTips'), path: '/expert-tips' }
       ]
     },
     { 
-      name: 'About Us', 
+      name: t('nav.aboutUs'), 
       path: '/about',
       dropdown: [
-        { name: 'Meet Our Team', path: '/about' },
-        { name: 'Careers', path: '/careers' },
-        { name: 'Contact Us', path: '/contact' }
+        { name: t('about.meetOurTeam'), path: '/about' },
+        { name: t('about.careers'), path: '/careers' },
+        { name: t('about.contactUs'), path: '/contact' }
       ]
     }
   ];
@@ -178,7 +178,7 @@ const Navbar = () => {
           </Link>
 
           {/* Navigation Links with Dropdowns */}
-          <div className="hidden lg:flex items-center space-x-1">
+          <div className="hidden lg:flex items-center space-x-1 flex-wrap">
             {navItems.map((item) => (
               item.dropdown ? (
                 <div key={item.name} className="relative dropdown-container">
@@ -188,14 +188,14 @@ const Navbar = () => {
                     aria-expanded={activeDropdown === item.name}
                     aria-haspopup="true"
                     aria-label={`${item.name} menu`}
-                    className={`flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 hover:scale-105 ${
+                    className={`flex items-center px-3 py-2 text-xs sm:text-sm font-medium rounded-lg transition-all duration-300 hover:scale-105 whitespace-nowrap ${
                       location.pathname.startsWith(item.path) || activeDropdown === item.name
                         ? 'text-vd-blue bg-white/30 shadow-md'
                         : 'text-vd-blue hover:text-vd-orange hover:bg-white/20'
                     }`}
                   >
-                    {item.name}
-                    <ChevronDown className={`ml-2 h-4 w-4 transition-transform duration-200 ${
+                    <span className="truncate max-w-[140px]">{item.name}</span>
+                    <ChevronDown className={`ml-1 sm:ml-2 h-3 w-3 sm:h-4 sm:w-4 transition-transform duration-200 flex-shrink-0 ${
                       activeDropdown === item.name ? 'rotate-180' : ''
                     }`} />
                   </button>
@@ -203,14 +203,11 @@ const Navbar = () => {
                   <AnimatePresence>
                     {activeDropdown === item.name && (
                       <motion.div
-                        initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                        transition={{ duration: 0.2 }}
+                        {...getMotionConfig('dropdown', prefersReducedMotion)}
                         className="absolute left-0 top-full mt-2 w-64 bg-white/95 backdrop-blur-xl rounded-xl shadow-2xl border border-white/30 py-2 z-50"
                         onMouseLeave={() => setActiveDropdown(null)}
                       >
-                        <div className="max-h-[400px] overflow-y-auto">
+                        <div className="max-h-[400px] overflow-y-auto scrollbar-hide pr-1">
                           {item.dropdown.map((dropdownItem, index) => (
                             <Link
                               key={dropdownItem.path}
@@ -234,26 +231,99 @@ const Navbar = () => {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 hover:scale-105 ${
+                  className={`px-3 py-2 text-xs sm:text-sm font-medium rounded-lg transition-all duration-300 hover:scale-105 whitespace-nowrap ${
                     location.pathname === item.path
                       ? 'text-vd-blue bg-white/20'
                       : 'text-vd-blue hover:text-vd-orange hover:bg-white/10'
                   }`}
                 >
-                  {item.name}
+                  <span className="truncate max-w-[100px]">{item.name}</span>
                 </Link>
               )
             ))}
+            
+            {/* Language Dropdown */}
+            <div
+              className="relative dropdown-container ml-2"
+              onMouseLeave={() => setLanguageDropdownOpen(false)}
+            >
+              <button
+                onClick={() => {
+                  setLanguageDropdownOpen(!languageDropdownOpen);
+                  setActiveDropdown(null);
+                }}
+                onMouseEnter={() => {
+                  setLanguageDropdownOpen(true);
+                  setActiveDropdown(null);
+                }}
+                className={`flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all duration-300 hover:scale-105 ${
+                  languageDropdownOpen
+                    ? 'text-vd-blue bg-white/30 shadow-md'
+                    : 'text-vd-blue hover:text-vd-orange hover:bg-white/20'
+                }`}
+                aria-label="Language selector"
+              >
+                <Globe className="h-4 w-4 mr-2" />
+                <span className="uppercase">{language}</span>
+                <ChevronDown className={`ml-2 h-4 w-4 transition-transform duration-200 ${
+                  languageDropdownOpen ? 'rotate-180' : ''
+                }`} />
+              </button>
+              
+              <AnimatePresence>
+                {languageDropdownOpen && (
+                  <motion.div
+                    {...getMotionConfig('dropdown', prefersReducedMotion)}
+                    className="absolute right-0 top-full mt-2 w-48 bg-white/95 backdrop-blur-xl rounded-xl shadow-2xl border border-white/30 py-2 z-50"
+                    onMouseEnter={() => setLanguageDropdownOpen(true)}
+                  >
+                    <button
+                      onClick={() => {
+                        setLanguage('en');
+                        setLanguageDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-3 text-sm transition-all duration-200 hover:bg-vd-orange/10 hover:text-vd-orange ${
+                        language === 'en' ? 'font-bold text-vd-blue bg-vd-orange/5' : 'text-gray-700'
+                      }`}
+                    >
+                      English
+                    </button>
+                    <button
+                      onClick={() => {
+                        setLanguage('fr');
+                        setLanguageDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-3 text-sm transition-all duration-200 hover:bg-vd-orange/10 hover:text-vd-orange ${
+                        language === 'fr' ? 'font-bold text-vd-blue bg-vd-orange/5' : 'text-gray-700'
+                      }`}
+                    >
+                      Français
+                    </button>
+                    <button
+                      onClick={() => {
+                        setLanguage('es');
+                        setLanguageDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-3 text-sm transition-all duration-200 hover:bg-vd-orange/10 hover:text-vd-orange ${
+                        language === 'es' ? 'font-bold text-vd-blue bg-vd-orange/5' : 'text-gray-700'
+                      }`}
+                    >
+                      Español
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
 
-          {/* Call Button - Much Bigger and More Prominent */}
+          {/* Get a Quote Button */}
           <div className="hidden lg:flex items-center">
             <a
               href="tel:203-967-1100"
               className="bg-vd-orange hover:bg-vd-orange-alt text-white px-4 py-2 rounded-xl font-bold text-sm transition-all duration-300 hover:shadow-xl flex items-center space-x-2 shadow-lg"
             >
               <Phone className="h-5 w-5 lg:h-6 lg:w-6" />
-              <span>CALL NOW: (203) 967-1100</span>
+              <span>{t('common.getAQuote')}</span>
             </a>
           </div>
 
@@ -277,11 +347,10 @@ const Navbar = () => {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="lg:hidden overflow-hidden backdrop-blur-2xl bg-white/95 border-t border-white/30"
+            {...getMotionConfig('collapse', prefersReducedMotion, {
+              animate: { opacity: 1, height: 'auto' }
+            })}
+            className="lg:hidden max-h-[calc(100vh-56px)] overflow-y-auto overscroll-contain backdrop-blur-2xl bg-white/95 border-t border-white/30 scrollbar-hide"
           >
             <div className="container mx-auto px-6 py-8 space-y-3">
               {navItems.map((item) => (
@@ -298,7 +367,7 @@ const Navbar = () => {
                     >
                       {item.name}
                     </Link>
-                    <div className="pl-6 space-y-2 max-h-48 overflow-hidden">
+                    <div className="pl-6 pr-1 space-y-2 max-h-64 overflow-y-auto scrollbar-hide">
                       {item.dropdown.slice(1).map((dropdownItem) => (
                         <Link
                           key={dropdownItem.path}
@@ -327,16 +396,64 @@ const Navbar = () => {
                 )
               ))}
 
-              {/* Mobile Call Button */}
+              {/* Mobile Language Selector */}
+              <div className="pt-4 border-t border-white/20">
+                <div className="px-5 py-3">
+                  <div className="text-sm font-semibold text-gray-800 mb-3">Language / Langue / Idioma</div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => {
+                        setLanguage('en');
+                        setIsOpen(false);
+                      }}
+                      className={`flex-1 px-4 py-2 rounded-lg font-medium text-sm transition-all ${
+                        language === 'en'
+                          ? 'bg-vd-blue text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      English
+                    </button>
+                    <button
+                      onClick={() => {
+                        setLanguage('fr');
+                        setIsOpen(false);
+                      }}
+                      className={`flex-1 px-4 py-2 rounded-lg font-medium text-sm transition-all ${
+                        language === 'fr'
+                          ? 'bg-vd-blue text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      Français
+                    </button>
+                    <button
+                      onClick={() => {
+                        setLanguage('es');
+                        setIsOpen(false);
+                      }}
+                      className={`flex-1 px-4 py-2 rounded-lg font-medium text-sm transition-all ${
+                        language === 'es'
+                          ? 'bg-vd-blue text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      Español
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Mobile Get a Quote Button */}
               <div className="pt-6 border-t border-white/20">
                 <a
-                  href="tel:+12039671100"
+                  href="tel:203-967-1100"
                   className="w-full bg-gradient-to-r from-vd-orange to-orange-600 hover:from-orange-600 hover:to-vd-orange-alt text-white font-bold px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-xl flex items-center justify-center space-x-2 backdrop-blur-md border-2 border-white/40 hover:border-white/60 relative overflow-hidden group"
                 >
                   {/* Animated background effect */}
                   <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <Phone className="w-5 h-5 relative z-10" />
-                  <span className="text-sm relative z-10">CALL NOW: (203) 967-1100</span>
+                  <span className="text-sm relative z-10">{t('common.getAQuote')}</span>
                   {/* Pulse effect */}
                   <div className="absolute inset-0 bg-vd-orange rounded-xl opacity-0 group-hover:opacity-20 animate-ping" />
                 </a>

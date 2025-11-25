@@ -45,7 +45,9 @@ class CacheManager {
       await Promise.all(
         cacheNames.map(cacheName => caches.delete(cacheName))
       );
-      console.log('Cache Manager: All caches cleared');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Cache Manager: All caches cleared');
+      }
     } catch (error) {
       console.error('Cache Manager: Failed to clear caches', error);
     }
@@ -54,7 +56,9 @@ class CacheManager {
   async clearCacheByName(cacheName: string): Promise<void> {
     try {
       await caches.delete(cacheName);
-      console.log(`Cache Manager: Cache '${cacheName}' cleared`);
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`Cache Manager: Cache '${cacheName}' cleared`);
+      }
     } catch (error) {
       console.error(`Cache Manager: Failed to clear cache '${cacheName}'`, error);
     }
@@ -64,7 +68,9 @@ class CacheManager {
     try {
       const cache = await caches.open('vandyk-static-v1.0.0');
       await cache.addAll(imageUrls);
+      if (process.env.NODE_ENV === 'development') {
       console.log(`Cache Manager: Precached ${imageUrls.length} images`);
+    }
     } catch (error) {
       console.error('Cache Manager: Failed to precache images', error);
     }
@@ -74,13 +80,17 @@ class CacheManager {
   async logCacheContents(): Promise<void> {
     const info = await this.getCacheInfo();
     console.group('Cache Manager: Cache Contents');
-    console.log(`Total caches: ${info.cacheNames.length}`);
-    console.log(`Total entries: ${info.totalEntries}`);
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`Total caches: ${info.cacheNames.length}`);
+      console.log(`Total entries: ${info.totalEntries}`);
+    }
     
     for (const [cacheName, details] of Object.entries(info.cacheDetails)) {
       console.group(`Cache: ${cacheName}`);
-      console.log(`Entries: ${details.entries}`);
-      console.log('URLs:', details.urls);
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`Entries: ${details.entries}`);
+        console.log('URLs:', details.urls);
+      }
       console.groupEnd();
     }
     console.groupEnd();

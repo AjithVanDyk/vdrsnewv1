@@ -5,7 +5,7 @@ const LuboScreeningPage: React.FC = () => {
   const equipment = {
     id: 2,
     name: 'Lubo StarScreen® Technology',
-    image: '/Images/equipment-lubo-screens-product.jpg',
+    image: '/Images/Equipment/Lubo Screens/Product image_lubo screens.jpg',
     description: 'Advanced screening technology with StarScreen® design for efficient material separation and sizing. Lubo screens deliver superior performance in waste processing operations.',
     features: [
       'StarScreen® patented design',

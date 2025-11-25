@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, Clock, Eye, Grid, List, X, BookOpen, Lightbulb } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Calendar, Clock, Eye, X, BookOpen, Lightbulb } from 'lucide-react';
+import { animationConfig } from '../utils/animations';
 
 interface ExpertTip {
   id: number;
@@ -19,17 +19,9 @@ interface ExpertTip {
 }
 
 const ExpertTips = () => {
-  const [activeFilter, setActiveFilter] = useState('All');
-  const [activeView, setActiveView] = useState<'grid' | 'list'>('grid');
   const [selectedTip, setSelectedTip] = useState<ExpertTip | null>(null);
   const [showTipModal, setShowTipModal] = useState(false);
-  const location = useLocation();
-
-  const sidebarItems = [
-    { name: 'Latest News', path: '/news-media', isActive: location.pathname === '/news-media' },
-    { name: 'Videos', path: '/videos', isActive: location.pathname === '/videos' },
-    { name: 'Expert Tips', path: '/expert-tips', isActive: location.pathname === '/expert-tips' }
-  ];
+  const fadeInUp = animationConfig.fadeInUp;
 
   const expertTips: ExpertTip[] = [
     {
@@ -151,8 +143,6 @@ const ExpertTips = () => {
     }
   ];
 
-  const categories = ['All', 'Maintenance', 'Technology', 'Processing', 'Safety', 'Design', 'Environmental', 'Troubleshooting', 'Efficiency', 'Quality', 'Training'];
-
   const handleTipClick = (tip: ExpertTip) => {
     setSelectedTip(tip);
     setShowTipModal(true);
@@ -179,137 +169,82 @@ const ExpertTips = () => {
     return dateB - dateA;
   });
 
-  const filteredTips = sortedTips.filter(tip => {
-    const matchesFilter = activeFilter === 'All' || tip.category === activeFilter;
-    return matchesFilter;
-  });
+  const filteredTips = sortedTips;
 
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="relative text-white py-24 -mt-20 pt-20 overflow-hidden">
-        <img 
-          src="/Images/impactreactor-RET.jpg"
-          alt="Expert Tips"
-          className="absolute inset-0 w-full h-full object-cover object-center scale-105"
-          width="1920"
-          height="1080"
-          loading="eager"
-          decoding="sync"
-          onError={(e) => {
-            e.currentTarget.src = '/Images/first.jpg';
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-black/40"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto text-center"
-          >
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-              Expert Tips
-            </h1>
-            <p className="text-xl text-blue-100 mb-8 leading-relaxed max-w-3xl mx-auto">
-              Get professional advice from our recycling experts on best practices, maintenance, and maximizing your system's performance.
-            </p>
-          </motion.div>
+      <section className="relative text-white py-24 -mt-20 pt-24 overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src="/Images/impactreactor-RET.jpg"
+            alt="Expert Tips"
+            className="w-full h-full object-cover object-center scale-105"
+            loading="eager"
+            fetchPriority="high"
+            onError={(e) => {
+              if (import.meta.env.DEV) {
+                console.log('Hero image failed to load, using fallback');
+              }
+              e.currentTarget.src = '/Images/first.jpg';
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-vd-blue-dark/95 via-vd-blue/90 to-vd-blue-dark/95" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-vd-blue-dark/60" />
         </div>
-      </div>
-
-      {/* Filters */}
-      <div className="container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
-        <aside className="lg:w-1/4">
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 sticky top-8">
-            <h2 className="text-xl font-bold text-vd-blue mb-4">News & Media</h2>
-            <nav className="space-y-2">
-              {sidebarItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`block px-4 py-3 rounded-lg transition-all duration-200 ${
-                    item.isActive
-                      ? 'bg-vd-blue text-white shadow-md'
-                      : 'text-gray-700 hover:bg-gray-50 hover:text-vd-blue'
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </nav>
+        <div className="container mx-auto px-4 relative z-10 pt-20">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <motion.div
+              initial={fadeInUp.initial}
+              animate={fadeInUp.animate}
+              transition={fadeInUp.transition}
+              className="max-w-3xl w-full"
+            >
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+                Expert Tips
+              </h1>
+              <p className="text-xl text-blue-100 mb-8 leading-relaxed">
+                Get professional advice from our recycling experts on best practices, maintenance, and maximizing your system's performance.
+              </p>
+            </motion.div>
           </div>
-        </aside>
+        </div>
+      </section>
 
-        <div className="lg:w-3/4">
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
-            <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
-              {/* Category Filters */}
-              <div className="flex flex-wrap gap-2">
-                {categories.map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => setActiveFilter(category)}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                      activeFilter === category
-                        ? 'bg-vd-orange text-white shadow-md'
-                        : 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200'
-                    }`}
-                  >
-                    {category}
-                  </button>
-                ))}
+      <div className="container mx-auto px-4 py-8">
+        {/* Expert Tips Section */}
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold text-vd-blue mb-6">Expert Tips</h2>
+          {filteredTips.length === 0 ? (
+            <div className="text-center py-12">
+              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Lightbulb className="w-12 h-12 text-gray-400" />
               </div>
-
-              {/* View Toggle */}
-              <div className="flex bg-gray-50 rounded-xl p-1 border border-gray-200">
-                <button 
-                  onClick={() => setActiveView('grid')}
-                  className={`p-2 rounded-lg transition-all ${
-                    activeView === 'grid' ? 'bg-white text-vd-orange shadow-sm' : 'text-gray-600 hover:text-gray-800'
-                  }`}
-                >
-                  <Grid className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={() => setActiveView('list')}
-                  className={`p-2 rounded-lg transition-all ${
-                    activeView === 'list' ? 'bg-white text-vd-orange shadow-sm' : 'text-gray-600 hover:text-gray-800'
-                  }`}
-                >
-                  <List className="w-5 h-5" />
-                </button>
-              </div>
+              <h3 className="text-xl font-semibold text-gray-700 mb-2">No expert tips found</h3>
+              <p className="text-gray-500">Please check back soon for more articles.</p>
             </div>
-          </div>
-
-          {/* All Tips Grid */}
-          <div className="mb-8">
-            <h2 className="text-3xl font-bold text-vd-blue mb-6">Expert Tips</h2>
-            <div className={`grid gap-6 ${
-              activeView === 'grid' 
-                ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3' 
-                : 'grid-cols-1'
-            }`}>
+          ) : (
+            <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               {filteredTips.map((tip) => (
                 <motion.div
                   key={tip.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className={`bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer ${
-                    activeView === 'list' ? 'flex' : ''
-                  }`}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 200,
+                    damping: 25,
+                    duration: 0.6
+                  }}
+                  className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer"
                   onClick={() => handleTipClick(tip)}
                 >
-                  <div className={`relative overflow-hidden ${
-                    activeView === 'list' ? 'w-1/3 h-48' : 'h-48'
-                  }`}>
+                  <div className="relative overflow-hidden h-48">
                     <img
                       src={tip.image}
                       alt={tip.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      width={activeView === 'list' ? "300" : "400"}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                      width="400"
                       height="192"
                       loading="lazy"
                       onError={(e) => {
@@ -329,7 +264,7 @@ const ExpertTips = () => {
                       </div>
                     </div>
                   </div>
-                  <div className={`p-6 ${activeView === 'list' ? 'flex-1' : ''}`}>
+                  <div className="p-6">
                     <div className="flex items-center text-sm text-gray-500 mb-3 space-x-4">
                       <span className="flex items-center">
                         <Calendar className="w-4 h-4 mr-1" />
@@ -344,9 +279,7 @@ const ExpertTips = () => {
                         {tip.views}
                       </span>
                     </div>
-                    <h3 className={`font-bold text-vd-blue mb-3 leading-tight group-hover:text-vd-orange transition-colors ${
-                      activeView === 'list' ? 'text-lg' : 'text-xl'
-                    }`}>
+                    <h3 className="font-bold text-vd-blue mb-3 leading-tight group-hover:text-vd-orange transition-colors text-xl">
                       {tip.title}
                     </h3>
                     <p className="text-gray-600 mb-4 leading-relaxed">
@@ -361,13 +294,6 @@ const ExpertTips = () => {
                   </div>
                 </motion.div>
               ))}
-            </div>
-          </div>
-
-          {filteredTips.length === 0 && (
-            <div className="text-center py-12">
-              <h3 className="text-xl font-semibold text-gray-700 mb-2">No expert tips found</h3>
-              <p className="text-gray-500">Try adjusting your filters.</p>
             </div>
           )}
         </div>

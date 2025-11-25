@@ -170,7 +170,7 @@ class PerformanceMonitor {
 
     // Log to console in development
     if (process.env.NODE_ENV === 'development') {
-      console.log(`Performance metric [${name}]:`, value);
+      // Performance metric logged
     }
 
     // Send to analytics in production

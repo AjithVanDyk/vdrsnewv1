@@ -50,7 +50,16 @@ const Chatbot = () => {
         { id: 'tomra', question: 'What is TOMRA optical sorting?', path: '/equipment/tomra', description: 'Advanced optical sorting technology' },
         { id: 'pellenc', question: 'How does Pellenc ST work?', path: '/equipment/pellenc-st', description: 'AI-powered intelligent sorting' },
         { id: 'lubo', question: 'What are Lubo screens?', path: '/equipment/lubo-screening', description: 'Elliptical screening technology' },
+        { id: 'smicon', question: 'Smicon food waste depackager', path: '/equipment/smicon-depackager', description: 'Food waste depackaging systems' },
+        { id: 'walair', question: 'Walair density separation', path: '/equipment/walair-density-separation', description: 'Advanced density separation technology' },
+        { id: 'gunther', question: 'Gunther screening systems', path: '/equipment/gunther-screens', description: 'High-performance screening equipment' },
+        { id: 'centriair', question: 'Centriair odor control', path: '/equipment/centriair-odor-control', description: 'Odor control solutions' },
         { id: 'greyparrot', question: 'Tell me about Greyparrot AI', path: '/equipment/greyparrot-ai', description: 'AI-based waste analytics' },
+        { id: 'densimetric', question: 'Densimetric table systems', path: '/equipment/densimetric-table', description: 'Density-based material separation' },
+        { id: 'beefoam', question: 'BeeFoam dust suppression', path: '/equipment/beefoam-dust-suppression', description: 'Dust control solutions' },
+        { id: 'reckelberg', question: 'Reckelberg environmental technologies', path: '/equipment/reckelberg-environmental', description: 'Environmental processing equipment' },
+        { id: 'certified', question: 'Certified pre-owned equipment', path: '/equipment/certified-pre-owned', description: 'Quality refurbished equipment' },
+        { id: 'glass-cleanup', question: 'Glass cleanup systems', path: '/equipment/glass-cleanup-systems', description: 'Glass processing and cleanup' },
         { id: 'all-equipment', question: 'View all equipment', path: '/equipment', description: 'Complete equipment catalog' }
       ]
     },
@@ -61,7 +70,19 @@ const Chatbot = () => {
         { id: 'single-stream', question: 'Single stream recycling solutions', path: '/solutions/single-stream-recycling', description: 'Complete single stream processing' },
         { id: 'plastics', question: 'Plastics recycling systems', path: '/solutions/plastics-recycling', description: 'Advanced plastics processing' },
         { id: 'organics', question: 'Organics processing solutions', path: '/solutions/organics-processing', description: 'Food waste and organics handling' },
-        { id: 'e-scrap', question: 'E-scrap recycling technology', path: '/solutions/e-scrap-recycling', description: 'Electronics waste processing' },
+        { id: 'food-waste', question: 'Food waste depackaging', path: '/solutions/food-waste-depackaging', description: 'Food waste processing solutions' },
+        { id: 'msw', question: 'MSW processing systems', path: '/solutions/msw-processing', description: 'Municipal solid waste processing' },
+        { id: 'waste-to-energy', question: 'Waste to energy solutions', path: '/solutions/waste-to-energy', description: 'Energy recovery from waste' },
+        { id: 'glass', question: 'Glass cleanup solutions', path: '/solutions/glass-cleanup', description: 'Glass processing and recovery' },
+        { id: 'e-scrap', question: 'E-scrap recycling technology', path: '/solutions/electronics-waste-recycling', description: 'Electronics waste processing' },
+        { id: 'battery', question: 'Battery recycling systems', path: '/solutions/battery-recycling-systems', description: 'Battery processing and recovery' },
+        { id: 'composting', question: 'Composting densimetric tables', path: '/solutions/composting-densimetric-tables', description: 'Composting and organic processing' },
+        { id: 'ai-analytics', question: 'AI waste analysis', path: '/solutions/ai-waste-analysis', description: 'AI-powered waste analytics' },
+        { id: 'centriair-solution', question: 'Centriair odor control solutions', path: '/solutions/centriair-odor-control', description: 'Odor control for facilities' },
+        { id: 'commercial', question: 'Commercial waste processing', path: '/solutions/commercial-waste', description: 'Commercial waste solutions' },
+        { id: 'cd-recycling', question: 'C&D recycling systems', path: '/solutions/cd-recycling', description: 'Construction and demolition recycling' },
+        { id: 'multi-mrf', question: 'Multi-MRF systems', path: '/solutions/multi-mrf-systems', description: 'Multiple material recovery facilities' },
+        { id: 'bollegraaf-solution', question: 'Bollegraaf balers solution', path: '/solutions/bollegraaf-balers', description: 'Baling solutions' },
         { id: 'all-solutions', question: 'View all solutions', path: '/solutions', description: 'Complete solutions overview' }
       ]
     },
@@ -69,11 +90,13 @@ const Chatbot = () => {
       title: 'Services & Support',
       icon: '🛠️',
       questions: [
-        { id: 'turnkey', question: 'Turnkey design services', path: '/support', description: 'Complete facility design' },
-        { id: 'installation', question: 'Installation services', path: '/installation-process', description: 'Professional equipment installation' },
-        { id: 'training', question: 'Training programs', path: '/training-schedule', description: 'Operator and maintenance training' },
-        { id: 'maintenance', question: 'Preventive maintenance', path: '/support', description: 'Ongoing equipment maintenance' },
-        { id: 'test-center', question: 'Test center services', path: '/test-center', description: 'Material testing facility' }
+        { id: 'support', question: 'Services & Support', path: '/support', description: 'Complete support services' },
+        { id: 'test-center', question: 'Test center services', path: '/test-center', description: 'Material testing facility' },
+        { id: 'university', question: 'Van Dyk University', path: '/van-dyk-university', description: 'Training and education programs' },
+        { id: 'parts', question: 'Parts in stock', path: '/parts-in-stock', description: 'Available parts inventory' },
+        { id: 'troubleshooting', question: 'Remote troubleshooting', path: '/remote-troubleshooting', description: 'Remote technical support' },
+        { id: 'pmi', question: 'PMI services', path: '/pmi', description: 'Preventive maintenance inspections' },
+        { id: 'quote', question: 'Request a quote', path: '/quote', description: 'Get equipment pricing' }
       ]
     },
     company: {
@@ -83,6 +106,8 @@ const Chatbot = () => {
         { id: 'about', question: 'About Van Dyk', path: '/about', description: 'Company history and mission' },
         { id: 'careers', question: 'Career opportunities', path: '/careers', description: 'Join our team' },
         { id: 'news', question: 'Latest news & media', path: '/news-media', description: 'Company updates and videos' },
+        { id: 'videos', question: 'Watch videos', path: '/videos', description: 'Equipment and solution videos' },
+        { id: 'expert-tips', question: 'Expert tips', path: '/expert-tips', description: 'Industry insights and tips' },
         { id: 'contact', question: 'Contact information', path: '/contact', description: 'Get in touch with us' }
       ]
     },
@@ -90,10 +115,11 @@ const Chatbot = () => {
       title: 'Technical Support',
       icon: '📞',
       questions: [
-        { id: 'parts', question: 'Order parts', path: '/contact', description: 'Equipment parts and components' },
-        { id: 'troubleshooting', question: 'Troubleshooting help', path: '/contact', description: 'Technical assistance' },
+        { id: 'parts-order', question: 'Order parts', path: '/parts-in-stock', description: 'Equipment parts and components' },
+        { id: 'troubleshooting-help', question: 'Troubleshooting help', path: '/remote-troubleshooting', description: 'Remote technical assistance' },
         { id: 'warranty', question: 'Warranty information', path: '/contact', description: 'Equipment warranty details' },
-        { id: 'emergency', question: 'Emergency support', path: '/contact', description: '24/7 emergency assistance' }
+        { id: 'emergency', question: 'Emergency support', path: '/contact', description: '24/7 emergency assistance' },
+        { id: 'maintenance', question: 'Preventive maintenance', path: '/pmi', description: 'PMI services and scheduling' }
       ]
     }
   }), []);

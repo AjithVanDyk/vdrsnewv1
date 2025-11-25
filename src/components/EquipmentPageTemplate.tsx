@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, CheckCircle, Star, Quote, X, Play, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import QuoteForm from './QuoteForm';
+import { useTranslation } from '../hooks/useTranslation';
 
 interface ApplicationItem {
   name: string;
@@ -31,16 +32,23 @@ interface EquipmentPageProps {
 }
 
 const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
+  const { t } = useTranslation();
   const [showQuoteForm, setShowQuoteForm] = React.useState(false);
   const [selectedVideo, setSelectedVideo] = React.useState<string | null>(null);
+  const [videoError, setVideoError] = React.useState<string | null>(null);
   const [currentGallerySlide, setCurrentGallerySlide] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
+  
+  const replacePlaceholders = (text: string, replacements: { [key: string]: string }) => {
+    let result = text;
+    Object.keys(replacements).forEach(key => {
+      result = result.replace(`{${key}}`, replacements[key]);
+    });
+    return result;
+  };
 
-  // Combine gallery images and videos into one slideshow array
-  const galleryItems = [
-    ...(equipment.gallery || []).map(img => ({ type: 'image' as const, src: img })),
-    ...(equipment.videos || []).map(vid => ({ type: 'video' as const, src: vid }))
-  ];
+  // Gallery items for slideshow
+  const galleryItems = equipment.gallery || [];
 
   // Auto-advance slideshow
   useEffect(() => {
@@ -91,21 +99,54 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section with Color Band */}
-      <section className="relative text-white py-24 -mt-20 pt-24 overflow-hidden">
-        {/* Color Band Background */}
-        <div className="absolute inset-0 bg-gradient-to-r from-vd-blue-dark via-vd-blue to-vd-blue-dark"></div>
-        <div className="container mx-auto px-4 relative z-10 pt-8">
+      {/* Hero Section */}
+      <section className="relative text-white py-20 -mt-20 pt-20 overflow-hidden">
+        {/* HD Background Image */}
+        <img 
+          src={equipment.image}
+          alt={equipment.name}
+          className="absolute inset-0 w-full h-full object-cover object-center scale-105"
+          width="1920"
+          height="1080"
+          loading="eager"
+          decoding="sync"
+          onError={(e) => {
+            e.currentTarget.src = '/Images/mrf-systems.jpg';
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-vd-blue/40 via-vd-blue/30 to-black/40"></div>
+        <div className="container mx-auto px-4 relative z-10 flex items-center justify-center min-h-[400px]">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center"
+            className="text-center max-w-5xl mx-auto"
           >
-            <h1 className="text-3xl md:text-4xl font-bold mb-6 pt-8">{equipment.name}</h1>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">{equipment.name}</h1>
             <p className="text-lg md:text-xl text-blue-100 max-w-4xl mx-auto leading-relaxed">
               {equipment.description}
             </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Main Image */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-6xl mx-auto"
+          >
+            <div className="relative overflow-hidden rounded-2xl shadow-2xl">
+              <img
+                src={equipment.image}
+                alt={equipment.name}
+                className="w-full h-96 md:h-[500px] object-cover"
+              />
+              <div className="absolute inset-0 bg-vd-blue/20"></div>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -121,10 +162,10 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-vd-blue-dark mb-4">
-              Key Features
+              {t('common.keyFeatures')}
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Discover the advanced capabilities that make {equipment.name} the industry leader
+              {replacePlaceholders(t('common.keyFeaturesDesc'), { name: equipment.name })}
             </p>
           </motion.div>
 
@@ -162,10 +203,10 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-4xl font-bold text-vd-blue-dark mb-4">
-              Technical Specifications
+              {t('common.technicalSpecifications')}
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Detailed specifications and performance metrics for {equipment.name}
+              {replacePlaceholders(t('common.technicalSpecificationsDesc'), { name: equipment.name })}
             </p>
           </motion.div>
 
@@ -209,10 +250,10 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
               className="text-center mb-16"
             >
               <h2 className="text-3xl md:text-4xl font-bold text-vd-blue-dark mb-4">
-                {equipment.name === 'Certified Pre-Owned Equipment' ? 'Available Equipment' : 'Applications'}
+                {equipment.name === 'Certified Pre-Owned Equipment' ? t('common.availableEquipment') : t('common.applications')}
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                Versatile applications across various industries and use cases
+                {t('common.applicationsDesc')}
               </p>
             </motion.div>
 
@@ -249,7 +290,7 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
         </section>
       )}
 
-      {/* Unified Gallery Section (Photos and Videos) - Slideshow */}
+      {/* Gallery Section - Slideshow */}
       {galleryItems.length > 0 && (
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
@@ -261,10 +302,10 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
               className="text-center mb-16"
             >
               <h2 className="text-3xl md:text-4xl font-bold text-vd-blue-dark mb-4">
-                Gallery
+                {t('common.gallery')}
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                See {equipment.name} in action through photos and videos
+                {replacePlaceholders(t('common.galleryDesc'), { name: equipment.name })}
               </p>
             </motion.div>
 
@@ -279,41 +320,18 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
                     transition={{ duration: 0.5 }}
                     className="relative"
                   >
-                    {galleryItems[currentGallerySlide].type === 'image' ? (
+                    <div className="relative w-full h-[28rem] overflow-hidden">
                       <img
-                        src={galleryItems[currentGallerySlide].src}
-                        alt={`${equipment.name} - Image ${currentGallerySlide + 1}`}
-                        className="w-full h-[28rem] object-cover"
+                        src={galleryItems[currentGallerySlide]}
+                        alt={`${equipment.name} - ${t('common.image')} ${currentGallerySlide + 1}`}
+                        className="w-full h-full object-cover"
                         loading="lazy"
                         onError={(e) => {
                           e.currentTarget.src = '/Images/image-1749759453479.png';
                         }}
                       />
-                    ) : (
-                      <div
-                        className="relative cursor-pointer"
-                        onClick={() => setSelectedVideo(galleryItems[currentGallerySlide].src)}
-                      >
-                        <img
-                          src={`https://img.youtube.com/vi/${galleryItems[currentGallerySlide].src.split('v=')[1]?.split('&')[0] || galleryItems[currentGallerySlide].src.split('/').pop()}/maxresdefault.jpg`}
-                          alt={`${equipment.name} Video ${currentGallerySlide + 1}`}
-                          className="w-full h-[28rem] object-cover"
-                          onError={(e) => {
-                            const currentSrc = e.currentTarget.src;
-                            if (currentSrc.includes('maxresdefault')) {
-                              e.currentTarget.src = currentSrc.replace('maxresdefault', 'hqdefault');
-                            } else if (currentSrc.includes('hqdefault')) {
-                              e.currentTarget.src = currentSrc.replace('hqdefault', 'default');
-                            } else {
-                              e.currentTarget.src = '/Images/image-1749759453479.png';
-                            }
-                          }}
-                        />
-                        <div className="absolute inset-0 bg-black/50 flex items-center justify-center hover:bg-black/60 transition-colors">
-                          <Play className="w-16 h-16 text-white" />
-                        </div>
-                      </div>
-                    )}
+                      <div className="absolute inset-0 bg-vd-blue/15"></div>
+                    </div>
                   </motion.div>
                 </AnimatePresence>
 
@@ -322,14 +340,14 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
                     <button
                       onClick={goToPrevSlide}
                       className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-vd-blue rounded-full p-3 shadow-lg transition-colors"
-                      aria-label="Previous slide"
+                      aria-label={t('common.previousSlide')}
                     >
                       <ChevronLeft className="w-6 h-6" />
                     </button>
                     <button
                       onClick={goToNextSlide}
                       className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-vd-blue rounded-full p-3 shadow-lg transition-colors"
-                      aria-label="Next slide"
+                      aria-label={t('common.nextSlide')}
                     >
                       <ChevronRight className="w-6 h-6" />
                     </button>
@@ -339,21 +357,139 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
 
               {galleryItems.length > 1 && (
                 <div className="flex justify-center gap-2 mt-6">
-                  {galleryItems.map((item, index) => (
+                  {galleryItems.map((_, index) => (
                     <button
-                      key={`${item.type}-${index}`}
+                      key={index}
                       onClick={() => goToSlide(index)}
                       className={`h-2 rounded-full transition-all duration-300 ${
                         index === currentGallerySlide
                           ? 'w-10 bg-vd-orange'
                           : 'w-4 bg-gray-300 hover:bg-gray-400'
                       }`}
-                      aria-label={`Go to slide ${index + 1}`}
+                      aria-label={`${t('common.goToSlide')} ${index + 1}`}
                     />
                   ))}
                 </div>
               )}
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* Videos Section */}
+      {equipment.videos && equipment.videos.length > 0 && (
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-vd-blue-dark mb-4">
+                {replacePlaceholders(t('common.seeInAction'), { name: equipment.name })}
+              </h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                {replacePlaceholders(t('common.seeInActionDesc'), { type: 'equipment' })}
+              </p>
+            </motion.div>
+
+            <motion.div
+              variants={staggerChildren}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
+              {equipment.videos.map((video, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeInUp}
+                  className="relative group cursor-pointer"
+                  onClick={() => setSelectedVideo(video)}
+                >
+                  <div className="relative overflow-hidden rounded-xl shadow-lg">
+                    <img
+                      src={`https://img.youtube.com/vi/${video.split('v=')[1]?.split('&')[0] || video.split('/').pop()}/maxresdefault.jpg`}
+                      alt={`${equipment.name} ${t('common.video')} ${index + 1}`}
+                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      onError={(e) => {
+                        const currentSrc = e.currentTarget.src;
+                        if (currentSrc.includes('maxresdefault')) {
+                          e.currentTarget.src = currentSrc.replace('maxresdefault', 'hqdefault');
+                        } else if (currentSrc.includes('hqdefault')) {
+                          e.currentTarget.src = currentSrc.replace('hqdefault', 'default');
+                        } else {
+                          e.currentTarget.src = '/Images/image-1749759453479.png';
+                        }
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center group-hover:bg-black/60 transition-colors">
+                      <Play className="w-16 h-16 text-white" />
+                    </div>
+                  </div>
+                  <h3 className="mt-4 text-lg font-semibold text-vd-blue-dark">
+                    {equipment.name} {t('common.demo')} {index + 1}
+                  </h3>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      {/* Testimonials Section */}
+      {equipment.testimonials && equipment.testimonials.length > 0 && (
+        <section className="py-16 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-vd-blue-dark mb-4">
+                {t('common.customerTestimonials')}
+              </h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                {replacePlaceholders(t('common.customerTestimonialsDesc'), { name: equipment.name })}
+              </p>
+            </motion.div>
+
+            <motion.div
+              variants={staggerChildren}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
+              {equipment.testimonials.map((testimonial, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeInUp}
+                  className="bg-white p-6 rounded-xl shadow-lg"
+                >
+                  <div className="flex items-center mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className={`w-5 h-5 ${
+                          i < testimonial.rating ? 'text-vd-orange' : 'text-gray-300'
+                        }`}
+                        fill={i < testimonial.rating ? 'currentColor' : 'none'}
+                      />
+                    ))}
+                  </div>
+                  <p className="text-gray-700 mb-4 italic">"{testimonial.quote}"</p>
+                  <div>
+                    <p className="font-semibold text-vd-blue-dark">{testimonial.name}</p>
+                    <p className="text-gray-600">{testimonial.company}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
         </section>
       )}
@@ -368,10 +504,10 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Ready to Get Started with {equipment.name}?
+              {replacePlaceholders(t('common.readyToGetStarted'), { name: equipment.name })}
             </h2>
             <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
-              Contact our experts to learn more about how {equipment.name} can benefit your operation
+              {replacePlaceholders(t('common.readyToGetStartedDesc'), { name: equipment.name })}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <motion.button
@@ -381,14 +517,14 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
                 className="bg-vd-orange hover:bg-orange-600 text-white px-8 py-4 rounded-xl font-semibold text-lg flex items-center justify-center space-x-2 transition-colors"
               >
                 <Quote className="w-5 h-5" />
-                <span>Get a Quote</span>
+                <span>{t('common.getAQuote')}</span>
               </motion.button>
               <Link
                 to="/contact"
                 className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-vd-blue px-8 py-4 rounded-xl font-semibold text-lg flex items-center justify-center space-x-2 transition-colors"
               >
                 <ArrowRight className="w-5 h-5" />
-                <span>Contact Us</span>
+                <span>{t('common.contactUs')}</span>
               </Link>
             </div>
           </motion.div>
@@ -403,7 +539,10 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4"
-            onClick={() => setSelectedVideo(null)}
+            onClick={() => {
+              setSelectedVideo(null);
+              setVideoError(null);
+            }}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
@@ -413,21 +552,63 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
               onClick={(e) => e.stopPropagation()}
             >
               <button
-                onClick={() => setSelectedVideo(null)}
+                onClick={() => {
+              setSelectedVideo(null);
+              setVideoError(null);
+            }}
                 className="absolute -top-12 right-0 text-white hover:text-gray-300"
               >
                 <X className="w-8 h-8" />
               </button>
               <div className="relative w-full h-0 pb-[56.25%]">
-                <iframe
-                  src={getYouTubeEmbedUrl(selectedVideo)}
-                  title={`${equipment.name} Video`}
-                  className="absolute top-0 left-0 w-full h-full rounded-lg"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                />
+                {videoError ? (
+                  <div className="absolute inset-0 flex items-center justify-center bg-gray-900 text-white p-4 rounded-lg">
+                    <div className="text-center">
+                      <p className="text-lg font-semibold mb-2">{t('common.videoFailedToLoad')}</p>
+                      <p className="text-sm text-gray-400 mb-4">{videoError}</p>
+                      <button
+                        onClick={() => {
+                          setVideoError(null);
+                          setSelectedVideo(null);
+                        }}
+                        className="px-4 py-2 bg-vd-orange hover:bg-orange-600 rounded-lg transition-colors"
+                      >
+                        {t('common.close')}
+                      </button>
+                    </div>
+                  </div>
+                ) : selectedVideo.startsWith('http') ? (
+                  <iframe
+                    src={getYouTubeEmbedUrl(selectedVideo)}
+                    title={`${equipment.name} Video`}
+                    className="absolute top-0 left-0 w-full h-full rounded-lg"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    onLoad={() => {
+                      // Reset error state when iframe loads successfully
+                      setVideoError(null);
+                    }}
+                  />
+                ) : (
+                  <video
+                    src={selectedVideo}
+                    controls
+                    autoPlay
+                    className="absolute top-0 left-0 w-full h-full rounded-lg"
+                    onError={() => {
+                      setVideoError(t('common.unableToLoadVideo'));
+                      if (import.meta.env.DEV) {
+                        console.error('Local video failed to load:', selectedVideo);
+                      }
+                    }}
+                    onLoadedData={() => {
+                      // Reset error state when video loads successfully
+                      setVideoError(null);
+                    }}
+                  />
+                )}
               </div>
             </motion.div>
           </motion.div>
@@ -454,7 +635,7 @@ const EquipmentPageTemplate: React.FC<EquipmentPageProps> = ({ equipment }) => {
               <div className="p-6">
                 <div className="flex justify-between items-center mb-6">
                   <h3 className="text-2xl font-bold text-vd-blue-dark">
-                    Get a Quote for {equipment.name}
+                    {replacePlaceholders(t('common.getQuoteFor'), { name: equipment.name })}
                   </h3>
                   <button
                     onClick={() => setShowQuoteForm(false)}

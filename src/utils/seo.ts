@@ -81,6 +81,13 @@ export const SEO_PAGES = {
     description: 'Van Dyk Recycling Solutions Privacy Policy - Learn how we collect, use, and protect your personal information when you visit our website or use our services.',
     keywords: 'privacy policy, data protection, personal information, GDPR compliance',
     url: '/privacy-policy'
+  },
+
+  cookie: {
+    title: 'Cookie Policy',
+    description: 'Understand how Van Dyk Recycling Solutions uses cookies, analytics, and tracking technologies, plus how you can manage your preferences.',
+    keywords: 'cookie policy, cookies, tracking technologies, GDPR cookies, CCPA cookies',
+    url: '/cookie-policy'
   }
 };
 

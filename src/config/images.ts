@@ -12,7 +12,7 @@ export const IMAGE_ASSIGNMENTS = {
       expertConsulting: '/Images/van-dyk-direct-logo.png',
       globalSupport: '/Images/van-dyk-university.jpg'
     },
-    training: '/Images/Logos/Van%20Dyk%20University%20logo.png',
+    training: '/Images/Logos/Van Dyk University logo.png',
     orderParts: '/Images/van-dyk-direct.jpg',
     orderPartsFallback: '/Images/image-1749759453479.png'
   },
@@ -43,19 +43,19 @@ export const IMAGE_ASSIGNMENTS = {
   equipment: {
     hero: '/Images/equipment-hero.jpg',
     categories: {
-      bollegraaf: '/Images/equipment-bollegraaf-product.jpg',
-      tomra: '/Images/equipment-tomra-optical-sorters-product.jpg',
-      pellenc: '/Images/equipment-pellenc-optical-sorters-product.jpg',
-      lubo: '/Images/equipment-lubo-screens-product.jpg',
-      gunther: '/Images/gunther-splitter.jpg',
-      smicon: '/Images/smicon-depackager.jpg',
-      centriair: '/Images/centriair-equipment.jpg',
-      greyparrot: '/Images/greyparrot-ai.jpg',
-      densimetric: '/Images/densimetric-table-new.jpg',
-      beefoam: '/Images/beefoam-after.jpg',
-      reckelberg: '/Images/reckelberg-impact-reactor.jpg',
+      bollegraaf: '/Images/Equipment/Bollegraaf/Product image_baler.jpg',
+      tomra: '/Images/Equipment/Tomra Optical sorters/product image_tomra.jpg',
+      pellenc: '/Images/Equipment/Pellenc optical sorters/Product image_pellenc.JPG',
+      lubo: '/Images/Equipment/Lubo Screens/Product image_lubo screens.jpg',
+      gunther: '/Images/Equipment/Gunther screens/IMG_8615.jpg',
+      smicon: '/Images/Equipment/Smicon Food Waste Depackagers/VDRS Smicon system Sunnyvale.jpeg',
+      centriair: '/Images/Equipment/Centriair Odor Control/Emscher_09 S 010a_P1001419.JPG',
+      greyparrot: '/Images/Equipment/Greyparrot AI/Greyparrot-GP5-on-belt.png',
+      densimetric: '/Images/Equipment/Densimetric table/Densimetric table_Zbest.jpeg',
+      beefoam: '/Images/Equipment/Beefoam dust suppression/after beefoam.JPG',
+      reckelberg: '/Images/Equipment/Reckelberg Environmental Technologies/impactreactor.webp',
       walair: '/Images/walair-density-separation.jpg',
-      certified: '/Images/certified-pre-owned.jpg'
+      certified: '/Images/Equipment/Certified Pre-owned Equipment/rebuilt baler.png'
     }
   },
 
@@ -91,14 +91,7 @@ export const IMAGE_ASSIGNMENTS = {
       '/Images/careers-exterior-2.jpg',
       '/Images/careers-gym.jpg',
       '/Images/careers-living-wall-2.jpg',
-      '/Images/careers-lounge-1.jpg',
-      '/Images/careers-gallery-1_exterior-2.jpg',
-      '/Images/careers-gallery-2_front-lobby.jpg',
-      '/Images/careers-gallery-3_new-york-board-room.jpg',
-      '/Images/careers-gallery-4_living-wall-2.jpg',
-      '/Images/careers-gallery-5_lounge-1.jpg',
-      '/Images/careers-gallery-6_cafe-1.jpg',
-      '/Images/careers-gallery-7_gym.jpg'
+      '/Images/careers-lounge-1.jpg'
     ]
   },
 
@@ -130,7 +123,7 @@ export const IMAGE_ASSIGNMENTS = {
 
   // NEWS & MEDIA PAGE IMAGES
   newsMedia: {
-    hero: '/Images/Equipment/Header%20image%20for%20Equipment%20grid.jpg',
+    hero: '/Images/Equipment/Header image for Equipment grid.jpg',
     featured: [
       '/Images/image-1749759487003.png',
       '/Images/image-1749759499434.png',

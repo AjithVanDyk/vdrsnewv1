@@ -17,7 +17,9 @@ class ServiceWorkerManager {
 
   async register(): Promise<ServiceWorkerRegistration | null> {
     if (!('serviceWorker' in navigator)) {
-      console.log('Service Worker: Not supported');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Service Worker: Not supported');
+      }
       return null;
     }
 
@@ -26,7 +28,9 @@ class ServiceWorkerManager {
         scope: '/'
       });
 
-      console.log('Service Worker: Registered successfully');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Service Worker: Registered successfully');
+      }
 
       // Handle updates
       this.registration.addEventListener('updatefound', () => {
@@ -37,11 +41,15 @@ class ServiceWorkerManager {
           if (newWorker.state === 'installed') {
             if (navigator.serviceWorker.controller) {
               // New content is available
-              console.log('Service Worker: New content available');
+              if (process.env.NODE_ENV === 'development') {
+                console.log('Service Worker: New content available');
+              }
               this.config.onUpdate?.(this.registration!);
             } else {
               // Content is cached for the first time
-              console.log('Service Worker: Content cached');
+              if (process.env.NODE_ENV === 'development') {
+                console.log('Service Worker: Content cached');
+              }
               this.config.onSuccess?.(this.registration!);
             }
           }
@@ -65,7 +73,9 @@ class ServiceWorkerManager {
 
     try {
       const result = await this.registration.unregister();
-      console.log('Service Worker: Unregistered', result);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Service Worker: Unregistered', result);
+      }
       return result;
     } catch (error) {
       console.error('Service Worker: Unregistration failed', error);
@@ -80,7 +90,9 @@ class ServiceWorkerManager {
 
     try {
       await this.registration.update();
-      console.log('Service Worker: Update triggered');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Service Worker: Update triggered');
+      }
     } catch (error) {
       console.error('Service Worker: Update failed', error);
     }
@@ -122,7 +134,9 @@ class ServiceWorkerManager {
       await Promise.all(
         cacheNames.map(cacheName => caches.delete(cacheName))
       );
-      console.log('Service Worker: Cache cleared');
+      if (process.env.NODE_ENV === 'development') {
+        console.log('Service Worker: Cache cleared');
+      }
     } catch (error) {
       console.error('Service Worker: Failed to clear cache', error);
     }
@@ -133,12 +147,16 @@ class ServiceWorkerManager {
 const serviceWorkerManager = new ServiceWorkerManager({
   onUpdate: (registration) => {
     // Force update without confirmation for development
-    console.log('Service Worker: Forcing update to new version');
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Service Worker: Forcing update to new version');
+    }
     registration.waiting?.postMessage({ type: 'SKIP_WAITING' });
     window.location.reload();
   },
   onSuccess: () => {
-    console.log('Service Worker: Ready for offline use');
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Service Worker: Ready for offline use');
+    }
   },
   onError: (error) => {
     console.error('Service Worker: Error', error);

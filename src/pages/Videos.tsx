@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link, useLocation } from 'react-router-dom';
-import { Play, Calendar, Clock, Eye, Grid, List, X } from 'lucide-react';
+import { Play, Calendar, Clock, Eye, X } from 'lucide-react';
+import { animationConfig } from '../utils/animations';
 
 interface Video {
   id: number;
@@ -29,11 +29,9 @@ const getEmbeddedUrl = (url: string) => {
 };
 
 const Videos = () => {
-  const [activeFilter, setActiveFilter] = useState('All');
-  const [activeView, setActiveView] = useState<'grid' | 'list'>('grid');
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
   const [showVideoModal, setShowVideoModal] = useState(false);
-  const location = useLocation();
+  const fadeInUp = animationConfig.fadeInUp;
 
   const videos: Video[] = [
     {
@@ -154,8 +152,6 @@ const Videos = () => {
     }
   ];
 
-  const categories = ['All', 'Single Stream', 'Equipment', 'E-Scrap', 'Food Waste', 'C&D', 'Composting', 'Plastics', 'MSW'];
-
   const handleVideoClick = (video: Video) => {
     setSelectedVideo(video);
     setShowVideoModal(true);
@@ -182,144 +178,76 @@ const Videos = () => {
     return dateB - dateA;
   });
 
-  const filteredVideos = sortedVideos.filter(video => {
-    const matchesFilter = activeFilter === 'All' || video.category === activeFilter;
-    return matchesFilter;
-  });
-
-  const sidebarItems = [
-    { name: 'Latest News', path: '/news-media', isActive: location.pathname === '/news-media' },
-    { name: 'Videos', path: '/videos', isActive: location.pathname === '/videos' },
-    { name: 'Expert Tips', path: '/expert-tips', isActive: location.pathname === '/expert-tips' }
-  ];
+  const filteredVideos = sortedVideos;
 
   return (
-    <>
-      <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="relative text-white py-24 -mt-20 pt-20 overflow-hidden">
-        <img 
-          src="/Images/pollutec-trade-show.jpg"
-          alt="Videos"
-          className="absolute inset-0 w-full h-full object-cover object-center scale-105"
-          width="1920"
-          height="1080"
-          loading="eager"
-          decoding="sync"
-          onError={(e) => {
-            e.currentTarget.src = '/Images/first.jpg';
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-black/40"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto text-center"
-          >
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-              Videos
-            </h1>
-            <p className="text-xl text-blue-100 mb-8 leading-relaxed max-w-3xl mx-auto">
-              Watch our latest videos showcasing recycling technology, equipment demonstrations, and industry insights.
-            </p>
-          </motion.div>
+      <section className="relative text-white py-24 -mt-20 pt-24 overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src="/Images/pollutec-trade-show.jpg"
+            alt="Videos"
+            className="w-full h-full object-cover object-center scale-105"
+            loading="eager"
+            fetchPriority="high"
+            onError={(e) => {
+              if (import.meta.env.DEV) {
+                console.log('Hero image failed to load, using fallback');
+              }
+              e.currentTarget.src = '/Images/first.jpg';
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-vd-blue-dark/95 via-vd-blue/90 to-vd-blue-dark/95" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-vd-blue-dark/60" />
         </div>
-      </div>
-
-      {/* Filters */}
-      <div className="container mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
-        <aside className="lg:w-1/4">
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 sticky top-8">
-            <h2 className="text-xl font-bold text-vd-blue mb-4">News & Media</h2>
-            <nav className="space-y-2">
-              {sidebarItems.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`block px-4 py-3 rounded-lg transition-all duration-200 ${
-                    item.isActive
-                      ? 'bg-vd-blue text-white shadow-md'
-                      : 'text-gray-700 hover:bg-gray-50 hover:text-vd-blue'
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </nav>
-          </div>
-        </aside>
-
-        <div className="lg:w-3/4">
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 mb-8">
-            <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
-              {/* Category Filters */}
-              <div className="flex flex-wrap gap-2">
-                {categories.map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => setActiveFilter(category)}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                      activeFilter === category
-                        ? 'bg-vd-orange text-white shadow-md'
-                        : 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200'
-                    }`}
-                  >
-                    {category}
-                  </button>
-                ))}
-              </div>
-
-              {/* View Toggle */}
-              <div className="flex bg-gray-50 rounded-xl p-1 border border-gray-200">
-                <button 
-                  onClick={() => setActiveView('grid')}
-                  className={`p-2 rounded-lg transition-all ${
-                    activeView === 'grid' ? 'bg-white text-vd-orange shadow-sm' : 'text-gray-600 hover:text-gray-800'
-                  }`}
-                >
-                  <Grid className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={() => setActiveView('list')}
-                  className={`p-2 rounded-lg transition-all ${
-                    activeView === 'list' ? 'bg-white text-vd-orange shadow-sm' : 'text-gray-600 hover:text-gray-800'
-                  }`}
-                >
-                  <List className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* All Videos Grid */}
-          <div className="mb-8">
-            <h2 className="text-3xl font-bold text-vd-blue mb-6">Videos</h2>
-            <div
-              className={`grid gap-6 ${
-                activeView === 'grid'
-                  ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
-                  : 'grid-cols-1'
-              }`}
+        <div className="container mx-auto px-4 relative z-10 pt-20">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <motion.div
+              initial={fadeInUp.initial}
+              animate={fadeInUp.animate}
+              transition={fadeInUp.transition}
+              className="max-w-3xl w-full"
             >
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+                Videos
+              </h1>
+              <p className="text-xl text-blue-100 mb-8 leading-relaxed">
+                Watch our latest videos showcasing recycling technology, equipment demonstrations, and industry insights.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Video Feed */}
+      <div className="container mx-auto px-4 py-8">
+        {/* Videos Section */}
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold text-vd-blue mb-6">Videos</h2>
+          <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               {filteredVideos.map((video) => {
                 return (
                   <motion.div
                     key={video.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
+                    transition={{
+                      type: 'spring',
+                      stiffness: 200,
+                      damping: 25,
+                      duration: 0.6
+                    }}
                     className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer"
                     onClick={() => handleVideoClick(video)}
                   >
-                    <div className={`relative overflow-hidden ${activeView === 'list' ? 'h-64' : 'h-64'}`}>
+                    <div className="relative overflow-hidden h-48">
                       <img
                         src={video.thumbnail}
                         alt={video.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        width="600"
-                        height="256"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                        width="400"
+                        height="192"
                         loading="lazy"
                         onError={(e) => {
                           e.currentTarget.src = '/Images/first.jpg';
@@ -358,7 +286,7 @@ const Videos = () => {
                           {video.views}
                         </span>
                       </div>
-                      <h3 className="text-xl font-bold text-vd-blue mb-3 leading-tight group-hover:text-vd-orange transition-colors">
+                      <h3 className="font-bold text-vd-blue mb-3 leading-tight group-hover:text-vd-orange transition-colors text-xl">
                         {video.title}
                       </h3>
                       <p className="text-gray-600 mb-4 leading-relaxed">
@@ -373,19 +301,19 @@ const Videos = () => {
                     </div>
                   </motion.div>
                 );
-              })}
-              </div>
-            </div>
+            })}
+          </div>
 
           {filteredVideos.length === 0 && (
             <div className="text-center py-12">
+              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Play className="w-12 h-12 text-gray-400" />
+              </div>
               <h3 className="text-xl font-semibold text-gray-700 mb-2">No videos found</h3>
-              <p className="text-gray-500">Try adjusting your filters.</p>
+              <p className="text-gray-500">Please check back soon for more content.</p>
             </div>
           )}
         </div>
-      </div>
-
       </div>
 
       {/* Video Modal */}
@@ -471,7 +399,7 @@ const Videos = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 };
 

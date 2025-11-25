@@ -18,6 +18,7 @@ build/
 # IDE and editor files
 .vscode/
 .idea/
+.cursor/
 *.swp
 *.swo
 *~
@@ -211,3 +212,35 @@ pids/
 
 # Exclude VSCode test
 .vscode-test
+
+# PDF files in source code (shouldn't be in components)
+src/components/*.pdf
+
+# Development scripts
+extract_news_articles.py
+extract-articles.js
+
+# Documentation files (optional - remove if you want to keep them)
+IMAGE_MAPPING_SUMMARY.md
+OPTIMIZATION_REPORT.md
+
+# Log files from old websites
+hts-log.txt
+doit.log
+*.log.txt
+
+# Cache directories from old websites
+hts-cache/
+**/hts-cache/
+
+# Temporary website files
+*.whtt
+*.backup
+*.old
+
+# Images directory at root (if not needed)
+Images/
+
+# Large video files (already covered by *.mp4 but being explicit)
+Image_to_Spinner_Loading_Video.mp4
+plastics-recycling-white-bg.mp4

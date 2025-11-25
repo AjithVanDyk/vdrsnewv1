@@ -5,7 +5,7 @@ const PellencSTPage: React.FC = () => {
   const equipment = {
     id: 4,
     name: 'Pellenc ST Optical Sorting',
-    image: '/Images/equipment-pellenc-optical-sorters-product.jpg',
+    image: '/Images/Equipment/Pellenc optical sorters/Product image_pellenc.JPG',
     description: 'Advanced AI-powered optical sorting systems for precise material identification and separation. Pellenc ST technology delivers exceptional accuracy and efficiency in waste processing operations.',
     features: [
       'AI-powered material recognition technology',

@@ -5,7 +5,7 @@ const TOMRAPage: React.FC = () => {
   const equipment = {
     id: 3,
     name: 'TOMRA Optical Sorting',
-    image: '/Images/equipment-tomra-optical-sorters-product.jpg',
+    image: '/Images/Equipment/Tomra Optical sorters/product image_tomra.jpg',
     description: 'Advanced optical sorting technology using near-infrared spectroscopy and artificial intelligence for precise material identification and separation. TOMRA systems deliver exceptional accuracy and efficiency.',
     features: [
       'Near-infrared (NIR) spectroscopy technology',

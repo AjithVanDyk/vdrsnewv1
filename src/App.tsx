@@ -7,6 +7,8 @@ import NavigationErrorBoundary from './components/NavigationErrorBoundary';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Chatbot from './components/Chatbot';
+import CookieConsentBanner from './components/CookieConsentBanner';
+import { LanguageProvider } from './contexts/LanguageContext';
 import { initializeImageLoading } from './utils/imageLoader';
 import serviceWorkerManager from './utils/serviceWorker';
 import { initializePerformanceMonitoring } from './utils/performanceMonitor';
@@ -29,6 +31,7 @@ const PMI = React.lazy(() => import('./pages/PMI'));
 const QuoteForm = React.lazy(() => import('./components/QuoteForm'));
 const TestCenter = React.lazy(() => import('./pages/TestCenter'));
 const PrivacyPolicy = React.lazy(() => import('./pages/PrivacyPolicy'));
+const CookiePolicy = React.lazy(() => import('./pages/CookiePolicy'));
 const VanDykUniversity = React.lazy(() => import('./pages/VanDykUniversity'));
 const PartsInStock = React.lazy(() => import('./pages/PartsInStock'));
 const RemoteTroubleshooting = React.lazy(() => import('./pages/RemoteTroubleshooting'));
@@ -147,10 +150,16 @@ const AppRoutes = () => {
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
-            initial={{ opacity: 0, y: 24, scale: 0.98 }}
+            initial={{ opacity: 0, y: 20, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -24, scale: 0.98 }}
-            transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+            exit={{ opacity: 0, y: -20, scale: 0.98 }}
+            transition={{
+              type: 'spring',
+              stiffness: 300,
+              damping: 30,
+              mass: 0.8,
+              duration: 0.5
+            }}
             className="will-change-transform"
           >
             <Routes location={location}>
@@ -169,6 +178,7 @@ const AppRoutes = () => {
               <Route path="/quote" element={<QuoteForm />} />
               <Route path="/test-center" element={<TestCenter />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/cookie-policy" element={<CookiePolicy />} />
               <Route path="/van-dyk-university" element={<VanDykUniversity />} />
               <Route path="/parts-in-stock" element={<PartsInStock />} />
               <Route path="/remote-troubleshooting" element={<RemoteTroubleshooting />} />
@@ -253,15 +263,18 @@ function App() {
     <SentryErrorBoundary>
       <HelmetProvider>
         <ErrorBoundary>
-          <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-            <div className="min-h-screen bg-white">
-              <Navbar />
-              <SmoothScrollHandler />
-          <AppRoutes />
-              <Footer />
-              <Chatbot />
-            </div>
-          </Router>
+          <LanguageProvider>
+            <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+              <div className="min-h-screen bg-white">
+                <Navbar />
+                <SmoothScrollHandler />
+                <AppRoutes />
+                <Footer />
+                <Chatbot />
+                <CookieConsentBanner />
+              </div>
+            </Router>
+          </LanguageProvider>
         </ErrorBoundary>
       </HelmetProvider>
     </SentryErrorBoundary>

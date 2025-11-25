@@ -6,8 +6,10 @@ import {
   CheckCircle, ArrowRight, Globe, Zap, X, ChevronLeft, ChevronRight
 } from 'lucide-react';
 import { IMAGE_ASSIGNMENTS } from '../config/images';
+import { useTranslation } from '../hooks/useTranslation';
 
 const Careers = () => {
+  const { t } = useTranslation();
   const [selectedJob, setSelectedJob] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [currentGallerySlide, setCurrentGallerySlide] = useState(0);
@@ -20,13 +22,7 @@ const Careers = () => {
     { src: IMAGE_ASSIGNMENTS.careers.slideshow[3], title: 'Building Exterior', description: 'Modern facility exterior view' },
     { src: IMAGE_ASSIGNMENTS.careers.slideshow[4], title: 'Fitness Center', description: 'Employee gym and wellness center' },
     { src: IMAGE_ASSIGNMENTS.careers.slideshow[5], title: 'Living Wall', description: 'Green living wall for natural ambiance' },
-    { src: IMAGE_ASSIGNMENTS.careers.slideshow[6], title: 'Employee Lounge', description: 'Relaxing lounge area for employees' },
-    { src: IMAGE_ASSIGNMENTS.careers.slideshow[7], title: 'Exterior View Gallery', description: 'Building exterior gallery view' },
-    { src: IMAGE_ASSIGNMENTS.careers.slideshow[8], title: 'Front Lobby Gallery', description: 'Reception area gallery view' },
-    { src: IMAGE_ASSIGNMENTS.careers.slideshow[9], title: 'Board Room Gallery', description: 'Executive meeting space gallery view' },
-    { src: IMAGE_ASSIGNMENTS.careers.slideshow[10], title: 'Living Wall Gallery', description: 'Green living wall gallery view' },
-    { src: IMAGE_ASSIGNMENTS.careers.slideshow[11], title: 'Lounge Gallery', description: 'Employee lounge gallery view' },
-    { src: IMAGE_ASSIGNMENTS.careers.slideshow[12], title: 'Cafe Gallery', description: 'Employee cafe gallery view' }
+    { src: IMAGE_ASSIGNMENTS.careers.slideshow[6], title: 'Employee Lounge', description: 'Relaxing lounge area for employees' }
   ];
 
   useEffect(() => {
@@ -49,66 +45,64 @@ const Careers = () => {
   const jobRoles = [
     { 
       id: 'fieldService', 
-      name: 'Field Service Technician', 
+      name: t('careers.fieldServiceTechnician'), 
       icon: Wrench,
-      location: 'North America',
-      type: 'Full-time',
-      experience: '2+ years',
-      travel: '90% travel required',
-      color: 'blue',
-      gradient: 'from-blue-500 to-blue-600',
-      bgColor: 'bg-blue-50',
-      borderColor: 'border-blue-200'
+      location: t('careers.northAmerica'),
+      type: t('careers.fullTime'),
+      experience: t('careers.yearsExperience'),
+      travel: t('careers.travelRequired'),
+      theme: {
+        header: 'from-vd-blue to-vd-blue-light',
+        cardBg: 'bg-accent-blue-light',
+        cardBorder: 'border-vd-blue/20',
+        badgeBg: 'bg-white/20',
+        travelGradient: 'from-vd-blue/15 via-white/60 to-white',
+        travelBorder: 'border-vd-blue/20',
+        travelAccent: 'text-vd-blue',
+        cta: 'from-vd-blue to-vd-blue-dark'
+      }
     },
     { 
       id: 'mechanicalInstaller', 
-      name: 'Mechanical Installer', 
+      name: t('careers.mechanicalInstaller'), 
       icon: Briefcase,
-      location: 'North America',
-      type: 'Full-time',
-      experience: '1+ years',
-      travel: '90% travel required',
-      color: 'orange',
-      gradient: 'from-orange-500 to-orange-600',
-      bgColor: 'bg-orange-50',
-      borderColor: 'border-orange-200'
-    },
-    { 
-      id: 'interns', 
-      name: 'Internships', 
-      icon: User,
-      location: 'Norwalk, CT',
-      type: 'Internship',
-      experience: 'Student/Recent Grad',
-      travel: 'Minimal travel',
-      color: 'green',
-      gradient: 'from-green-500 to-green-600',
-      bgColor: 'bg-green-50',
-      borderColor: 'border-green-200'
+      location: t('careers.northAmerica'),
+      type: t('careers.fullTime'),
+      experience: t('careers.oneYearExperience'),
+      travel: t('careers.travelRequired'),
+      theme: {
+        header: 'from-vd-orange to-vd-orange-light',
+        cardBg: 'bg-accent-orange-light',
+        cardBorder: 'border-vd-orange/20',
+        badgeBg: 'bg-white/10',
+        travelGradient: 'from-vd-orange/15 via-white/60 to-white',
+        travelBorder: 'border-vd-orange/20',
+        travelAccent: 'text-vd-orange',
+        cta: 'from-vd-orange to-vd-orange-alt'
+      }
     },
   ];
-
 
   const companyValues = [
     {
       icon: Users,
-      title: 'Family-Owned Culture',
-      description: 'Experience the warmth and stability of a family-owned business with true family feel'
+      title: t('careers.familyOwnedCulture'),
+      description: t('careers.familyOwnedDesc')
     },
     {
       icon: Zap,
-      title: 'Innovation Freedom',
-      description: 'Develop your creativity within our stable organization with freedom and latitude'
+      title: t('careers.innovationFreedom'),
+      description: t('careers.innovationDesc')
     },
     {
       icon: Award,
-      title: 'Industry Leadership',
-      description: 'Join the world\'s leading provider of recycling sorting systems since 1984'
+      title: t('careers.industryLeadership'),
+      description: t('careers.industryDesc')
     },
     {
       icon: Star,
-      title: 'Personal Development',
-      description: 'Plenty of opportunities for growth in an internationally active organization'
+      title: t('careers.personalDevelopment'),
+      description: t('careers.personalDesc')
     }
   ];
 
@@ -120,7 +114,8 @@ const Careers = () => {
           <img
             src={IMAGE_ASSIGNMENTS.careers.hero}
             alt="Van Dyk Careers"
-            className="w-full h-full object-cover object-center scale-105"
+            className="w-full h-full object-cover object-center"
+            style={{ objectPosition: 'center 30%' }}
             width="1920"
             height="1080"
             loading="eager"
@@ -140,10 +135,10 @@ const Careers = () => {
             className="text-center max-w-4xl mx-auto"
           >
             <h1 className="text-3xl md:text-4xl font-bold mb-6">
-              Join Our Team
+              {t('careers.joinOurTeam')}
             </h1>
             <p className="text-lg md:text-xl mb-8 text-gray-100">
-              Experience the Van Dyk difference. Build your career with industry-leading recycling technology.
+              {t('careers.experience')}
             </p>
             <motion.div
               initial={{ scale: 0.9 }}
@@ -160,7 +155,7 @@ const Careers = () => {
                 }}
                 className="bg-vd-orange text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-vd-orange-alt transition-colors inline-flex items-center"
               >
-                Explore Opportunities
+                {t('careers.exploreOpportunities')}
                 <ArrowRight className="ml-2 w-5 h-5" />
               </button>
             </motion.div>
@@ -180,28 +175,28 @@ const Careers = () => {
               className="max-w-6xl mx-auto"
             >
               <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-4xl font-bold text-vd-blue mb-4">Open Positions</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-vd-blue mb-4">{t('careers.openPositions')}</h2>
                 <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                  Join our team and help shape the future of recycling technology. 
-                  <span className="text-vd-orange font-semibold">Multiple opportunities available across North America.</span>
+                  {t('careers.joinTeam')}{' '}
+                  <span className="text-vd-orange font-semibold">{t('careers.multipleOpportunities')}</span>
                 </p>
               </div>
               
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-2 lg:max-w-4xl lg:mx-auto lg:auto-rows-fr items-stretch">
                 {jobRoles.map((role, index) => (
                   <motion.div
                     key={role.id}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.2 }}
-                    className={`${role.bgColor} ${role.borderColor} border-2 rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-105 group relative`}
+                    className={`${role.theme.cardBg} ${role.theme.cardBorder} border rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group relative flex flex-col`}
                   >
                     {/* Gradient Header */}
-                    <div className={`bg-gradient-to-r ${role.gradient} p-8 text-white relative overflow-hidden`}>
+                    <div className={`bg-gradient-to-r ${role.theme.header} p-8 text-white relative overflow-hidden`}>
                       <div className="absolute inset-0 bg-black/10"></div>
                       <div className="relative z-10">
                         <div className="flex items-center mb-4">
-                          <div className="bg-white/20 p-3 rounded-xl mr-4 group-hover:bg-white/30 transition-colors">
+                          <div className={`${role.theme.badgeBg} p-3 rounded-xl mr-4 group-hover:bg-white/30 transition-colors`}>
                             <role.icon className="h-8 w-8 text-white" />
                           </div>
                           <div>
@@ -215,7 +210,7 @@ const Careers = () => {
                       </div>
                     </div>
 
-                    <div className="p-8">
+                    <div className="p-8 flex flex-col flex-grow">
                       {/* Job Details */}
                       <div className="grid grid-cols-2 gap-4 mb-6">
                         <div className="bg-white rounded-xl p-4 text-center shadow-sm">
@@ -228,10 +223,10 @@ const Careers = () => {
                         </div>
                       </div>
 
-                      <div className={`bg-gradient-to-r ${role.gradient}/10 border border-${role.color}-200 rounded-xl p-4 mb-6`}>
-                        <div className={`flex items-center text-sm font-semibold mb-2 text-${role.color}-600`}>
+                      <div className={`bg-gradient-to-r ${role.theme.travelGradient} ${role.theme.travelBorder} rounded-xl p-4 mb-6`}>
+                        <div className={`flex items-center text-sm font-semibold mb-2 ${role.theme.travelAccent}`}>
                           <Globe className="w-4 h-4 mr-2" />
-                          Travel Requirements
+                          {t('careers.travelRequirements')}
                         </div>
                         <p className="text-sm text-gray-700">{role.travel}</p>
                       </div>
@@ -243,18 +238,15 @@ const Careers = () => {
                         {role.id === 'mechanicalInstaller' && 
                           "Become a Mechanical Installer and help build the future of recycling. Work with conveyors, screens, balers, and optical sorters while gaining hands-on experience with industry-leading technology."
                         }
-                        {role.id === 'interns' && 
-                          "Start your career with our internship program. Gain valuable hands-on experience in electrical, mechanical, and hydraulic systems while working alongside industry experts."
-                        }
                       </p>
 
-                      <div className="space-y-3">
+                      <div className="space-y-3 mt-auto">
                         <button
                           onClick={() => setSelectedJob(role)}
-                          className={`w-full bg-gradient-to-r ${role.gradient} hover:opacity-90 text-white font-bold px-6 py-4 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center`}
+                          className={`w-full bg-gradient-to-r ${role.theme.cta} hover:opacity-90 text-white font-bold px-6 py-4 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center`}
                         >
                           <ArrowRight className="h-5 w-5 mr-2" />
-                          View Details
+                          {t('careers.viewDetails')}
                         </button>
                         
                         <a
@@ -264,7 +256,7 @@ const Careers = () => {
                           className="w-full bg-vd-blue hover:bg-vd-blue-dark text-white font-bold px-6 py-4 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center"
                         >
                           <FileText className="h-5 w-5 mr-2" />
-                          Apply Now
+                          {t('careers.applyNow')}
                           <ExternalLink className="h-4 w-4 ml-2" />
                         </a>
                       </div>
@@ -286,9 +278,9 @@ const Careers = () => {
               className="max-w-6xl mx-auto"
             >
               <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-4xl font-bold text-vd-blue mb-4">Why Work With Us?</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-vd-blue mb-4">{t('careers.whyWorkWithUs')}</h2>
                 <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                  Discover what makes Van Dyk Recycling Solutions a unique place to work and grow your career.
+                  {t('careers.discover')}
                 </p>
               </div>
               
@@ -323,9 +315,9 @@ const Careers = () => {
               className="max-w-6xl mx-auto"
             >
               <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-4xl font-bold text-vd-blue mb-4">Gallery</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-vd-blue mb-4">{t('careers.gallery')}</h2>
                 <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                  Take a virtual tour of our facilities and see where you could be working.
+                  {t('careers.virtualTour')}
                 </p>
               </div>
               
@@ -422,9 +414,9 @@ const Careers = () => {
               transition={{ duration: 0.8 }}
               className="text-center max-w-4xl mx-auto"
             >
-              <h2 className="text-4xl font-bold mb-6">Ready to Join Our Team?</h2>
+              <h2 className="text-4xl font-bold mb-6">{t('careers.readyToJoin')}</h2>
               <p className="text-xl mb-8 text-blue-100">
-                Take the next step in your career and help us build a more sustainable future.
+                {t('careers.nextStep')}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <motion.a
@@ -435,7 +427,7 @@ const Careers = () => {
                   whileTap={{ scale: 0.95 }}
                   className="bg-vd-orange hover:bg-vd-orange-alt text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors inline-flex items-center justify-center"
                 >
-                  Apply Now
+                  {t('careers.applyNow')}
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </motion.a>
                 <motion.button
@@ -449,7 +441,7 @@ const Careers = () => {
                   whileTap={{ scale: 0.95 }}
                   className="border-2 border-white text-white hover:bg-white hover:text-vd-blue px-8 py-4 rounded-lg font-semibold text-lg transition-colors inline-flex items-center justify-center"
                 >
-                  View Open Positions
+                  {t('careers.viewOpenPositions')}
                 </motion.button>
               </div>
             </motion.div>
@@ -499,7 +491,7 @@ const Careers = () => {
             className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
           >
             {/* Modal Header */}
-            <div className={`bg-gradient-to-r ${selectedJob.gradient} p-6 text-white relative`}>
+            <div className={`bg-gradient-to-r ${selectedJob.theme.header} p-6 text-white relative`}>
               <button
                 onClick={() => setSelectedJob(null)}
                 className="absolute top-4 right-4 text-white hover:text-gray-200 transition-colors"
@@ -535,8 +527,8 @@ const Careers = () => {
               </div>
 
               {/* Travel Requirements */}
-              <div className={`bg-gradient-to-r ${selectedJob.gradient}/10 border border-${selectedJob.color}-200 rounded-xl p-4 mb-6`}>
-                <div className={`flex items-center text-sm font-semibold mb-2 text-${selectedJob.color}-600`}>
+              <div className={`bg-gradient-to-r ${selectedJob.theme.travelGradient} ${selectedJob.theme.travelBorder} rounded-xl p-4 mb-6`}>
+                <div className={`flex items-center text-sm font-semibold mb-2 ${selectedJob.theme.travelAccent}`}>
                   <Globe className="w-4 h-4 mr-2" />
                   Travel Requirements
                 </div>
@@ -593,12 +585,6 @@ const Careers = () => {
                         </p>
                       </div>
                     </>
-                  )}
-                  {selectedJob.id === 'interns' && (
-                    <p>
-                      Start your career with our internship program. Gain valuable hands-on experience in electrical, mechanical, 
-                      and hydraulic systems while working alongside industry experts.
-                    </p>
                   )}
                 </div>
               </div>
@@ -667,26 +653,6 @@ const Careers = () => {
                       </li>
                     </>
                   )}
-                  {selectedJob.id === 'interns' && (
-                    <>
-                      <li className="flex items-start">
-                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span>Currently enrolled in or recent graduate of engineering program</span>
-                      </li>
-                      <li className="flex items-start">
-                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span>Interest in recycling and environmental technology</span>
-                      </li>
-                      <li className="flex items-start">
-                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span>Strong analytical and problem-solving skills</span>
-                      </li>
-                      <li className="flex items-start">
-                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span>Eagerness to learn and work with industry experts</span>
-                      </li>
-                    </>
-                  )}
                 </ul>
               </div>
 
@@ -746,26 +712,6 @@ const Careers = () => {
                       )}
                     </>
                   )}
-                  {selectedJob.id === 'interns' && (
-                    <>
-                      <div className="flex items-start">
-                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span>Hands-on experience with industry-leading recycling equipment</span>
-                      </div>
-                      <div className="flex items-start">
-                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span>Mentorship from experienced industry professionals</span>
-                      </div>
-                      <div className="flex items-start">
-                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span>Exposure to electrical, mechanical, and hydraulic systems</span>
-                      </div>
-                      <div className="flex items-start">
-                        <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                        <span>Potential for full-time employment upon successful completion</span>
-                      </div>
-                    </>
-                  )}
                 </div>
               </div>
 
@@ -775,7 +721,7 @@ const Careers = () => {
                   href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=7YKQMSwus0K6eGyqSyijxbLJzBecdydNjMz8TRHTYd1UQVNMVFpNMFFGMFpGNVRFMEdVWlZNOVFIQi4u&embed=true"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex-1 bg-vd-blue hover:bg-vd-blue-dark text-white font-bold px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center"
+                  className={`flex-1 bg-gradient-to-r ${selectedJob.theme.cta} hover:opacity-90 text-white font-bold px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center justify-center`}
                 >
                   <FileText className="h-5 w-5 mr-2" />
                   Apply Now

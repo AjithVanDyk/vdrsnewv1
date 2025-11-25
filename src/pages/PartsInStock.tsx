@@ -35,25 +35,25 @@ const PartsInStock = () => {
       title: 'Bollegraaf Baler Parts',
       description: 'Complete inventory of Bollegraaf baler components including hydraulic systems, electrical components, and wear parts.',
       parts: ['Hydraulic pumps and valves', 'Electrical control systems', 'Wear plates and knives', 'Safety systems', 'Conveyor components'],
-      image: '/Images/bollegraaf-parts.jpg'
+      image: '/Images/Equipment/Bollegraaf/Product image_baler.jpg'
     },
     {
       title: 'TOMRA Optical Sorter Parts',
       description: 'Optical sorter components including sensors, lasers, air valves, and control systems for optimal performance.',
       parts: ['Optical sensors and lasers', 'Air valve systems', 'Control electronics', 'Belt systems', 'Calibration tools'],
-      image: '/Images/tomra-parts.jpg'
+      image: '/Images/Equipment/Tomra Optical sorters/product image_tomra.jpg'
     },
     {
       title: 'Screen and Conveyor Parts',
       description: 'Screening equipment parts including screen panels, motors, bearings, and structural components.',
       parts: ['Screen panels and decks', 'Motor and drive systems', 'Bearings and seals', 'Structural components', 'Vibration systems'],
-      image: '/Images/screen-parts.jpg'
+      image: '/Images/Equipment/Lubo Screens/Product image_lubo screens.jpg'
     },
     {
       title: 'General Equipment Parts',
       description: 'Common parts for various recycling equipment including motors, belts, sensors, and control systems.',
       parts: ['Motors and drives', 'Belts and chains', 'Sensors and switches', 'Control panels', 'Safety equipment'],
-      image: '/Images/general-parts.jpg'
+      image: '/Images/equipment-hero.jpg'
     }
   ];
 
@@ -114,6 +114,17 @@ const PartsInStock = () => {
               <p className="text-xl text-gray-200 mb-6">
                 $35M+ inventory of recycling equipment parts ready for same-day shipping
               </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+                <a
+                  href="https://www.shopvandykdirect.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-vd-orange hover:bg-vd-orange-alt text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5 hover:scale-105 flex items-center justify-center"
+                >
+                  Order Now
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </a>
+              </div>
               <div className="flex flex-wrap justify-center gap-4 text-sm">
                 <div className="flex items-center">
                   <Clock className="w-4 h-4 mr-2" />
@@ -236,8 +247,9 @@ const PartsInStock = () => {
                         src={category.image}
                         alt={category.title}
                         className="w-full h-64 object-cover rounded-lg"
+                        loading="lazy"
                         onError={(e) => {
-                          e.currentTarget.src = '/Images/image-1749759453479.png';
+                          e.currentTarget.src = '/Images/equipment-hero.jpg';
                         }}
                       />
                     </div>

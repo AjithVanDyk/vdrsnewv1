@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -15,19 +15,30 @@ import { submitContactForm, FormSubmissionResult } from '../utils/formSubmission
 import ReCAPTCHA from '../components/ReCAPTCHA';
 import SEO from '../components/SEO';
 import { SEO_PAGES } from '../utils/seo';
+import { useTranslation } from '../hooks/useTranslation';
+import { useLanguage } from '../contexts/LanguageContext';
+import { translations } from '../config/translations';
 
-// Form validation schema
-const contactFormSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  company: z.string().min(1, 'Company name is required'),
-  email: z.string().email('Please enter a valid email address'),
-  phone: z.string().min(10, 'Please enter a valid phone number'),
-  message: z.string().min(10, 'Message must be at least 10 characters'),
-});
-
-type ContactFormData = z.infer<typeof contactFormSchema>;
+type ContactFormData = {
+  name: string;
+  company: string;
+  email: string;
+  phone: string;
+  message: string;
+};
 
 const AboutCareersContact = () => {
+  const { t } = useTranslation();
+  const { language } = useLanguage();
+  
+  // Form validation schema with translations
+  const contactFormSchema = useMemo(() => z.object({
+    name: z.string().min(2, t('contact.formNameError')),
+    company: z.string().min(1, t('contact.formCompanyError')),
+    email: z.string().email(t('contact.formEmailError')),
+    phone: z.string().min(10, t('contact.formPhoneError')),
+    message: z.string().min(10, t('contact.formMessageError')),
+  }), [t]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showApplicationForm, setShowApplicationForm] = useState<string | null>(null);
   const [expandedJob, setExpandedJob] = useState<string | null>(null);
@@ -50,7 +61,7 @@ const AboutCareersContact = () => {
   const onSubmit = async (data: ContactFormData) => {
     // Validate reCAPTCHA
     if (!recaptchaToken) {
-      setRecaptchaError('Please complete the reCAPTCHA verification');
+      setRecaptchaError(t('contact.recaptchaError'));
       return;
     }
 
@@ -69,7 +80,7 @@ const AboutCareersContact = () => {
     } catch (error) {
       setFormSubmission({
         success: false,
-        message: 'An unexpected error occurred. Please try again.',
+        message: t('contact.formError'),
         error: error instanceof Error ? error.message : 'Unknown error'
       });
     } finally {
@@ -84,12 +95,12 @@ const AboutCareersContact = () => {
 
   const handleRecaptchaExpire = () => {
     setRecaptchaToken('');
-    setRecaptchaError('reCAPTCHA expired. Please verify again.');
+    setRecaptchaError(t('contact.recaptchaExpired'));
   };
 
   const handleRecaptchaError = () => {
     setRecaptchaToken('');
-    setRecaptchaError('reCAPTCHA verification failed. Please try again.');
+    setRecaptchaError(t('contact.recaptchaFailed'));
   };
 
   // Determine active tab based on URL path
@@ -134,35 +145,38 @@ const AboutCareersContact = () => {
     setCurrentSlide((prev) => (prev - 1 + slideImages.length) % slideImages.length);
   };
 
-  const companyCards = [
-    {
-      id: 'whoIsVanDyk',
-      title: 'Who is VAN DYK?',
-      content: 'Van Dyk Recycling Solutions is the leading provider of recycling sorting systems in the world. Van Dyk helps waste and recycling companies maximize their profits by supplying state of the art sorting systems and equipment to process recycled materials.',
-      image: '/Images/image-1749759459073.png',
-      features: ['World Leader', 'Since 1984', 'Global Reach', 'Innovation Focus']
-    },
-    {
-      id: 'whatWeDo',
-      title: 'What We Do',
-      content: 'We partner with our clients to improve their business performance through more reliable operations and innovative strategies that reduce their labor costs, mitigate risk of downtime, increase the quality of their end products, ensure safety of personnel, and optimize costs associated with operations, maintenance, and total asset spend.',
-      image: '/Images/image-1749759502636.png',
-      features: ['Performance Improvement', 'Cost Reduction', 'Quality Enhancement', 'Safety Focus']
-    },
-    {
-      id: 'howWereDifferent',
-      title: 'How We\'re Different',
-      content: 'The innovative people of Van Dyk Recycling Solutions are the lifeline of the organization, filling the hallways with contagious energy and enthusiasm. Our team has the freedom and latitude to develop their own creativity within our stable organization. Van Dyk has a true family feel.',
-      image: '/Images/image-1749759495211.png',
-    }
-  ];
+  const companyCards = useMemo(() => {
+    const contactTranslations = translations[language]?.contact || translations.en.contact;
+    return [
+      {
+        id: 'whoIsVanDyk',
+        title: t('contact.whoIsVanDyk'),
+        content: t('contact.whoIsVanDykContent'),
+        image: '/Images/image-1749759459073.png',
+        features: contactTranslations.whoIsVanDykFeatures || ['World Leader', 'Since 1984', 'Global Reach', 'Innovation Focus']
+      },
+      {
+        id: 'whatWeDo',
+        title: t('contact.whatWeDo'),
+        content: t('contact.whatWeDoContent'),
+        image: '/Images/image-1749759502636.png',
+        features: contactTranslations.whatWeDoFeatures || ['Performance Improvement', 'Cost Reduction', 'Quality Enhancement', 'Safety Focus']
+      },
+      {
+        id: 'howWereDifferent',
+        title: t('contact.howWereDifferent'),
+        content: t('contact.howWereDifferentContent'),
+        image: '/Images/image-1749759495211.png',
+      }
+    ];
+  }, [t, language]);
 
-  const jobRoles = [
+  const jobRoles = useMemo(() => [
     {
       id: 'fieldService',
-      title: 'Field Service Technician',
+      title: t('contact.fieldServiceTitle'),
       icon: Wrench,
-      shortDescription: 'Turn-key installation, service and maintenance of recycling machinery across North America',
+      shortDescription: t('contact.fieldServiceShort'),
       fullDescription: 'Van Dyk Recycling Solutions has several vacancies across the United States, in Canada and in Mexico. Van Dyk is a rapidly growing company and we are constantly seeking additional service technicians for the installation and service of large industrial recycling equipment installations.',
       roleDetails: [
         'Handle turn-key installation, service and maintenance of all machinery sold by Van Dyk',
@@ -200,9 +214,9 @@ const AboutCareersContact = () => {
     },
     {
       id: 'mechanicalInstaller',
-      title: 'Mechanical Installer',
+      title: t('contact.mechanicalInstallerTitle'),
       icon: Briefcase,
-      shortDescription: 'Mechanical installation of complete recycling systems and equipment',
+      shortDescription: t('contact.mechanicalInstallerShort'),
       fullDescription: 'Van Dyk Recycling Solutions has several vacancies across the United States, in Canada and in Mexico. Van Dyk is a family-owned, rapidly growing company, and we are constantly seeking additional mechanical installers for the installation of large industrial recycling equipment.',
       roleDetails: [
         'Responsible for mechanical installation of all machinery sold by Van Dyk',
@@ -241,9 +255,9 @@ const AboutCareersContact = () => {
     },
     {
       id: 'internships',
-      title: 'Internships',
+      title: t('contact.internshipsTitle'),
       icon: User,
-      shortDescription: 'Learn data engineering, drawing, and sorting machine operations in Norwalk',
+      shortDescription: t('contact.internshipsShort'),
       fullDescription: 'Van Dyk Recycling Solutions offers challenging internship opportunities in our Norwalk, CT headquarters focusing on data engineering, technical drawing, and sorting machine operations.',
       roleDetails: [
         'Work on data engineering projects for recycling analytics',
@@ -276,7 +290,7 @@ const AboutCareersContact = () => {
       image: '/Images/image-1749759499434.png',
       color: 'from-purple-500 to-purple-600'
     }
-  ];
+  ], [t]);
   type JobRole = (typeof jobRoles)[number];
 
   const JobDetailModal = ({ job, onClose, onApply }: { job: JobRole; onClose: () => void; onApply: () => void }) => (
@@ -315,7 +329,7 @@ const AboutCareersContact = () => {
           <div className="mb-8">
             <h3 className="text-2xl font-semibold text-vd-blue mb-4 flex items-center">
               <Target className="w-6 h-6 mr-2 text-vd-orange" />
-              Position Overview
+              {t('contact.positionOverview')}
             </h3>
             <p className="text-gray-700 leading-relaxed bg-gray-50 p-4 rounded-lg">
               {job.fullDescription}
@@ -327,7 +341,7 @@ const AboutCareersContact = () => {
             <div className="bg-white border border-gray-200 rounded-xl p-6">
               <h3 className="text-xl font-semibold text-vd-blue mb-4 flex items-center">
                 <Briefcase className="w-5 h-5 mr-2 text-vd-orange" />
-                The Role
+                {t('contact.theRole')}
               </h3>
               <ul className="space-y-3">
                 {job.roleDetails.map((detail: string, index: number) => (
@@ -342,14 +356,14 @@ const AboutCareersContact = () => {
                 <div className="flex items-center bg-blue-50 p-3 rounded-lg">
                   <Globe className="w-5 h-5 text-blue-600 mr-3" />
                   <div>
-                    <span className="font-medium text-blue-800">Travel:</span>
+                    <span className="font-medium text-blue-800">{t('careers.travelRequirements')}:</span>
                     <span className="text-blue-700 ml-2">{job.travel}</span>
                   </div>
                 </div>
                 <div className="flex items-center bg-green-50 p-3 rounded-lg">
                   <MapPin className="w-5 h-5 text-green-600 mr-3" />
                   <div>
-                    <span className="font-medium text-green-800">Locations:</span>
+                    <span className="font-medium text-green-800">{t('careers.northAmerica')}:</span>
                     <span className="text-green-700 ml-2">{job.locations}</span>
                   </div>
                 </div>
@@ -360,7 +374,7 @@ const AboutCareersContact = () => {
             <div className="bg-white border border-gray-200 rounded-xl p-6">
               <h3 className="text-xl font-semibold text-vd-blue mb-4 flex items-center">
                 <Award className="w-5 h-5 mr-2 text-vd-orange" />
-                Experience Needed
+                {t('contact.experienceNeeded')}
               </h3>
               <ul className="space-y-3">
                 {job.experienceNeeded.map((exp: string, index: number) => (
@@ -377,7 +391,7 @@ const AboutCareersContact = () => {
           <div className="bg-gradient-to-br from-vd-blue to-vd-blue-dark text-white rounded-xl p-6 mb-8">
             <h3 className="text-xl font-semibold mb-4 flex items-center">
               <Heart className="w-5 h-5 mr-2 text-vd-orange" />
-              Benefits & Compensation
+              {t('contact.benefitsCompensation')}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {job.benefits.map((benefit: string, index: number) => (
@@ -391,9 +405,9 @@ const AboutCareersContact = () => {
 
           {/* Apply Section */}
           <div className="bg-vd-orange/5 border border-vd-orange/20 rounded-xl p-6 text-center">
-            <h3 className="text-xl font-semibold text-vd-blue mb-4">Ready to Join Our Team?</h3>
+            <h3 className="text-xl font-semibold text-vd-blue mb-4">{t('contact.readyToJoin')}</h3>
             <p className="text-gray-600 mb-6">
-              Submit your application through our online portal.
+              {t('contact.applyDescription')}
             </p>
             <div className="flex justify-center">
               <button
@@ -401,7 +415,7 @@ const AboutCareersContact = () => {
                 className="bg-vd-orange hover:bg-vd-orange-alt text-white font-semibold py-3 px-8 rounded-lg transition-colors flex items-center justify-center space-x-2"
               >
                 <Send className="w-5 h-5" />
-                <span>Apply Now</span>
+                <span>{t('contact.applyNow')}</span>
               </button>
             </div>
           </div>
@@ -427,7 +441,7 @@ const AboutCareersContact = () => {
       >
         <div className={`bg-gradient-to-r ${jobRole.color} text-white p-6 rounded-t-2xl`}>
           <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold">Application for {jobRole.title}</h2>
+            <h2 className="text-2xl font-bold">{t('contact.applicationFor')} {jobRole.title}</h2>
             <button onClick={onClose} aria-label="Close modal" className="text-white/80 hover:text-white">
               <X className="w-6 h-6" />
             </button>
@@ -437,7 +451,7 @@ const AboutCareersContact = () => {
         <div className="p-6 h-[calc(90vh-120px)] overflow-hidden">
           <div className="mb-4 text-center">
             <p className="text-gray-600">
-              Please complete the application form below for the {jobRole.title} position.
+              {t('contact.applicationInstructions', '').replace('{role}', jobRole.title)}
             </p>
           </div>
           
@@ -517,14 +531,14 @@ const AboutCareersContact = () => {
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="text-center text-white bg-vd-blue-dark/80 px-8 py-6 rounded-2xl backdrop-blur-sm pointer-events-auto">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              {activeTab === 'about' && 'Van Dyk Recycling Solutions'}
-              {activeTab === 'careers' && 'Join Our Team'}
-              {activeTab === 'contact' && 'Get in Touch'}
+              {activeTab === 'about' && t('contact.aboutTitle')}
+              {activeTab === 'careers' && t('contact.careersTitle')}
+              {activeTab === 'contact' && t('contact.pageTitle')}
             </h1>
             <p className="text-xl text-gray-100">
-              {activeTab === 'about' && 'Leading the Industry Since 1984'}
-              {activeTab === 'careers' && 'Drive innovation in recycling solutions'}
-              {activeTab === 'contact' && 'Have questions? Our team is here to help'}
+              {activeTab === 'about' && t('contact.aboutSubtitle')}
+              {activeTab === 'careers' && t('contact.careersSubtitle')}
+              {activeTab === 'contact' && t('contact.pageSubtitle')}
             </p>
           </div>
         </div>  
@@ -541,9 +555,9 @@ const AboutCareersContact = () => {
           >
             <div className="container mx-auto px-4 py-16">
               <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-vd-blue mb-4">About Our Company</h2>
+                <h2 className="text-3xl font-bold text-vd-blue mb-4">{t('contact.aboutCompanyTitle')}</h2>
                 <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                  Discover who we are, what we do, and what makes us different
+                  {t('contact.aboutCompanySubtitle')}
                 </p>
               </div>
 
@@ -604,9 +618,9 @@ const AboutCareersContact = () => {
           >
             <div className="container mx-auto px-4 py-16">
               <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-vd-blue mb-4">Career Opportunities</h2>
+                <h2 className="text-3xl font-bold text-vd-blue mb-4">{t('contact.careersTitle')}</h2>
                 <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                  Join our team and help drive innovation in recycling solutions
+                  {t('contact.careersSubtitle')}
                 </p>
               </div>
 
@@ -638,7 +652,7 @@ const AboutCareersContact = () => {
                       </div>
                       <div className="absolute top-4 right-4">
                         <span className="bg-white/20 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-full">
-                          {job.id === 'internships' ? 'Entry Level' : 'Experienced'}
+                          {job.id === 'internships' ? t('contact.entryLevel') : t('contact.experienced')}
                         </span>
                       </div>
                     </div>
@@ -664,14 +678,14 @@ const AboutCareersContact = () => {
                           className="bg-vd-blue hover:bg-vd-blue-dark text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
                         >
                           <FileText className="w-4 h-4" />
-                          <span>View Details</span>
+                          <span>{t('contact.viewDetails')}</span>
                         </button>
                         <button
                           onClick={() => setShowApplicationForm(job.id)}
                           className="bg-vd-orange hover:bg-vd-orange-alt text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
                         >
                           <User className="w-4 h-4" />
-                          <span>I'm Interested</span>
+                          <span>{t('contact.imInterested')}</span>
                         </button>
                       </div>
                     </div>
@@ -702,18 +716,16 @@ const AboutCareersContact = () => {
                   className="space-y-8"
                 >
                   <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
-                    <h2 className="text-2xl font-bold text-vd-blue mb-6">Contact Information</h2>
+                    <h2 className="text-2xl font-bold text-vd-blue mb-6">{t('contact.contactInfoTitle')}</h2>
                     <div className="space-y-6">
                       <div className="flex items-start space-x-4">
                         <div className="bg-vd-blue/10 p-3 rounded-lg">
                           <MapPin className="w-6 h-6 text-vd-orange" />
                         </div>
                         <div>
-                          <h3 className="font-semibold text-gray-900 mb-1">Our Location</h3>
-                          <p className="text-gray-600">
-                            360 Dr. Martin Luther King Jr. Drive<br />
-                            Norwalk, CT 06854<br />
-                            United States
+                          <h3 className="font-semibold text-gray-900 mb-1">{t('contact.locationTitle')}</h3>
+                          <p className="text-gray-600 whitespace-pre-line">
+                            {t('contact.locationAddress')}
                           </p>
                         </div>
                       </div>
@@ -723,10 +735,10 @@ const AboutCareersContact = () => {
                           <Phone className="w-6 h-6 text-vd-orange" />
                         </div>
                         <div>
-                          <h3 className="font-semibold text-gray-900 mb-1">Phone Numbers</h3>
+                          <h3 className="font-semibold text-gray-900 mb-1">{t('contact.phoneTitle')}</h3>
                           <p className="text-gray-600">
-                            Main: <a href="tel:+12039671100" className="text-vd-orange hover:text-vd-orange-alt">+1 (203) 967-1100</a><br />
-                            Support: <a href="tel:+12039671100" className="text-vd-orange hover:text-vd-orange-alt">+1 (203) 967-1100</a>
+                            {t('contact.phoneMain')}: <a href="tel:+12039671100" className="text-vd-orange hover:text-vd-orange-alt">+1 (203) 967-1100</a><br />
+                            {t('contact.phoneSupport')}: <a href="tel:+12039671100" className="text-vd-orange hover:text-vd-orange-alt">+1 (203) 967-1100</a>
                           </p>
                         </div>
                       </div>
@@ -736,12 +748,12 @@ const AboutCareersContact = () => {
                           <Mail className="w-6 h-6 text-vd-orange" />
                         </div>
                         <div>
-                          <h3 className="font-semibold text-gray-900 mb-1">Email Addresses</h3>
+                          <h3 className="font-semibold text-gray-900 mb-1">{t('contact.emailTitle')}</h3>
                           <p className="text-gray-600">
-                            General: <a href="mailto:info@vdrs.com" className="text-vd-orange hover:text-vd-orange-alt">info@vdrs.com</a><br />
-                            Support: <a href="mailto:support@vdrs.com" className="text-vd-orange hover:text-vd-orange-alt">support@vdrs.com</a><br />
-                            Shipping: <a href="mailto:shipping@vdrs.com" className="text-vd-orange hover:text-vd-orange-alt">shipping@vdrs.com</a><br />
-                            Service: <a href="mailto:service@vdrs.com" className="text-vd-orange hover:text-vd-orange-alt">service@vdrs.com</a>
+                            {t('contact.emailGeneral')}: <a href="mailto:info@vdrs.com" className="text-vd-orange hover:text-vd-orange-alt">info@vdrs.com</a><br />
+                            {t('contact.emailSupport')}: <a href="mailto:support@vdrs.com" className="text-vd-orange hover:text-vd-orange-alt">support@vdrs.com</a><br />
+                            {t('contact.emailShipping')}: <a href="mailto:shipping@vdrs.com" className="text-vd-orange hover:text-vd-orange-alt">shipping@vdrs.com</a><br />
+                            {t('contact.emailService')}: <a href="mailto:service@vdrs.com" className="text-vd-orange hover:text-vd-orange-alt">service@vdrs.com</a>
                           </p>
                         </div>
                       </div>
@@ -751,11 +763,11 @@ const AboutCareersContact = () => {
                           <Clock className="w-6 h-6 text-vd-orange" />
                         </div>
                         <div>
-                          <h3 className="font-semibold text-gray-900 mb-1">Business Hours</h3>
+                          <h3 className="font-semibold text-gray-900 mb-1">{t('contact.businessHoursTitle')}</h3>
                           <p className="text-gray-600">
-                            Monday - Friday: 8:00 AM - 6:00 PM EST<br />
-                            Saturday: 9:00 AM - 1:00 PM EST<br />
-                            Sunday: Closed
+                            {t('contact.businessHoursWeekday')}<br />
+                            {t('contact.businessHoursSaturday')}<br />
+                            {t('contact.businessHoursSunday')}
                           </p>
                         </div>
                       </div>
@@ -770,7 +782,7 @@ const AboutCareersContact = () => {
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100"
                 >
-                  <h2 className="text-2xl font-bold text-vd-blue mb-6">Send Us a Message</h2>
+                  <h2 className="text-2xl font-bold text-vd-blue mb-6">{t('contact.formTitle')}</h2>
                   
                   {/* Form Submission Status */}
                   {formSubmission && (
@@ -796,7 +808,7 @@ const AboutCareersContact = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                          Full Name *
+                          {t('contact.formNameLabel')}
                         </label>
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -810,7 +822,7 @@ const AboutCareersContact = () => {
                             className={`block w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange ${
                               errors.name ? 'border-red-300' : 'border-gray-300'
                             }`}
-                            placeholder="John Doe"
+                            placeholder={t('contact.formNamePlaceholder')}
                           />
                         </div>
                         {errors.name && (
@@ -819,7 +831,7 @@ const AboutCareersContact = () => {
                       </div>
                       <div>
                         <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
-                          Company Name *
+                          {t('contact.formCompanyLabel')}
                         </label>
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -833,7 +845,7 @@ const AboutCareersContact = () => {
                             className={`block w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange ${
                               errors.company ? 'border-red-300' : 'border-gray-300'
                             }`}
-                            placeholder="Your Company"
+                            placeholder={t('contact.formCompanyPlaceholder')}
                           />
                         </div>
                         {errors.company && (
@@ -845,7 +857,7 @@ const AboutCareersContact = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                          Email Address *
+                          {t('contact.formEmailLabel')}
                         </label>
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -859,7 +871,7 @@ const AboutCareersContact = () => {
                             className={`block w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange ${
                               errors.email ? 'border-red-300' : 'border-gray-300'
                             }`}
-                            placeholder="john@company.com"
+                            placeholder={t('contact.formEmailPlaceholder')}
                           />
                         </div>
                         {errors.email && (
@@ -868,7 +880,7 @@ const AboutCareersContact = () => {
                       </div>
                       <div>
                         <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                          Phone Number *
+                          {t('contact.formPhoneLabel')}
                         </label>
                         <div className="relative">
                           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -882,7 +894,7 @@ const AboutCareersContact = () => {
                             className={`block w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange ${
                               errors.phone ? 'border-red-300' : 'border-gray-300'
                             }`}
-                            placeholder="+1 (555) 000-0000"
+                            placeholder={t('contact.formPhonePlaceholder')}
                           />
                         </div>
                         {errors.phone && (
@@ -893,7 +905,7 @@ const AboutCareersContact = () => {
 
                     <div>
                       <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                        Message *
+                        {t('contact.formMessageLabel')}
                       </label>
                       <div className="relative">
                         <div className="absolute top-3 left-3 flex items-start pointer-events-none">
@@ -907,7 +919,7 @@ const AboutCareersContact = () => {
                           className={`block w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-vd-orange focus:border-vd-orange ${
                             errors.message ? 'border-red-300' : 'border-gray-300'
                           }`}
-                          placeholder="How can we help you?"
+                          placeholder={t('contact.formMessagePlaceholder')}
                         />
                       </div>
                       {errors.message && (
@@ -939,12 +951,12 @@ const AboutCareersContact = () => {
                       {isSubmitting ? (
                         <>
                           <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                          <span>Sending...</span>
+                          <span>{t('contact.formSending')}</span>
                         </>
                       ) : (
                         <>
                           <Send className="w-5 h-5" />
-                          <span>Send Message</span>
+                          <span>{t('contact.formSendButton')}</span>
                         </>
                       )}
                     </button>

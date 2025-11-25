@@ -1,16 +1,19 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Target, Lightbulb, Globe, ArrowRight, ExternalLink, Linkedin } from 'lucide-react';
 import QuoteForm from '../components/QuoteForm';
+import { useTranslation } from '../hooks/useTranslation';
+import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion';
+import { getMotionConfig } from '../utils/animations';
 
 const About = () => {
+  const { t } = useTranslation();
   const [showQuoteForm, setShowQuoteForm] = useState(false);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
-  const fadeInUp = {
-    initial: { opacity: 0, y: 60 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.6 }
-  };
+  const fadeInUp = getMotionConfig('fadeInUp', prefersReducedMotion, {
+    initial: { opacity: 0, y: 60 }
+  });
 
   const staggerChildren = {
     animate: {
@@ -20,43 +23,43 @@ const About = () => {
     }
   };
 
-  const leadershipTeam = [
+  const leadershipTeam = useMemo(() => [
     {
       name: "Pieter Eenkema van Dijk",
-      position: "President & CEO",
+      position: t('about.presidentCEO'),
       linkedin: "https://www.linkedin.com/in/pieter-eenkema-van-dijk-1a7096a9/",
       image: "/Images/leadership-pvd.jpg"
     },
     {
       name: "Erik Eenkema van Dijk",
-      position: "Executive Vice President & COO",
+      position: t('about.executiveVPCOO'),
       linkedin: "https://www.linkedin.com/in/erik-eenkema-van-dijk/",
       image: "/Images/leadership-evd.jpg"
     },
     {
       name: "Mark Neitzey",
-      position: "Director of Sales",
+      position: t('about.directorOfSales'),
       linkedin: "https://www.linkedin.com/in/mark-neitzey/",
       image: "/Images/leadership-mark-neitzey.jpg"
     },
     {
       name: "Chris Bova",
-      position: "VP of Operations",
+      position: t('about.vpOfOperations'),
       linkedin: "https://www.linkedin.com/in/christopher-bova-306b1711/",
       image: "/Images/leadership-chris-bova.jpg"
     },
     {
       name: "Maarten Eenkema van Dijk",
-      position: "Director of Operations",
+      position: t('about.directorOfOperations'),
       linkedin: "https://www.linkedin.com/in/maarten-eenkema-van-dijk-544b678a",
       image: "/Images/leadership-maarten.jpg"
     }
-  ];
+  ], [t]);
 
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative h-96 -mt-20 pt-20 bg-gradient-to-r from-vd-blue to-vd-blue-dark flex items-center justify-center overflow-hidden">
+      <section className="relative text-white py-24 -mt-20 pt-24 overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="/Images/contact-team-photo.jpg"
@@ -68,25 +71,25 @@ const About = () => {
               e.currentTarget.src = '/Images/image-1749759459073.png';
             }}
           />
+          <div className="absolute inset-0 bg-gradient-to-r from-vd-blue-dark/95 via-vd-blue/90 to-vd-blue-dark/95" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-vd-blue-dark/60" />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-vd-blue/90 to-vd-blue-dark/90" />
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-5xl font-bold text-white mb-4"
-          >
-            Meet Our Team
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl text-blue-100"
-          >
-            Leading the future of recycling solutions
-          </motion.p>
+        <div className="container mx-auto px-4 relative z-10 pt-20">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <motion.div
+              initial={fadeInUp.initial}
+              animate={fadeInUp.animate}
+              transition={fadeInUp.transition}
+              className="max-w-3xl w-full"
+            >
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+                {t('about.meetOurTeam')}
+              </h1>
+              <p className="text-xl text-blue-100 mb-8 leading-relaxed">
+                {t('about.leadingTheFuture')}
+              </p>
+            </motion.div>
+          </div>
         </div>
       </section>
 

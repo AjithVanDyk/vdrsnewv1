@@ -92,6 +92,111 @@
       animation: none !important;
     }
   }
+
+  /* Airbnb-style Modal Components */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 1rem;
+  }
+
+  .modal-container {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    max-width: 400px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #9ca3af;
+    transition: color 0.2s;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-close:hover {
+    color: #4b5563;
+  }
+
+  .modal-content {
+    text-align: center;
+  }
+
+  .modal-icon {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #154B7F;
+    margin-bottom: 0.5rem;
+  }
+
+  .modal-description {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+  }
+
+  .modal-cta {
+    width: 100%;
+    background-color: #154B7F;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .modal-cta:hover {
+    background-color: #00133D;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+
+  .btn-primary {
+    background-color: #154B7F;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background-color: #00133D;
+  }
 }
 
 /* Critical CSS for LCP optimization */
@@ -132,6 +237,31 @@ html {
 .smooth-scroll-custom {
   scroll-behavior: smooth;
   transition: scroll-behavior 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth transitions for interactive elements */
+button, a, .transition-all {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Enhanced hover effects */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Smooth image transitions */
+img {
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease;
+}
+
+/* Smooth scale transitions */
+.scale-smooth {
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Performance optimizations */
@@ -232,6 +362,15 @@ img {
 .scrollbar-thumb-vd-orange::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(135deg, rgba(249, 115, 22, 0.9), rgba(234, 88, 12, 1));
   box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 /* Glass morphism container styles */

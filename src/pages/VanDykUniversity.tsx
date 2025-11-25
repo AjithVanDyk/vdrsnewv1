@@ -12,22 +12,22 @@ import { submitContactForm } from '../utils/formSubmission';
 // Training School photos - moved outside component to prevent recreation on each render
 const trainingSchoolPhotos = [
   {
-    image: '/Images/Training School/FullSizeRender.jpg',
-    title: 'Professional Learning Environment',
-    description: 'State-of-the-art classrooms designed for interactive, hands-on training'
+    image: '/Images/Logos/Van Dyk University logo.png',
+    title: 'Van Dyk University',
+    description: 'Professional training programs for recycling equipment excellence'
   },
   {
-    image: '/Images/Training School/FullSizeRender[1].jpg',
+    image: '/Images/Training School/FullSizeRender%5B1%5D.jpg',
     title: 'Hands-On Equipment Training',
     description: 'Learn on real production equipment with expert guidance'
   },
   {
-    image: '/Images/Training School/FullSizeRender[2].jpg',
+    image: '/Images/Training School/FullSizeRender%5B2%5D.jpg',
     title: 'Expert Instruction',
     description: 'Learn from industry veterans with decades of real-world experience'
   },
   {
-    image: '/Images/Training School/FullSizeRender[3].jpg',
+    image: '/Images/Training School/FullSizeRender%5B3%5D.jpg',
     title: 'Collaborative Learning',
     description: 'Network with peers and build lasting professional relationships'
   }
@@ -372,8 +372,8 @@ const VanDykUniversity = () => {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center px-5 py-3 text-sm font-semibold rounded-full border transition-all duration-200 shadow-sm ${
                     activeTab === tab.id
-                      ? 'bg-vd-blue text-white border-vd-blue shadow-lg'
-                      : 'bg-white text-gray-500 border-gray-200 hover:text-vd-blue hover:border-vd-blue/40'
+                      ? 'bg-vd-orange text-white border-vd-orange shadow-lg'
+                      : 'bg-white text-gray-500 border-gray-200 hover:text-vd-orange hover:border-vd-orange/40'
                   }`}
                 >
                   <tab.icon className="w-4 h-4 mr-2" />
@@ -468,11 +468,11 @@ const VanDykUniversity = () => {
                         transition={{ duration: 0.6, ease: "easeInOut" }}
                         className="relative"
                       >
-                        <div className="relative h-[500px] md:h-[600px] overflow-hidden">
+                        <div className="relative h-[500px] md:h-[600px] overflow-hidden bg-gray-100 flex items-center justify-center">
                           <img
                             src={trainingSchoolPhotos[currentSlide].image}
                             alt={`Van Dyk Training School - ${trainingSchoolPhotos[currentSlide].title}`}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain"
                             loading="lazy"
                             onError={(e) => {
                               e.currentTarget.src = '/Images/image-1749759453479.png';

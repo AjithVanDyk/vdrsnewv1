@@ -4,6 +4,8 @@ import { ArrowRight, X, CheckCircle, Quote } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import QuoteForm from '../components/QuoteForm';
 import { IMAGE_ASSIGNMENTS } from '../config/images';
+import { useTranslation } from '../hooks/useTranslation';
+import { animationConfig } from '../utils/animations';
 
 interface Equipment {
 	id?: number;
@@ -27,7 +29,7 @@ const equipmentItems = [
 	{
 		id: 1,
 		name: 'Bollegraaf Balers',
-		image: IMAGE_ASSIGNMENTS.equipment.categories.bollegraaf,
+		image: '/Images/Equipment/Bollegraaf/Product image_baler.jpg',
 		description: 'Industry-leading single ram balers with no-shear design for maximum efficiency and density. Single ram uses 1/3 power of two-ram balers and operates automatically without dedicated operator.',
 		features: [
 			'Single ram uses 1/3 power of two-ram balers',
@@ -57,7 +59,7 @@ const equipmentItems = [
 	{
 		id: 2,
 		name: 'Lubo Screens',
-		image: IMAGE_ASSIGNMENTS.equipment.categories.lubo,
+		image: '/Images/Equipment/Lubo Screens/Product image_lubo screens.jpg',
 		description: 'Patented StarScreen® technology with non-wrapping ONP screens, elliptical separators, and high-capacity 880 screens. Lubo USA LLC, founded in 1996, is a sister company of Van Dyk Recycling Solutions and exclusive distributor.',
 		features: [
 			'Patented StarScreen® technology with various star sizes',
@@ -81,8 +83,8 @@ const equipmentItems = [
 	},
 	{
 		id: 3,
-		name: 'Optical Sorters',
-		image: IMAGE_ASSIGNMENTS.equipment.categories.tomra,
+		name: 'Tomra Optical Sort',
+		image: '/Images/Equipment/Tomra Optical sorters/product image_tomra.jpg',
 		description: 'Worldwide leader in optical sorting with industry-highest NIR resolution BY FAR and patented FLYING BEAM® illumination. Scanner placement up to 5 feet above conveyors (5x distance of competitors) with 95%+ purity rates maintained over long periods.',
 		features: [
 			'Industry-highest NIR resolution BY FAR - 5x distance capability',
@@ -106,8 +108,8 @@ const equipmentItems = [
 	},
 	{
 		id: 4,
-		name: 'Optical Sorters',
-		image: IMAGE_ASSIGNMENTS.equipment.categories.pellenc,
+		name: 'Pellenc ST Optical Sorting',
+		image: '/Images/Equipment/Pellenc optical sorters/Product image_pellenc.JPG',
 		description: 'AI-powered optical sorting with intelligent material recognition and high-speed processing. Advanced algorithms provide superior material identification and separation accuracy.',
 		features: [
 			'AI-powered material recognition',
@@ -130,7 +132,7 @@ const equipmentItems = [
 	{
 		id: 6,
 		name: 'Smicon Food Waste Depackagers',
-		image: '/Images/smicon-depackager-new.jpg',
+		image: '/Images/Equipment/Smicon Food Waste Depackagers/VDRS Smicon system Sunnyvale.jpeg',
 		description: 'Advanced food waste processing equipment for organic material separation and depackaging.',
 		features: [
 			'Food waste processing',
@@ -150,7 +152,7 @@ const equipmentItems = [
 	{
 		id: 7,
 		name: 'GÜNTHER Screens',
-		image: '/Images/gunther-screens-new.jpg',
+		image: '/Images/Equipment/Gunther screens/IMG_8615.jpg',
 		description: 'High-performance screening equipment for material separation and classification.',
 		features: [
 			'Material screening',
@@ -170,7 +172,7 @@ const equipmentItems = [
 	{
 		id: 8,
 		name: 'Centriair Odor Control',
-		image: '/Images/centriair-new-1.jpg',
+		image: '/Images/Equipment/Centriair Odor Control/Emscher_09 S 010a_P1001419.JPG',
 		description: 'Advanced odor control systems for waste processing facilities. Effective air treatment solutions for maintaining air quality.',
 		features: [
 			'Effective odor control',
@@ -190,7 +192,7 @@ const equipmentItems = [
 	{
 		id: 9,
 		name: 'Greyparrot AI',
-		image: '/Images/greyparrot-ai-new.jpg',
+		image: '/Images/Equipment/Greyparrot AI/Greyparrot-GP5-on-belt.png',
 		description: 'AI-powered waste analytics and material recognition. Advanced computer vision technology for waste stream analysis.',
 		features: [
 			'AI-powered analytics',
@@ -210,7 +212,7 @@ const equipmentItems = [
 	{
 		id: 10,
 		name: 'Densimetric Table',
-		image: '/Images/densimetric-table-new.jpg',
+		image: '/Images/Equipment/Densimetric table/Densimetric table_Zbest.jpeg',
 		description: 'Advanced density separation technology for material recovery. Efficient separation of materials based on density differences.',
 		features: [
 			'Density-based separation',
@@ -230,7 +232,7 @@ const equipmentItems = [
 	{
 		id: 11,
 		name: 'BeeFoam Dust Suppression',
-		image: '/Images/beefoam-after-new.jpg',
+		image: '/Images/Equipment/Beefoam dust suppression/after beefoam.JPG',
 		description: 'Advanced dust suppression system using foam technology. Effective dust control for improved air quality and worker safety.',
 		features: [
 			'Foam-based dust suppression',
@@ -250,7 +252,7 @@ const equipmentItems = [
 	{
 		id: 12,
 		name: 'Reckelberg Environmental Technologies',
-		image: '/Images/reckelberg-impact-reactor-new.jpg',
+		image: '/Images/Equipment/Reckelberg Environmental Technologies/impactreactor.webp',
 		description: 'Specialized environmental technology solutions for waste processing. Advanced systems for environmental compliance and efficiency.',
 		features: [
 			'Environmental compliance',
@@ -269,7 +271,7 @@ const equipmentItems = [
 	{
 		id: 13,
 		name: 'Certified Pre-Owned Equipment',
-		image: '/Images/certified-pre-owned-new.png',
+		image: '/Images/Equipment/Certified Pre-owned Equipment/rebuilt baler.png',
 		description: 'Certified pre-owned equipment with full warranty and support. Quality used equipment at competitive prices.',
 		features: [
 			'Certified pre-owned equipment',
@@ -317,7 +319,7 @@ const EquipmentModal: React.FC<EquipmentModalProps> = ({ equipment, isOpen, onCl
 								height="256"
 								loading="lazy"
 									onError={(e) => {
-										if (process.env.NODE_ENV === 'development') {
+										if (import.meta.env.DEV) {
 											console.log('Modal image failed to load:', equipment.name);
 										}
 										e.currentTarget.src = '/Images/first.jpg';
@@ -350,7 +352,7 @@ const EquipmentModal: React.FC<EquipmentModalProps> = ({ equipment, isOpen, onCl
 										transition={{ delay: 0.2 }}
 									>
 										<h3 className="text-xl font-semibold text-vd-blue mb-4">
-											Key Features
+											{t('common.keyFeatures')}
 										</h3>
 										<ul className="space-y-3">
 											{equipment.features.map((feature: string, index: number) => (
@@ -379,7 +381,7 @@ const EquipmentModal: React.FC<EquipmentModalProps> = ({ equipment, isOpen, onCl
 										transition={{ delay: 0.4 }}
 									>
 										<h3 className="text-xl font-semibold text-vd-blue mb-4">
-											Specifications
+											{t('common.specifications')}
 										</h3>
 										<div className="space-y-3">
 											{Object.entries(equipment.specifications).map(([key, value], index) => (
@@ -408,7 +410,7 @@ const EquipmentModal: React.FC<EquipmentModalProps> = ({ equipment, isOpen, onCl
 									className="mt-8"
 								>
 									<h3 className="text-xl font-semibold text-vd-blue mb-4">
-										Applications
+										{t('common.applications')}
 									</h3>
 									<div className="flex flex-wrap gap-2">
 										{equipment.applications.map((application: string, index: number) => (
@@ -442,14 +444,14 @@ const EquipmentModal: React.FC<EquipmentModalProps> = ({ equipment, isOpen, onCl
 										className="flex-1 bg-vd-orange hover:bg-vd-orange-alt text-white font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center"
 									>
 										<Quote className="w-5 h-5 mr-2" />
-										Get Quote
+										{t('common.getQuote')}
 									</button>
 									<button
 										onClick={onClose}
 										className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-lg transition-colors flex items-center justify-center"
 									>
 										<ArrowRight className="w-5 h-5 mr-2" />
-										Close
+										{t('common.close')}
 									</button>
 								</div>
 							</motion.div>
@@ -462,18 +464,20 @@ const EquipmentModal: React.FC<EquipmentModalProps> = ({ equipment, isOpen, onCl
 };
 
 const Equipment = () => {
+	const { t } = useTranslation();
 	const navigate = useNavigate();
+	const fadeInUp = animationConfig.fadeInUp;
 	const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
 	const [showEquipmentModal, setShowEquipmentModal] = useState(false);
 	const [showQuoteForm, setShowQuoteForm] = useState(false);
 
 	const handleLearnMore = (equipment: Equipment) => {
 		// Map equipment IDs and names to their individual page routes
-		// Use ID for Optical Sorters since both TOMRA and Pellenc have the same name now
 		const equipmentRoutes: { [key: string]: string } = {
 			'Bollegraaf Balers': '/equipment/bollegraaf',
 			'Lubo Screens': '/equipment/lubo-screening',
-			'Optical Sorters': equipment.id === 3 ? '/equipment/tomra' : equipment.id === 4 ? '/equipment/pellenc-st' : '/equipment/tomra', // Use ID to distinguish
+			'Tomra Optical Sort': '/equipment/tomra',
+			'Pellenc ST Optical Sorting': '/equipment/pellenc-st',
 			'Walair Density Separation': '/equipment/walair-density-separation',
 			'Smicon Food Waste Depackagers': '/equipment/smicon-depackager',
 			'GÜNTHER Screens': '/equipment/gunther-screens',
@@ -486,13 +490,7 @@ const Equipment = () => {
 			'Glass Cleanup Systems': '/equipment/glass-cleanup-systems'
 		};
 
-		// For Optical Sorters, use ID to determine route
-		let route: string | undefined;
-		if (equipment.name === 'Optical Sorters') {
-			route = equipment.id === 3 ? '/equipment/tomra' : equipment.id === 4 ? '/equipment/pellenc-st' : undefined;
-		} else {
-			route = equipmentRoutes[equipment.name];
-		}
+		const route = equipmentRoutes[equipment.name];
 
 		if (route) {
 			// Scroll to top before navigation
@@ -518,44 +516,44 @@ const Equipment = () => {
 	return (
 		<div className="min-h-screen bg-gray-50">
 			{/* Hero Section */}
-			<div className="relative text-white py-20 -mt-20 pt-20 overflow-hidden">
-				{/* HD Background Image */}
-				<img 
-					src="/Images/bollegraaf-equipment.jpg"
-					alt="Advanced Recycling Equipment"
-					className="absolute inset-0 w-full h-full object-cover object-center scale-105"
-					width="1920"
-					height="1080"
-					loading="eager"
-					decoding="sync"
-					onError={(e) => {
-						if (process.env.NODE_ENV === 'development') {
-							console.log('Hero image failed to load, using fallback');
-						}
-						e.currentTarget.src = '/Images/bollegraaf-new-1.jpg';
-					}}
-				/>
-				<div className="absolute inset-0 bg-gradient-to-br from-black/20 to-black/40"></div>
+			<section className="relative text-white py-24 -mt-20 pt-24 overflow-hidden">
+				<div className="absolute inset-0">
+					<img 
+						src="/Images/Equipment/Header image for Equipment grid.jpg"
+						alt={t('common.advancedRecyclingEquipment')}
+						className="w-full h-full object-cover object-center scale-105"
+						loading="eager"
+						fetchPriority="high"
+						onError={(e) => {
+							if (import.meta.env.DEV) {
+								console.log('Hero image failed to load, using fallback');
+							}
+							e.currentTarget.src = '/Images/bollegraaf-new-1.jpg';
+						}}
+					/>
+					<div className="absolute inset-0 bg-gradient-to-r from-vd-blue-dark/95 via-vd-blue/90 to-vd-blue-dark/95" />
+					<div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-vd-blue-dark/60" />
+				</div>
 				<div className="container mx-auto px-4 relative z-10 pt-20">
 					<div className="flex flex-col md:flex-row justify-between items-center">
 						<motion.div
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.8 }}
-							className="max-w-3xl"
+							initial={fadeInUp.initial}
+							animate={fadeInUp.animate}
+							transition={fadeInUp.transition}
+							className="max-w-3xl w-full"
 						>
-							<h1 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
-								Advanced Recycling Equipment
-							</h1>
+						<h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+							{t('common.advancedRecyclingEquipment')}
+						</h1>
 							<p className="text-xl text-blue-100 mb-8 leading-relaxed">
-								Industry-leading recycling equipment and technology solutions. From Bollegraaf balers to TOMRA optical sorting systems, we provide the tools you need for maximum efficiency and material recovery.
+								{t('common.advancedRecyclingEquipmentDesc')}
 							</p>
 							<div className="flex flex-col sm:flex-row gap-4">
 								<Link
 									to="/solutions"
 									className="bg-vd-orange hover:bg-vd-orange-alt text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5 hover:scale-105 flex items-center justify-center"
 								>
-									Explore Solutions
+									{t('common.exploreSolutions')}
 									<ArrowRight className="w-5 h-5 ml-2" />
 								</Link>
 								<button
@@ -563,43 +561,62 @@ const Equipment = () => {
 									className="bg-white/20 hover:bg-white/30 text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 backdrop-blur-md border border-white/30 hover:border-white/50 flex items-center justify-center"
 								>
 									<Quote className="w-5 h-5 mr-2" />
-									Get Quote
+									{t('common.getQuote')}
 								</button>
 							</div>
 						</motion.div>
 					</div>
 				</div>
-			</div>
+			</section>
 
 			{/* Equipment Grid */}
 			<div className="container mx-auto px-4 py-16">
 				<div className="text-center mb-12">
-					<h2 className="text-3xl font-bold text-vd-blue mb-6">Our Equipment Portfolio</h2>
+					<h2 className="text-3xl font-bold text-vd-blue mb-6">{t('common.ourEquipmentPortfolio')}</h2>
 					<p className="text-gray-600 max-w-3xl mx-auto leading-relaxed">
-						From balers to optical sorters, our comprehensive equipment range delivers superior performance, reliability, and efficiency for all your recycling needs.
+						{t('common.ourEquipmentPortfolioDesc')}
 					</p>
 				</div>
 
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+				<motion.div
+					variants={{
+						animate: {
+							transition: {
+								staggerChildren: 0.1
+							}
+						}
+					}}
+					initial="initial"
+					animate="animate"
+					className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+				>
 					{equipmentItems.map((equipment) => (
 						<motion.div
 							key={equipment.id}
 							id={equipment.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '') + '-equipment'}
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.5 }}
-							className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group"
+							variants={{
+								initial: { opacity: 0, y: 60 },
+								animate: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+							}}
+							whileHover={{ 
+								scale: 1.03,
+								y: -8,
+								transition: { duration: 0.3, ease: "easeOut" }
+							}}
+							whileTap={{ scale: 0.98 }}
+							onClick={() => handleLearnMore(equipment)}
+							className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group cursor-pointer"
 						>
 							<div className="relative h-48 overflow-hidden">
 								<img
 									src={equipment.image}
 									alt={equipment.name}
-									className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+									className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
 									width="400"
 									height="192"
 									loading="lazy"
 									onError={(e) => {
-										if (process.env.NODE_ENV === 'development') {
+										if (import.meta.env.DEV) {
 											console.log('Equipment image failed to load:', equipment.name);
 										}
 										e.currentTarget.src = '/Images/first.jpg';
@@ -620,7 +637,7 @@ const Equipment = () => {
 								
 								{equipment.features && equipment.features.length > 0 && (
 									<div className="mb-4">
-										<h4 className="text-sm font-semibold text-gray-900 mb-2">Key Features:</h4>
+										<h4 className="text-sm font-semibold text-gray-900 mb-2">{t('common.keyFeatures')}:</h4>
 										<ul className="text-xs text-gray-600 space-y-1">
 											{equipment.features.slice(0, 3).map((feature, index) => (
 												<li key={index} className="flex items-start">
@@ -630,7 +647,7 @@ const Equipment = () => {
 											))}
 											{equipment.features.length > 3 && (
 												<li className="text-vd-orange font-medium">
-													+{equipment.features.length - 3} more features
+													+{equipment.features.length - 3} {t('common.moreFeatures')}
 												</li>
 											)}
 										</ul>
@@ -639,11 +656,14 @@ const Equipment = () => {
 								
 								<div className="flex space-x-3">
 									<button
-										onClick={() => handleLearnMore(equipment)}
-										className="flex-1 bg-vd-blue hover:bg-vd-blue-dark text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
+										onClick={(e) => {
+											e.stopPropagation();
+											handleLearnMore(equipment);
+										}}
+										className="flex-1 bg-vd-blue hover:bg-vd-blue-dark text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 flex items-center justify-center group-hover:shadow-lg"
 									>
-										Learn More
-										<ArrowRight className="w-4 h-4 ml-2" />
+										{t('common.learnMore')}
+										<ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
 									</button>
 									<button
 										onClick={() => handleGetQuoteFromCard(equipment)}
@@ -655,15 +675,15 @@ const Equipment = () => {
 							</div>
 						</motion.div>
 					))}
-				</div>
+				</motion.div>
 			</div>
 
 			{/* CTA Section */}
 			<div className="bg-gradient-to-r from-vd-blue-dark to-vd-blue text-white py-16">
 				<div className="container mx-auto px-4 text-center">
-					<h2 className="text-3xl font-bold text-vd-blue mb-6">Ready to Upgrade Your Equipment?</h2>
+					<h2 className="text-3xl font-bold text-white mb-6">{t('common.readyToUpgrade')}</h2>
 					<p className="text-blue-100 mb-8 max-w-2xl mx-auto leading-relaxed">
-						Contact our experts to discuss your specific needs and discover how our equipment can optimize your recycling operations.
+						{t('common.readyToUpgradeDesc')}
 					</p>
 					<div className="flex flex-col sm:flex-row gap-4 justify-center">
 						<button
@@ -671,13 +691,13 @@ const Equipment = () => {
 							className="bg-vd-orange hover:bg-vd-orange-alt text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-0.5 hover:scale-105 flex items-center justify-center"
 						>
 							<Quote className="w-5 h-5 mr-2" />
-							Request Quote
+							{t('common.requestQuote')}
 						</button>
 						<Link
 							to="/contact"
 							className="bg-white/20 hover:bg-white/30 text-white font-semibold px-8 py-3 rounded-xl transition-all duration-300 backdrop-blur-md border border-white/30 hover:border-white/50 flex items-center justify-center"
 						>
-							Contact Us
+							{t('common.contactUs')}
 						</Link>
 					</div>
 				</div>
