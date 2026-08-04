@@ -556,21 +556,21 @@ const Equipment = () => {
 			{/* Hero Section */}
 			<div className="relative text-white py-20 -mt-20 pt-20 overflow-hidden">
 				{/* HD Background Image */}
-				<img 
-					src="/Images/bollegraaf-equipment.jpg"
-					alt="Advanced Recycling Equipment"
-					className="absolute inset-0 w-full h-full object-cover object-center scale-105"
-					width="1920"
-					height="1080"
-					loading="eager"
-					decoding="sync"
-					onError={(e) => {
-						if (process.env.NODE_ENV === 'development') {
-							console.log('Hero image failed to load, using fallback');
-						}
-						e.currentTarget.src = '/Images/bollegraaf-new-1.jpg';
-					}}
-				/>
+                                <img
+                                        src="/Images/bollegraaf-new-1.jpg"
+                                        alt="Advanced Recycling Equipment"
+                                        className="absolute inset-0 w-full h-full object-cover object-center scale-105"
+                                        width="1920"
+                                        height="1080"
+                                        loading="eager"
+                                        decoding="sync"
+                                        onError={(e) => {
+                                                if (process.env.NODE_ENV === 'development') {
+                                                        console.log('Hero image failed to load, using fallback');
+                                                }
+                                                e.currentTarget.src = '/Images/bollegraaf-baler.jpg';
+                                        }}
+                                />
 				<div className="absolute inset-0 bg-gradient-to-br from-black/20 to-black/40"></div>
 				<div className="container mx-auto px-4 relative z-10 pt-20">
 					<div className="flex flex-col md:flex-row justify-between items-center">

@@ -50,7 +50,7 @@ const PellencSTPage: React.FC = () => {
     ],
     gallery: [
       '/Images/pellenc-optical-new.jpg',
-      '/Images/pellenc-optical-sorting.jpg'
+      '/Images/tomra-optical-sorting.jpg'
     ],
     testimonials: [
       {

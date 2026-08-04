@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 
 interface InlineVideoSpinnerProps {
   size?: 'xs' | 'sm' | 'md';
@@ -10,57 +10,41 @@ const InlineVideoSpinner: React.FC<InlineVideoSpinnerProps> = ({
   size = 'sm',
   className = ''
 }) => {
-  const [videoLoaded, setVideoLoaded] = useState(false);
-  const [videoError, setVideoError] = useState(false);
-
   const sizeClasses = {
     xs: 'w-4 h-4',
     sm: 'w-6 h-6',
     md: 'w-8 h-8'
   };
-
-  const handleVideoLoad = () => {
-    setVideoLoaded(true);
-  };
-
-  const handleVideoError = () => {
-    setVideoError(true);
-  };
+  const reducedMotion = useReducedMotion();
 
   return (
     <div className={`inline-flex items-center justify-center ${className}`}>
-      {!videoError ? (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: videoLoaded ? 1 : 0.3, scale: 1 }}
-          transition={{ duration: 0.2 }}
-          className={`${sizeClasses[size]} rounded-full overflow-hidden bg-gray-100 flex items-center justify-center`}
-        >
-          <video
-            src="/Images/spinner-loading-video.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            className="w-full h-full object-cover"
-            onLoadedData={handleVideoLoad}
-            onCanPlay={handleVideoLoad}
-            onError={handleVideoError}
-          />
-          {!videoLoaded && (
-            <div className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-full">
-              <div className="w-2 h-2 border border-vd-blue border-t-transparent rounded-full animate-spin"></div>
-            </div>
-          )}
-        </motion.div>
+      {reducedMotion ? (
+        <span className={`${sizeClasses[size]} rounded-full border-2 border-vd-blue/70`} />
       ) : (
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
+          initial={{ opacity: 0, scale: 0.85 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.2 }}
-          className={`${sizeClasses[size]} border border-vd-blue border-t-transparent rounded-full animate-spin`}
-        />
+          className={`${sizeClasses[size]} relative flex items-center justify-center`}
+        >
+          <motion.span
+            className="absolute inset-0 rounded-full border-2 border-vd-blue/20"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: 'linear' }}
+          />
+          <motion.span
+            className="absolute inset-1 rounded-full border-2 border-vd-blue/40 border-t-transparent"
+            animate={{ rotate: -360 }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: 'linear' }}
+          />
+          <motion.span
+            className="absolute inset-2 rounded-full border border-vd-orange/70 border-t-transparent"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+          />
+          <span className="w-1.5 h-1.5 rounded-full bg-vd-orange shadow-lg shadow-vd-orange/30" />
+        </motion.div>
       )}
     </div>
   );

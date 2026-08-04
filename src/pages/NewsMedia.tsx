@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Search, Calendar, ArrowRight, ExternalLink, 
-  Grid, List, X, Mail, CheckCircle, Filter, Clock, Eye
+import {
+  Search, Calendar, ArrowRight, ExternalLink,
+  Grid, List, X, Mail, CheckCircle, Clock, Eye
 } from 'lucide-react';
 
 interface Article {
@@ -30,7 +30,6 @@ const NewsMedia = () => {
   const [emailError, setEmailError] = useState('');
   const [isSubscribing, setIsSubscribing] = useState(false);
   const [subscriptionSuccess, setSubscriptionSuccess] = useState(false);
-  const [closeTimeoutId, setCloseTimeoutId] = useState<number | null>(null);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [showArticleModal, setShowArticleModal] = useState(false);
 
@@ -181,19 +180,17 @@ const NewsMedia = () => {
     const now = Date.now();
     const oneDay = 24 * 60 * 60 * 1000;
 
-    if (!hasSeenPopup || (lastSeen && now - parseInt(lastSeen) > oneDay)) {
+    if (!hasSeenPopup || (lastSeen && now - parseInt(lastSeen, 10) > oneDay)) {
       const timer = setTimeout(() => {
         setShowNewsletterPopup(true);
       }, 3000);
 
-      setCloseTimeoutId(timer);
+      return () => {
+        clearTimeout(timer);
+      };
     }
 
-    return () => {
-      if (closeTimeoutId) {
-        clearTimeout(closeTimeoutId);
-      }
-    };
+    return undefined;
   }, []);
 
   const validateEmail = (email: string): boolean => {
@@ -227,7 +224,7 @@ const NewsMedia = () => {
         setSubscriptionSuccess(false);
         setEmail('');
       }, 3000);
-    } catch (error) {
+    } catch {
       setEmailError('Something went wrong. Please try again.');
     } finally {
       setIsSubscribing(false);

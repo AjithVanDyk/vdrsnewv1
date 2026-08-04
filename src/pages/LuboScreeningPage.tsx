@@ -45,7 +45,7 @@ const LuboScreeningPage: React.FC = () => {
     ],
     gallery: [
       '/Images/lubo-screening-new.jpg',
-      '/Images/lubo-screening.jpg'
+      '/Images/msw-processing.jpg'
     ],
     testimonials: [
       {

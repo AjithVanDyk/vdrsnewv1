@@ -1,12 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { 
-  Search, Wrench, GraduationCap, Package, Phone, Mail, 
-  ArrowRight, ExternalLink, CheckCircle,
-  Calendar, MapPin, Clock, Users, X,
-  Settings, Eye, Star, TrendingUp, Shield, Award
+import {
+  ArrowRight,
+  Award,
+  Clock,
+  ExternalLink,
+  GraduationCap,
+  Package,
+  Phone,
+  Settings,
+  Star,
+  Users,
+  X,
+  Eye
 } from 'lucide-react';
+
+interface SupportCard {
+  id: number | string;
+  title: string;
+  description: string;
+  features?: string[];
+  contact?: string;
+  cta?: string;
+  ctaLink?: string;
+  ctaExternal?: boolean;
+  ctaAction?: () => void;
+  secondaryCta?: string;
+  secondaryCtaLink?: string;
+  image: string;
+  imageAlt: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
 
 const ServicesSupport = () => {
   const [activeModal, setActiveModal] = useState<string | null>(null);
@@ -110,7 +135,7 @@ const ServicesSupport = () => {
     }
   }, [location.hash]);
 
-  const supportCards = [
+  const supportCards: SupportCard[] = [
     {
       id: 1,
       title: '24×7 Technical Support',
@@ -186,7 +211,7 @@ const ServicesSupport = () => {
       ],
       cta: 'View Courses',
       ctaAction: () => setActiveModal('training'),
-      image: '/Images/Van%20Dyk%20University.jpg',
+      image: '/Images/van-dyk-university.jpg',
       imageAlt: 'Van Dyk University training facility',
       icon: GraduationCap
     },
@@ -208,7 +233,7 @@ const ServicesSupport = () => {
     }
   ];
 
-  const renderCard = (card: any, index: number) => (
+  const renderCard = (card: SupportCard, index: number) => (
     <motion.div
       key={card.id}
       id={card.id}
@@ -316,6 +341,67 @@ const ServicesSupport = () => {
           </div>
         )}
       </div>
+    </motion.div>
+  );
+
+  const TrainingModal = ({ onClose }: { onClose: () => void }) => (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.95, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.95, opacity: 0 }}
+        className="bg-white rounded-2xl shadow-2xl max-w-3xl w-full overflow-hidden"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="flex items-center justify-between bg-vd-blue text-white px-6 py-4">
+          <h3 className="text-xl font-semibold">Van Dyk University Training</h3>
+          <button type="button" onClick={onClose} aria-label="Close training modal" className="text-white/80 hover:text-white">
+            <X className="w-6 h-6" />
+          </button>
+        </div>
+        <div className="p-6 space-y-4 text-gray-700">
+          <p>
+            Our training programs blend classroom instruction with hands-on experience to ensure your operators and maintenance
+            teams can keep equipment running at peak performance.
+          </p>
+          <ul className="space-y-2">
+            <li className="flex items-start">
+              <ArrowRight className="w-4 h-4 text-vd-orange mt-1 mr-2" />
+              Courses available for balers, TOMRA AUTOSORT®, Pellenc ST, and system optimization.
+            </li>
+            <li className="flex items-start">
+              <ArrowRight className="w-4 h-4 text-vd-orange mt-1 mr-2" />
+              Factory-trained instructors provide detailed walkthroughs of maintenance procedures and safety best practices.
+            </li>
+            <li className="flex items-start">
+              <ArrowRight className="w-4 h-4 text-vd-orange mt-1 mr-2" />
+              Participants receive industry-recognized certificates upon completion.
+            </li>
+          </ul>
+          <div className="flex flex-col sm:flex-row gap-3 pt-2">
+            <Link
+              to="/training-schedule"
+              className="flex-1 bg-vd-orange hover:bg-vd-orange-alt text-white font-semibold py-2 px-4 text-center rounded-lg transition-colors"
+              onClick={onClose}
+            >
+              View Training Schedule
+            </Link>
+            <Link
+              to="/contact"
+              className="flex-1 border border-vd-blue text-vd-blue hover:bg-vd-blue hover:text-white font-semibold py-2 px-4 text-center rounded-lg transition-colors"
+              onClick={onClose}
+            >
+              Talk to Our Team
+            </Link>
+          </div>
+        </div>
+      </motion.div>
     </motion.div>
   );
 
@@ -447,7 +533,7 @@ const ServicesSupport = () => {
                       <stat.icon className="w-8 h-8 text-white" />
                     </motion.div>
                     <div className="text-5xl md:text-6xl font-bold text-vd-orange mb-4 group-hover:scale-110 transition-transform duration-300 relative z-10">
-                      {stat.number}
+                      {statsVisible ? stat.number : '—'}
                     </div>
                     <div className="text-lg text-white font-semibold group-hover:text-vd-orange transition-colors duration-300 relative z-10">
                       {stat.label}
@@ -714,8 +800,7 @@ const ServicesSupport = () => {
       </section>
 
       <AnimatePresence>
-        {/* Example for modals, only render if active */}
-        {activeModal === 'training' && <div>Training Modal</div>}
+        {activeModal === 'training' && <TrainingModal onClose={() => setActiveModal(null)} />}
       </AnimatePresence>
     </div>
   );

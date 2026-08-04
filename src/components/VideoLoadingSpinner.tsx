@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 
 interface VideoLoadingSpinnerProps {
   message?: string;
@@ -12,10 +12,8 @@ const VideoLoadingSpinner: React.FC<VideoLoadingSpinnerProps> = ({
   size = 'medium',
   showMessage = true
 }) => {
-  const [videoLoaded, setVideoLoaded] = useState(false);
-  const [videoError, setVideoError] = useState(false);
-
-  console.log('VideoLoadingSpinner rendered, videoLoaded:', videoLoaded, 'videoError:', videoError);
+  const [progress, setProgress] = useState(18);
+  const prefersReducedMotion = useReducedMotion();
 
   const sizeClasses = {
     small: 'w-16 h-16',
@@ -29,70 +27,61 @@ const VideoLoadingSpinner: React.FC<VideoLoadingSpinnerProps> = ({
     large: 'min-h-[200px]'
   };
 
-  const handleVideoLoad = () => {
-    console.log('Video loaded successfully');
-    setVideoLoaded(true);
-  };
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      setProgress(0);
+      return;
+    }
 
-  const handleVideoError = (e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
-    console.error('Video failed to load:', e);
-    setVideoError(true);
-  };
+    const interval = window.setInterval(() => {
+      setProgress((value) => {
+        if (value >= 96) {
+          return 34;
+        }
+        return value + Math.floor(Math.random() * 6) + 4;
+      });
+    }, 260);
+
+    return () => window.clearInterval(interval);
+  }, [prefersReducedMotion]);
 
   return (
     <div className={`flex flex-col items-center justify-center ${containerSizeClasses[size]} p-4`}>
       <div className="relative">
-        {/* Video Spinner */}
-        <AnimatePresence>
-          {!videoError && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: videoLoaded ? 1 : 0.3, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.3 }}
-              className={`${sizeClasses[size]} rounded-full overflow-hidden bg-gray-100 flex items-center justify-center`}
-            >
-              <video
-                src="/Images/spinner-loading-video.mp4"
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
-                className="w-full h-full object-cover"
-                onLoadedData={handleVideoLoad}
-                onCanPlay={handleVideoLoad}
-                onError={handleVideoError}
-                onLoadStart={() => console.log('Video load started')}
-                onLoadedMetadata={() => console.log('Video metadata loaded')}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Fallback Spinner */}
-        <AnimatePresence>
-          {videoError && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.3 }}
-              className={`${sizeClasses[size]} rounded-full border-4 border-vd-blue border-t-transparent animate-spin bg-gray-100 flex items-center justify-center`}
-            >
-              <div className="w-8 h-8 bg-vd-blue rounded-full animate-pulse"></div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Loading Overlay */}
-        {!videoLoaded && !videoError && (
+        {prefersReducedMotion ? (
+          <div className={`${sizeClasses[size]} rounded-full border-4 border-vd-blue/70 flex items-center justify-center`}>
+            <span className="w-3 h-3 rounded-full bg-vd-blue" />
+          </div>
+        ) : (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="absolute inset-0 flex items-center justify-center bg-gray-100 rounded-full"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            className={`${sizeClasses[size]} relative flex items-center justify-center`}
           >
-            <div className="w-8 h-8 border-2 border-vd-blue border-t-transparent rounded-full animate-spin"></div>
+            <motion.span
+              className="absolute inset-0 rounded-full border-[3px] border-vd-blue/30"
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 4.5, ease: 'linear' }}
+            />
+            <motion.span
+              className="absolute inset-1 rounded-full border-[3px] border-vd-blue/50 border-t-transparent"
+              animate={{ rotate: -360 }}
+              transition={{ repeat: Infinity, duration: 2.8, ease: 'linear' }}
+            />
+            <motion.span
+              className="absolute inset-3 rounded-full border-[3px] border-vd-orange/80 border-t-transparent"
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 1.4, ease: 'linear' }}
+            />
+            <motion.div
+              className="relative flex flex-col items-center justify-center"
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
+            >
+              <span className="w-3 h-3 rounded-full bg-vd-orange shadow shadow-vd-orange/40" />
+              <span className="mt-2 text-xs font-semibold text-vd-blue">{Math.min(progress, 99)}%</span>
+            </motion.div>
           </motion.div>
         )}
       </div>
@@ -108,21 +97,14 @@ const VideoLoadingSpinner: React.FC<VideoLoadingSpinnerProps> = ({
           <p className="text-gray-600 font-medium">{message}</p>
           <div className="flex justify-center mt-2">
             <div className="flex space-x-1">
-              <motion.div
-                animate={{ opacity: [0.4, 1, 0.4] }}
-                transition={{ duration: 1.5, repeat: Infinity, delay: 0 }}
-                className="w-2 h-2 bg-vd-blue rounded-full"
-              />
-              <motion.div
-                animate={{ opacity: [0.4, 1, 0.4] }}
-                transition={{ duration: 1.5, repeat: Infinity, delay: 0.2 }}
-                className="w-2 h-2 bg-vd-blue rounded-full"
-              />
-              <motion.div
-                animate={{ opacity: [0.4, 1, 0.4] }}
-                transition={{ duration: 1.5, repeat: Infinity, delay: 0.4 }}
-                className="w-2 h-2 bg-vd-blue rounded-full"
-              />
+              {[0, 0.2, 0.4].map((delay) => (
+                <motion.div
+                  key={`spinner-dot-${delay}`}
+                  animate={{ opacity: [0.3, 1, 0.3], y: [-2, 0, -2] }}
+                  transition={{ duration: 1.4, repeat: Infinity, delay }}
+                  className="w-2 h-2 bg-vd-blue rounded-full"
+                />
+              ))}
             </div>
           </div>
         </motion.div>

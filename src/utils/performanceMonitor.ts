@@ -15,6 +15,11 @@ interface WebVitals {
   TTFB?: number; // Time to First Byte
 }
 
+type LayoutShiftEntry = PerformanceEntry & {
+  value: number;
+  hadRecentInput: boolean;
+};
+
 class PerformanceMonitor {
   private static instance: PerformanceMonitor;
   private metrics: PerformanceMetric[] = [];
@@ -53,7 +58,7 @@ class PerformanceMonitor {
       
       try {
         observer.observe({ entryTypes: ['largest-contentful-paint'] });
-      } catch (e) {
+      } catch {
         // Fallback for browsers that don't support LCP
       }
     }
@@ -71,7 +76,7 @@ class PerformanceMonitor {
       
       try {
         observer.observe({ entryTypes: ['first-input'] });
-      } catch (e) {
+      } catch {
         // Fallback for browsers that don't support FID
       }
     }
@@ -82,7 +87,7 @@ class PerformanceMonitor {
       let clsValue = 0;
       const observer = new PerformanceObserver((list) => {
         const entries = list.getEntries();
-        entries.forEach((entry: any) => {
+        (entries as LayoutShiftEntry[]).forEach((entry) => {
           if (!entry.hadRecentInput) {
             clsValue += entry.value;
           }
@@ -90,10 +95,10 @@ class PerformanceMonitor {
         this.webVitals.CLS = clsValue;
         this.logMetric('CLS', clsValue);
       });
-      
+
       try {
         observer.observe({ entryTypes: ['layout-shift'] });
-      } catch (e) {
+      } catch {
         // Fallback for browsers that don't support CLS
       }
     }
@@ -111,7 +116,7 @@ class PerformanceMonitor {
       
       try {
         observer.observe({ entryTypes: ['paint'] });
-      } catch (e) {
+      } catch {
         // Fallback for browsers that don't support FCP
       }
     }
@@ -131,7 +136,7 @@ class PerformanceMonitor {
       
       try {
         observer.observe({ entryTypes: ['resource'] });
-      } catch (e) {
+      } catch {
         // Fallback for browsers that don't support resource timing
       }
     }
@@ -278,7 +283,7 @@ class PerformanceMonitor {
       
       try {
         observer.observe({ entryTypes: ['resource'] });
-      } catch (e) {
+      } catch {
         // Fallback for browsers that don't support resource timing
       }
     }

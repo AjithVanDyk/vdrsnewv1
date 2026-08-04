@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Calendar, Clock, Users, MapPin, Phone, Mail, CheckCircle, BookOpen, Wrench, Zap, Award } from 'lucide-react';
+import { ArrowRight, Clock, Users, Phone, Mail, CheckCircle, BookOpen, Wrench, Zap, Award } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const TrainingSchedule: React.FC = () => {
@@ -190,7 +190,7 @@ const TrainingSchedule: React.FC = () => {
                   width="400"
                   height="192"
                   loading="lazy"
-                  onError={(e) => { e.currentTarget.src = '/Images/Van Dyk University.jpg'; }}
+                  onError={(e) => { e.currentTarget.src = '/Images/van-dyk-university.jpg'; }}
                 />
               </div>
               <div className="p-6">

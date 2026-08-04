@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle, Wrench, Zap, Shield, Users, Clock, Phone, Mail, MapPin } from 'lucide-react';
+import { ArrowRight, CheckCircle, Wrench, Zap, Shield, Users, Phone, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const InstallationProcess: React.FC = () => {

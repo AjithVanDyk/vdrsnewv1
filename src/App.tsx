@@ -8,7 +8,6 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Chatbot from './components/Chatbot';
 import { initializeImageLoading } from './utils/imageLoader';
-import serviceWorkerManager from './utils/serviceWorker';
 import { initializePerformanceMonitoring } from './utils/performanceMonitor';
 import { accessibilityManager } from './utils/accessibility';
 
@@ -20,7 +19,6 @@ const NewsMedia = React.lazy(() => import('./pages/NewsMedia'));
 const ContactUs = React.lazy(() => import('./pages/ContactUs'));
 const About = React.lazy(() => import('./pages/About'));
 const Careers = React.lazy(() => import('./pages/Careers'));
-const Support = React.lazy(() => import('./pages/Support'));
 const PMI = React.lazy(() => import('./pages/PMI'));
 const QuoteForm = React.lazy(() => import('./components/QuoteForm'));
 const TestCenter = React.lazy(() => import('./pages/TestCenter'));
@@ -60,29 +58,6 @@ const CommercialWastePage = React.lazy(() => import('./pages/CommercialWastePage
 const CDRecyclingPage = React.lazy(() => import('./pages/CDRecyclingPage'));
 const MultiMRFSystemsPage = React.lazy(() => import('./pages/MultiMRFSystemsPage'));
 const BollegraafBalersSolutionPage = React.lazy(() => import('./pages/BollegraafBalersSolutionPage'));
-
-// Enhanced lazy loading with better error handling
-const createLazyComponent = (importFunc: () => Promise<any>) => {
-  return React.lazy(() => 
-    importFunc().catch((error) => {
-      console.error('Failed to load component:', error);
-      return {
-        default: () => (
-          <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <div className="text-center">
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                Loading...
-              </h2>
-              <p className="text-gray-600 mb-4">
-                Please wait while we load the page.
-              </p>
-            </div>
-          </div>
-        )
-      };
-    })
-  );
-};
 
 const NotFound = () => (
   <div className="min-h-screen flex items-center justify-center bg-gray-100">

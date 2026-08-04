@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { 
-  CheckCircle, Clock, Users, Settings, FileText, Shield, 
-  ArrowRight, Download, Calendar, Phone, Mail,
+import {
+  CheckCircle, Clock, Settings, FileText, Shield,
+  ArrowRight, Calendar, Phone, Mail,
   Wrench, AlertTriangle, TrendingUp, Award, Star, DollarSign
 } from 'lucide-react';
 
